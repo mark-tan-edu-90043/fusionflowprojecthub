@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
-import { auth, googleAuth, ghAuth } from "../_utils/firebase"
-
-import { useUserAuth } from '../_utils/auth-context';
+import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth, googleAuth, ghAuth } from "../_utils/firebase";
 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -16,30 +15,44 @@ function SignUp() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password);
-    console.log('Email:', email);
-    console.log('Password:', password);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      setSuccessMessage('Sign up successful! You will be redirected to the login page shortly.');
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000); // Clear success message after 3 seconds
+      window.location.href = '/';
+    } catch (error) {
+      console.log('Error:', error.message);
+      // Handle error, show error message to the user
+    }
   };
 
   const handleGoogleAuth = () => {
     console.log('Attempting Google sign-in...');
     signInWithPopup(auth, googleAuth)
-    .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
+      .then((result) => {
+        // Handle Google sign-in success
+        window.location.href = '/ClientView';
+      })
+      .catch((error) => {
+        console.log('Google sign-in error:', error.message);
+        // Handle Google sign-in error
       });
   }
 
   const handleGitHubAuth = () => {
-    console.log('Atteming Github Sign-in...');
-    signInWithPopup(auth, ghAuth);
+    console.log('Attempting GitHub sign-in...');
+    signInWithPopup(auth, ghAuth)
+      .then((result) => {
+        window.location.href = '/ClientView';
+      })
+      .catch((error) => {
+        console.log('GitHub sign-in error:', error.message);
+        // Handle GitHub sign-in error
+      });
   }
 
   return (
@@ -47,36 +60,38 @@ function SignUp() {
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="email" style={{color: 'black'}}>Email:</label>
+          <label htmlFor="email" style={{ color: 'white' }}>Email:</label>
           <input
             type="email"
             id="email"
             name="email"
             value={email}
             onChange={handleEmailChange}
-            style={{color: 'black'}}
+            style={{ color: 'black' }}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password" style={{color: 'black'}}>Password:</label>
+          <label htmlFor="password" style={{ color: 'white' }}>Password:</label>
           <input
             type="password"
             id="password"
             name="password"
             value={password}
             onChange={handlePasswordChange}
-            style={{color: 'black'}}
+            style={{ color: 'black' }}
             required
           />
         </div>
         <button type="submit" className="btn">Sign Up</button>
       </form>
-
-      <button style={{ position: 'absolute', bottom: '70px', left: '20px',backgroundColor: '#007bff',color: '#fff',padding: '10px 20px',border: 'none',borderRadius: '5px' ,cursor: 'pointer',}} onClick={handleGoogleAuth}>Sign in with Google</button> 
-      <button style={{ position: 'absolute', bottom: '70px', left: '500px',backgroundColor: '#007bff',color: '#fff',padding: '10px 20px',border: 'none',borderRadius: '5px' ,cursor: 'pointer',}} onClick={handleGitHubAuth}>Sign in with Github</button>
-
-    
+      {successMessage && (
+        <div className="success-message">
+          {successMessage}
+        </div>
+      )}
+      <button style={{ position: 'absolute', bottom: '70px', left: '20px', backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', }} onClick={handleGoogleAuth}>Sign in with Google</button>
+      <button style={{ position: 'absolute', bottom: '70px', left: '500px', backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', }} onClick={handleGitHubAuth}>Sign in with Github</button>
     </div>
   );
 }

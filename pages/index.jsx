@@ -62,12 +62,23 @@ export default function Home() {
         </div>
         {/*admin sign in link */}
         <button style={{ position: 'absolute', bottom: '20px', left: '20px'}}>  
-          <Link href="/adminpage">
+          <Link href="/AdminPage">
 
             <Image src="/Group 4.svg" alt="Admin Sign In" width={170} height={50} />
 
           </Link>
         </button>
+
+        {/*admin sign in link */}
+        <button style={{ position: 'absolute', bottom: '70px', left: '20px'}}>  
+          <Link href="/SignUp">
+
+          <div style={{ width: '170px', height: '35px', backgroundColor: 'blue', borderRadius: '50px' }}> Sign up</div>
+
+          </Link>
+        </button>
+
+        
       </main>
     );
 }

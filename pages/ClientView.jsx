@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from 'react';
-export default function ClientMangament() {
+export default function ClientManagment() {
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>Client View</div>

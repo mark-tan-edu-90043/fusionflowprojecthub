@@ -1,10 +1,10 @@
-import Index from "./pages/Index"; //Primary Sign in
-import AdminPage from "./pages/AdminPage"; //Admin Sign in
-import SignUp from "./pages/SignUp"; //Sign up page
-import Admin from "./pages/Admin"; //Administrator functions
-import Management from "./pages/management"; //??
-import ClientView from "./pages/ClientView";
-import UserTestPage from "@/pages/UserTestPage";
+import Index from "@/pages/Index.jsx"; //Primary Sign in
+import AdminPage from "@/pages/AdminPage.jsx"; //Admin Sign in
+import SignUp from "@/pages/SignUp.jsx"; //Sign up page
+import Admin from "@/pages/Admin.jsx"; //Administrator functions
+import Management from "@/pages/edit.jsx"; //??
+import ClientView from "@/pages/ClientView.jsx";
+import UserTestPage from "@/pages/UserTestPage.jsx";
 
 
 function App() {

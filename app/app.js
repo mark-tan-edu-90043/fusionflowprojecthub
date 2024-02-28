@@ -4,6 +4,7 @@ import SignUp from "./pages/SignUp"; //Sign up page
 import Admin from "./pages/Admin"; //Administrator functions
 import Management from "./pages/management"; //??
 import ClientView from "./pages/ClientView";
+import UserTestPage from "@/pages/UserTestPage";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/SignUp" component={SignUp} />
         <Route path="/management" component={Management} />
         <Route path="/ClientView" component={ClientView} />
+        <Route path="/UserTestPage" component={UserTestPage} />
       </Switch>
     </Router>
   );

@@ -21,7 +21,7 @@ export default function Home() {
     console.log('Attempting Google sign-in...');
     signInWithPopup(auth, googleAuth)
       .then((result) => {
-        window.location.href = '/ClientView';
+        window.location.href = '/UserTestPage';
       })
       .catch((error) => {
         setErrorMessage('Google sign-in failed. Please try again.');
@@ -32,7 +32,7 @@ export default function Home() {
     console.log('Attempting GitHub sign-in...');
     signInWithPopup(auth, ghAuth)
       .then((result) => {
-        window.location.href = '/ClientView';
+        window.location.href = '/UserTestPage';
       })
       .catch((error) => {
         setErrorMessage('GitHub sign-in failed. Please try again.');
@@ -43,7 +43,7 @@ export default function Home() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log('success logging in');
-      window.location.href = '/ClientView';
+      window.location.href = '/UserTestPage';
     } catch (error) {
       console.error('Error logging in:', error.message);
       setErrorMessage('Incorrect email or password. Please try again.');

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth, googleAuth, ghAuth } from "../_utils/firebase";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, googleAuth, ghAuth, db } from "../_utils/firebase";
+import { doc, setDoc } from "firebase/firestore"; 
 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleEmailChange = (e) => {
@@ -15,10 +17,23 @@ function SignUp() {
     setPassword(e.target.value);
   };
 
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Store user information in Firestore
+      await setDoc(doc(db, "users", user.uid),{
+        email: email,
+        username: username,
+      });
+
       setSuccessMessage('Sign up successful! You will be redirected to the login page shortly.');
       setTimeout(() => {
         setSuccessMessage('');
@@ -83,10 +98,22 @@ function SignUp() {
             required
           />
         </div>
+        <div className="form-group">
+          <label htmlFor="username" style={{ color: 'white' }}>Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            onChange={handleUsernameChange}
+            style={{ color: 'black' }}
+            required
+          />
+        </div>
         <button type="submit" className="btn">Sign Up</button>
       </form>
       {successMessage && (
-        <div className="success-message">
+        <div className="success-message">   
           {successMessage}
         </div>
       )}

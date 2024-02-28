@@ -45,30 +45,42 @@ function SignUp() {
     }
   };
 
-  const handleGoogleAuth = () => {
+  const handleGoogleAuth = async () => {
     console.log('Attempting Google sign-in...');
-    signInWithPopup(auth, googleAuth)
-      .then((result) => {
-        // Handle Google sign-in success
-        window.location.href = '/ClientView';
-      })
-      .catch((error) => {
-        console.log('Google sign-in error:', error.message);
-        // Handle Google sign-in error
+    try {
+      const result = await signInWithPopup(auth, googleAuth);
+      const user = result.user;
+      await setDoc(doc(db, "users", user.uid), {
+        username: user.displayName,
+        email: user.email
       });
+      // Redirect to ClientView or perform any other action
+      window.location.href = '/ClientView';
+    } catch (error) {
+      console.log('Google sign-in error:', error.message);
+      // Handle Google sign-in error
+    }
   }
+  
 
-  const handleGitHubAuth = () => {
+  const handleGitHubAuth = async () => {
     console.log('Attempting GitHub sign-in...');
-    signInWithPopup(auth, ghAuth)
-      .then((result) => {
-        window.location.href = '/ClientView';
-      })
-      .catch((error) => {
-        console.log('GitHub sign-in error:', error.message);
-        // Handle GitHub sign-in error
+    try {
+      const result = await signInWithPopup(auth, ghAuth);
+      const user = result.user;
+      // Use user's UID as username
+      await setDoc(doc(db, "users", user.uid), {
+        username: user.displayName,
+        email: user.email
       });
+      // Redirect to ClientView or perform any other action
+      window.location.href = '/ClientView';
+    } catch (error) {
+      console.log('GitHub sign-in error:', error.message);
+      // Handle GitHub sign-in error
+    }
   }
+  
 
   return (
     <div className="container">

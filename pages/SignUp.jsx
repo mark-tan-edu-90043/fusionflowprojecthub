@@ -55,7 +55,7 @@ function SignUp() {
         email: user.email
       });
       // Redirect to ClientView or perform any other action
-      window.location.href = '/ClientView';
+      window.location.href = '/UserTestPage';
     } catch (error) {
       console.log('Google sign-in error:', error.message);
       // Handle Google sign-in error
@@ -68,13 +68,14 @@ function SignUp() {
     try {
       const result = await signInWithPopup(auth, ghAuth);
       const user = result.user;
-      // Use user's UID as username
+      
       await setDoc(doc(db, "users", user.uid), {
-        username: user.displayName,
+        username: user.uid,
         email: user.email
       });
+      console.log("Database activated!")
       // Redirect to ClientView or perform any other action
-      window.location.href = '/ClientView';
+      window.location.href = '/UserTestPage';
     } catch (error) {
       console.log('GitHub sign-in error:', error.message);
       // Handle GitHub sign-in error

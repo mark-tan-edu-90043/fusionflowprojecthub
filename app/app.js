@@ -5,6 +5,7 @@ import Admin from "@/pages/Admin.jsx"; //Administrator functions
 import Management from "@/pages/edit.jsx"; //??
 import ClientView from "@/pages/ClientView.jsx";
 import UserTestPage from "@/pages/UserTestPage.jsx";
+import DeveloperPage from "@/pages/DeveloperPage.jsx";
 
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
         <Route path="/management" component={Management} />
         <Route path="/ClientView" component={ClientView} />
         <Route path="/UserTestPage" component={UserTestPage} />
+        <Route path="/Admin" component={Admin} />
+        <Route path="/DeveloperPage" component={DeveloperPage} />
       </Switch>
     </Router>
   );

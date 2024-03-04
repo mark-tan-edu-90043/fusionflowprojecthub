@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from 'react';
 
-export default function Admin() {
+export default function DeveloperPage() {
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>Developer</div>

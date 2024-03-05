@@ -1,7 +1,10 @@
+// Importing necessary modules from Next.js and React
 import Image from "next/image";
 import React from 'react';
 
+// Defining a functional component named Admin
 export default function Admin() {
+    // Rendering the main layout for the admin panel
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>Admin</div>

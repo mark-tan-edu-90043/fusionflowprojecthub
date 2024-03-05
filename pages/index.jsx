@@ -2,7 +2,8 @@ import Image from "next/image";
 import React, {useState} from 'react';
 import Link from 'next/link';
 import { signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider} from "firebase/auth";
-import { auth, googleAuth, ghAuth } from "../_utils/firebase";
+import { auth, googleAuth, ghAuth, db } from "../_utils/firebase";
+import { getDoc, doc, setDoc } from "firebase/firestore";
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -17,27 +18,48 @@ export default function Home() {
     setPassword(e.target.value);
   };
 
-  const handleGoogleAuth = () => {
+  const handleGoogleAuth = async () => {
     console.log('Attempting Google sign-in...');
-    signInWithPopup(auth, googleAuth)
-      .then((result) => {
-        window.location.href = '/UserTestPage';
-      })
-      .catch((error) => {
-        setErrorMessage('Google sign-in failed. Please try again.');
-      });
+    try {
+      const result = await signInWithPopup(auth, googleAuth);
+      const user = result.user;
+  
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (!userDoc.exists()) { //Checks if the user exists
+        await setDoc(doc(db, "users", user.uid), {
+          username: user.displayName,
+          email: user.email,
+          role: "Client"
+        });
+      }
+      window.location.href = '/UserTestPage';
+    } catch (error) {
+      setErrorMessage('Google sign-in failed. Please try again.');
+    }
   };
+  
 
-  const handleGitHubAuth = () => {
+  const handleGitHubAuth = async () => {
     console.log('Attempting GitHub sign-in...');
-    signInWithPopup(auth, ghAuth)
-      .then((result) => {
-        window.location.href = '/UserTestPage';
-      })
-      .catch((error) => {
-        setErrorMessage('GitHub sign-in failed. Please try again.');
-      });
+    try {
+      const result = await signInWithPopup(auth, ghAuth);
+      const user = result.user;
+  
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (!userDoc.exists()) { //Checks if the user exists
+        await setDoc(doc(db, "users", user.uid), {
+          username: user.displayName,
+          email: user.email,
+          role: "Client"
+        });
+      }
+      window.location.href = '/UserTestPage';
+    } catch (error) {
+      setErrorMessage('GitHub sign-in failed. Please try again.');
+      console.log(error);
+    }
   };
+  
 
   const handleSubmit = async () => {
     try {
@@ -92,7 +114,7 @@ export default function Home() {
         <p style={{ fontSize: '190px' }}>WELCOME</p>
       </div>
       <button style={{ position: 'absolute', bottom: '20px', left: '20px' }}>  
-        <Link href="/AdminPage">
+        <Link href="/AdminLogin">
           <Image src="/Group 4.svg" alt="Admin Sign In" width={170} height={50} />
         </Link>
       </button>

@@ -1,6 +1,6 @@
     import Image from "next/image";
     import React, {useState, useEffect} from 'react';
-    import { collection, query, where, getDocs, doc, collectionGroup, getDoc, addDoc} from "firebase/firestore";
+    import { collection, query, where, getDocs, doc, collectionGroup, getDoc, addDoc, deleteDoc} from "firebase/firestore";
     import { auth, db } from "../../_utils/firebase";
     import { useRouter } from "next/router";
 
@@ -61,6 +61,24 @@
         const handleTaskDescriptionChange = (e) => {
             setTaskDescription(e.target.value);
         };
+
+        const handleDelete = async (taskId) => {
+            try {
+                // Construct the reference to the task document
+                const taskRef = doc(db, "projects", projectId, "tasks", taskId);
+                
+                // Delete the task document
+                await deleteDoc(taskRef);
+                
+                // Remove the task from the local state
+                setTasks(tasks.filter(task => task.id !== taskId));
+                
+                console.log("Task deleted successfully!");
+            } catch (error) {
+                console.error("Error deleting task:", error);
+            }
+        };
+        
     
         const handleSubmitTask = async () => {
             try {
@@ -147,9 +165,13 @@
                                             fontSize: '13px',
                                             lineHeight: '20px',
                                             marginTop: '20px',
-                                            color: '#ccc'
+                                            color: 'black'
                                         }}>
                                             {task.name}
+                                            <br />
+                                            <span style={{ color: 'grey' }}>{task.description}</span>
+                                            <br/>
+                                            <button style={{color: 'red'}} onClick={() => handleDelete(task.id)}>Delete</button>
                                         </div>
                                     ))}
                                 </div>
@@ -174,11 +196,13 @@
                                                 value={taskName}
                                                 onChange={handleTaskNameChange}
                                                 placeholder="Task Name"
+                                                style={{ color: 'black' }}
                                             />
                                             <textarea
                                                 value={taskDescription}
                                                 onChange={handleTaskDescriptionChange}
                                                 placeholder="Task Description"
+                                                style={{ color: 'black' }}
                                             />
                                             <button onClick={handleSubmitTask} style={{cursor: "pointer"}}>Submit</button>
                                         </div>

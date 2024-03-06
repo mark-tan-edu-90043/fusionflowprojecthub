@@ -1,12 +1,17 @@
-import Image from "next/image";
-import React from 'react';
+import Image from "next/image"; // Importing the Image component from the Next.js library
+import React from 'react'; // Importing the React library
 
-
+// Defining a functional component named AdminPage
 const AdminPage = () => {
+
+   // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle your form submission logic here
+
+     // Logic for handling form submission goes here
   };
+
+   // Rendering JSX for the AdminPage component
   return (
     <main className="flex min-h-screen flex-col items-center justify-between" style={{ backgroundColor: '#E7E7E7' }}>
       <div style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', }}>
@@ -69,4 +74,4 @@ const AdminPage = () => {
 
   );
 }
-export default AdminPage;
+export default AdminPage; // Exporting the AdminPage component as default

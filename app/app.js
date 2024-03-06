@@ -6,13 +6,14 @@ import Management from "@/pages/edit.jsx"; //??
 import ClientView from "@/pages/ClientView.jsx";
 import UserTestPage from "@/pages/UserTestPage.jsx";
 import DeveloperPage from "@/pages/DeveloperPage.jsx";
+import todoList from "@/pages/todolist.jsx";
 
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/" component={Index} />
+        <Route exact path="/" component={todoList} />
         <Route path="/AdminPage" component={AdminPage} />
         <Route path="/SignUp" component={SignUp} />
         <Route path="/management" component={Management} />
@@ -20,8 +21,9 @@ function App() {
         <Route path="/UserTestPage" component={UserTestPage} />
         <Route path="/Admin" component={Admin} />
         <Route path="/DeveloperPage" component={DeveloperPage} />
+        {/*<Route path="/todoList" component={todoList} /> */}
       </Switch>
-    </Router>
+    </Router> 
   );
 }
 

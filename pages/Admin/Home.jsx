@@ -107,16 +107,6 @@ export default function Admin() {
                         justifyContent: 'flex-end',
                         width: '100%'
                     }}>
-                        <button style={{
-                            width: '66px',
-                            height: '32px',
-                            background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
-                            color: '#fff',
-                            borderRadius: '16px',
-                            boxShadow: '0px 3px 2px #dc4c25',
-                            marginTop: '10px',
-                            marginRight: '10px'
-                        }}>Close</button>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px' }}>
                         <div style={{

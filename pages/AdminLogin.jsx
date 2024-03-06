@@ -1,11 +1,13 @@
 import Image from "next/image";
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
 import { auth, googleAuth, ghAuth, db } from "../_utils/firebase";
 import { getDoc, doc, setDoc } from "firebase/firestore";
 
 const AdminLogin = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -32,7 +34,7 @@ const AdminLogin = () => {
       // Allow only admins or developers to log in
       if (role === 'Admin' || role === 'Developer') {
         // Redirect to the appropriate dashboard or page
-        window.location.href = '/DeveloperPage'; // Replace with your admin/developer dashboard page
+        router.push('/Developer/Home');
       } else {
         auth.signOut();
         setErrorMessage('You do not have permission to access this page.');
@@ -57,7 +59,7 @@ const AdminLogin = () => {
       // Allow only admins or developers to log in
       if (role === "Admin" || role === "Developer") {
         // Redirect to the appropriate dashboard or page
-        window.location.href = '/DeveloperPage'; // Replace with your admin/developer dashboard page
+        router.push('/Developer/Home');
       } else {
         auth.signOut();
         setErrorMessage('You do not have permission to access this page.');
@@ -82,7 +84,7 @@ const AdminLogin = () => {
       // Allow only admins or developers to log in
       if (role === 'Admin' || role === 'Developer') {
         // Redirect to the appropriate dashboard or page
-        window.location.href = '/DeveloperPage'; // Replace with your admin/developer dashboard page
+        router.push('/Developer/Home');
       } else {
         auth.signOut();
         setErrorMessage('You do not have permission to access this page.');

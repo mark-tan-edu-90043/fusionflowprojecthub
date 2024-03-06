@@ -1,13 +1,13 @@
 import { auth, db } from "../_utils/firebase";
 import React, { useState, useEffect } from 'react';
 import { doc, getDoc } from "firebase/firestore";
-import DeveloperPage from "./DeveloperPage";
-import Admin from "./Admin";
+import { useRouter } from "next/router";
 
-export default function AdminHome() {
+export default function UserTestPage() {
+    const router = useRouter();
     const [user, setUser] = useState(null);
+    const [username, setUsername] = useState(null);
     const [role, setRole] = useState("");
-    const [isAdmin, setIsAdmin] = useState(false);
 
     const getUserData = async () => {
         console.log("User data...");
@@ -16,8 +16,8 @@ export default function AdminHome() {
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 const userData = docSnap.data();
+                setUsername(userData.username);
                 setRole(userData.role);
-                setIsAdmin(userData.role === "Admin");
             }
         }
     };
@@ -38,18 +38,34 @@ export default function AdminHome() {
     const handleSignOut = async (e) => {
         auth.signOut()
             .then(() => {
-                window.location.href = '/';
+                router.push('/Login');
             })
+    };
+
+    const handleGoBack = () => {
+        window.history.back(); // Go back to the previous page
     };
 
     return (
         <div>
-            <nav style={{display: 'flex'}}>
-                <ul style={{listStyleType: 'none', margin: 0, padding: 0, display: 'flex'}}>
-                    <li style={{marginRight: '10px'}}>Developer Dashboard</li>
-                    {isAdmin && <li style={{marginRight: '10px'}}>Admin Panel</li>}
-                </ul>
-            </nav>  
+            {user ? (
+                <div>
+                    <h2>User Information</h2>
+                    <p>Display Name: {user.displayName}</p>
+                    <p>Email: {user.email}</p>
+                    <p>Photo URL: {user.photoURL}</p>
+                    <p>Email Verified: {user.emailVerified ? 'Yes' : 'No'}</p>
+                    <p>Role: {role}</p>
+                    <p>UID: {user.uid}</p>
+                    <p>Username: {username}</p> 
+                    <br></br>
+                    <button onClick={handleSignOut}>Sign Out</button>
+                    <br />
+                    <button onClick={handleGoBack}>Back</button>
+                </div>
+            ) : (
+                <p>Loading...</p>
+            )}
         </div>
     );
 };

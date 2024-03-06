@@ -1,14 +1,16 @@
 import Image from "next/image";
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider} from "firebase/auth";
+import { signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
 import { auth, googleAuth, ghAuth, db } from "../_utils/firebase";
 import { getDoc, doc, setDoc } from "firebase/firestore";
+import { useRouter } from 'next/router';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter(); // Initialize useRouter
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -23,7 +25,7 @@ export default function Login() {
     try {
       const result = await signInWithPopup(auth, googleAuth);
       const user = result.user;
-  
+
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (!userDoc.exists()) { //Checks if the user exists
         await setDoc(doc(db, "users", user.uid), {
@@ -32,19 +34,19 @@ export default function Login() {
           role: "Client"
         });
       }
-      window.location.href = '/UserTestPage';
+      router.push('/UserTestPage'); // Use router.push for navigation
     } catch (error) {
       setErrorMessage('Google sign-in failed. Please try again.');
     }
   };
-  
+
 
   const handleGitHubAuth = async () => {
     console.log('Attempting GitHub sign-in...');
     try {
       const result = await signInWithPopup(auth, ghAuth);
       const user = result.user;
-  
+
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (!userDoc.exists()) { //Checks if the user exists
         await setDoc(doc(db, "users", user.uid), {
@@ -53,19 +55,19 @@ export default function Login() {
           role: "Client"
         });
       }
-      window.location.href = '/UserTestPage';
+      router.push('/UserTestPage'); // Use router.push for navigation
     } catch (error) {
       setErrorMessage('GitHub sign-in failed. Please try again.');
       console.log(error);
     }
   };
-  
+
 
   const handleSubmit = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log('success logging in');
-      window.location.href = '/UserTestPage';
+      router.push('/UserTestPage'); // Use router.push for navigation
     } catch (error) {
       console.error('Error logging in:', error.message);
       setErrorMessage('Incorrect email or password. Please try again.');
@@ -102,10 +104,10 @@ export default function Login() {
           {errorMessage && (
             <div style={{ marginTop: '20px', color: 'red' }}>{errorMessage}</div>
           )}
-          <button style={{ position: 'absolute', bottom: '0px', left: '50px'}} onClick={handleGoogleAuth}>  
+          <button style={{ position: 'absolute', bottom: '0px', left: '50px' }} onClick={handleGoogleAuth}>
             <Image src="/Google.webp" alt="Google Sign In" width={50} height={50} />
           </button>
-          <button style={{ position: 'absolute', bottom: '0px', left: '150px'}} onClick={handleGitHubAuth}>  
+          <button style={{ position: 'absolute', bottom: '0px', left: '150px' }} onClick={handleGitHubAuth}>
             <Image src="/Github.png" alt="GitHub Sign In" width={50} height={50} />
           </button>
         </div>
@@ -113,12 +115,12 @@ export default function Login() {
       <div style={{ position: 'fixed', bottom: 0, right: 0, zIndex: '0', color: '#FFFFFF', fontFamily: 'Inter, sans-serif', fontWeight: '900', fontStyle: 'italic', textAlign: 'right', marginBottom: '-20px' }}>
         <p style={{ fontSize: '190px' }}>WELCOME</p>
       </div>
-      <button style={{ position: 'absolute', bottom: '20px', left: '20px' }}>  
+      <button style={{ position: 'absolute', bottom: '20px', left: '20px' }}>
         <Link href="/AdminLogin">
           <Image src="/Group 4.svg" alt="Admin Sign In" width={170} height={50} />
         </Link>
       </button>
-      <button style={{ position: 'absolute', bottom: '70px', left: '20px' }}>  
+      <button style={{ position: 'absolute', bottom: '70px', left: '20px' }}>
         <Link href="/SignUp">
           <div style={{ width: '170px', height: '35px', backgroundColor: 'blue', borderRadius: '50px' }}> Sign up</div>
         </Link>

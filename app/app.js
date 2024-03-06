@@ -1,5 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Login } from '@/pages/Login.jsx';
+/*import { Login } from '@/pages/index.jsx';
 import AdminLogin from '@/pages/AdminLogin.jsx'; //Admin Sign in
 import SignUp from '@/pages/SignUp.jsx'; //Sign up page
 import Admin from '@/pages/Admin.jsx'; //Administrator functions
@@ -9,6 +8,8 @@ import UserTestPage from '@/pages/UserTestPage.jsx';
 import DeveloperPage from '@/pages/DeveloperPage.jsx';
 import todoList from '@/pages/todolist.jsx';
 import AdminHome from '@/pages/AdminHome.jsx';
+
+//Turns out this doesn't matter
 
 const TestComponent = () => <div>Test Component</div>;
 
@@ -24,7 +25,6 @@ function App() {
         <Route path="/UserTestPage" component={UserTestPage} />
         <Route path="/Admin" component={Admin} />
         <Route path="/DeveloperPage" component={DeveloperPage} />
-        {/* <Route path="/todoList" component={todoList} /> */}
         <Route path="/AdminHome" component={AdminHome} />
       </Switch>
     </Router>
@@ -32,3 +32,4 @@ function App() {
 }
 
 export default App;
+*/

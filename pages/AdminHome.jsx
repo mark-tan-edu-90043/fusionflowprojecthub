@@ -1,6 +1,8 @@
 import { auth, db } from "../_utils/firebase";
 import React, { useState, useEffect } from 'react';
 import { doc, getDoc } from "firebase/firestore";
+import DeveloperPage from "./DeveloperPage";
+import Admin from "./Admin";
 
 export default function AdminHome() {
     const [user, setUser] = useState(null);
@@ -42,15 +44,12 @@ export default function AdminHome() {
 
     return (
         <div>
-            <nav>
-                <ul>
-                    <li>One</li>
-                    <li>Two</li>
-                    <li>Three</li>
-                    <li>Four</li>
-                    {isAdmin && <li>Admin</li>}
+            <nav style={{display: 'flex'}}>
+                <ul style={{listStyleType: 'none', margin: 0, padding: 0, display: 'flex'}}>
+                    <li style={{marginRight: '10px'}}>Developer Dashboard</li>
+                    {isAdmin && <li style={{marginRight: '10px'}}>Admin Panel</li>}
                 </ul>
-            </nav>
+            </nav>  
         </div>
     );
 };

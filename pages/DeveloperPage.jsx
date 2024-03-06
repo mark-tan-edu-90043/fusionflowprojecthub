@@ -1,9 +1,60 @@
 import Image from "next/image";
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../_utils/firebase";
 
 export default function DeveloperPage() {
+    const [user, setUser] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [loading, setLoading] = useState(true); 
+
+    const getUserData = async () => {
+        if (user) {
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+                setIsAdmin(userData.role === "Admin");
+            }
+            setLoading(false); // Set loading to false after admin check is done
+        }
+    };
+    
+    useEffect(() => {   
+        const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+            if (currentUser) {
+                setUser(currentUser);
+                getUserData();
+                console.log("Should work");
+            } else {
+                setUser(null); 
+                setLoading(false);
+            }
+        });
+        return () => unsubscribe();
+    }, [user]);
+
+    const handleSignOut = async (e) => {
+        auth.signOut()
+            .then(() => {
+                window.location.href = '/';
+            })
+    };
+
+    if (loading) {
+        return <div>Loading...</div>; // Render a loading indicator while loading
+    }
+
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+
+            <nav style={{ backgroundColor: '#6B9EFF', width: '100%', padding: '20px 0', textAlign: 'center', color: '#fff', fontWeight: 'bold' }}>
+                <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
+                    <li style={{paddingRight: 20}}>Developer Dashboard</li>
+                    {isAdmin && <li onClick={() => window.location.href='/Admin'} style={{cursor: 'pointer'}}>Admin Panel</li>}
+                </ul>
+            </nav>
+
             <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>Developer</div>
             <div style={{
                 display: 'flex',

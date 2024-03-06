@@ -6,7 +6,17 @@ import React from 'react';
 export default function Admin() {
     // Rendering the main layout for the admin panel
     return (
+        
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+            
+            <nav style={{ backgroundColor: '#6B9EFF', width: '100%', padding: '20px 0', textAlign: 'center', color: '#fff', fontWeight: 'bold' }}>
+                <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
+                    <li onClick={() => window.location.href='/DeveloperPage'} style={{cursor: 'pointer'}}>Developer Dashboard</li>
+                    <li style={{paddingLeft: 20}}>Admin Panel</li>
+                </ul>
+            </nav>
+
+
             <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>Admin</div>
             <div style={{
                 display: 'flex',

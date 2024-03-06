@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleAuth, ghAuth, db } from "../_utils/firebase";
-import { doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc, getDoc } from "firebase/firestore"; 
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -32,6 +32,7 @@ function SignUp() {
       await setDoc(doc(db, "users", user.uid),{
         email: email,
         username: username,
+        role: "Client"
       });
 
       setSuccessMessage('Sign up successful! You will be redirected to the login page shortly.');
@@ -50,17 +51,20 @@ function SignUp() {
     try {
       const result = await signInWithPopup(auth, googleAuth);
       const user = result.user;
-      await setDoc(doc(db, "users", user.uid), {
-        username: user.displayName,
-        email: user.email
-      });
-      // Redirect to ClientView or perform any other action
+  
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (!userDoc.exists()) { //Checks if the user exists
+        await setDoc(doc(db, "users", user.uid), {
+          username: user.displayName,
+          email: user.email,
+          role: "Client"
+        });
+      }
       window.location.href = '/UserTestPage';
     } catch (error) {
-      console.log('Google sign-in error:', error.message);
-      // Handle Google sign-in error
+      console.log(error);
     }
-  }
+  };
   
 
   const handleGitHubAuth = async () => {
@@ -68,20 +72,20 @@ function SignUp() {
     try {
       const result = await signInWithPopup(auth, ghAuth);
       const user = result.user;
-      
-      await setDoc(doc(db, "users", user.uid), {
-        username: user.uid,
-        email: user.email
-      });
-      console.log("Database activated!")
-      // Redirect to ClientView or perform any other action
+  
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (!userDoc.exists()) { //Checks if the user exists
+        await setDoc(doc(db, "users", user.uid), {
+          username: user.displayName,
+          email: user.email,
+          role: "Client"
+        });
+      }
       window.location.href = '/UserTestPage';
     } catch (error) {
-      console.log('GitHub sign-in error:', error.message);
-      // Handle GitHub sign-in error
+      console.log(error);
     }
-  }
-  
+  };
 
   return (
     <div className="container">

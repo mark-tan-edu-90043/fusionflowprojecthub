@@ -1,45 +1,51 @@
 import Image from "next/image";
-import React, {useState, useEffect} from 'react';
-import { doc, getDoc } from "firebase/firestore";
+import React, { useState, useEffect } from 'react';
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../_utils/firebase";
 import { useRouter } from "next/router";
 
 export default function DeveloperPage() {
     const router = useRouter();
     const [user, setUser] = useState(null);
-    const [isAdmin, setIsAdmin] = useState(false);
-    const [loading, setLoading] = useState(true); 
+    const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false); // State to store admin status
 
-    const getUserData = async () => {
-        if (user) {
-            const docRef = doc(db, "users", user.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                const userData = docSnap.data();
-                setIsAdmin(userData.role === "Admin");
-            }
-            setLoading(false); // Set loading to false after admin check is done
-        }
-    };
-    
-    useEffect(() => {   
-        const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
             if (currentUser) {
                 setUser(currentUser);
-                getUserData();
-                console.log("Should work");
+                const userDoc = await getDoc(doc(db, "users", currentUser.uid)); // Assuming user data is stored in "users" collection
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    if (userData.role === 'Admin') { // Check if user is an admin
+                        setIsAdmin(true);
+                    }
+                }
+                const projectsQuery = query(collection(db, "projects"), where("developers", "array-contains", currentUser.uid)); //Grab all projects where the Developer is involved
+                const projectsSnapshot = await getDocs(projectsQuery);
+                const projectsData = projectsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setProjects(projectsData);
             } else {
-                setUser(null); 
+                setUser(null);
                 setLoading(false);
             }
+            setLoading(false);
         });
         return () => unsubscribe();
-    }, [user]);
+    }, []);
+
+    const handleProjectClick = (projectId) => {
+        router.push({
+            pathname: `/projects/${projectId}`,
+            query: { projectId: projectId } //Passes along the Project ID in redirect
+        });
+    };
 
     const handleSignOut = async (e) => {
         auth.signOut()
             .then(() => {
-                window.location.href = '/';
+                router.push('/AdminLogin');
             })
     };
 
@@ -53,13 +59,13 @@ export default function DeveloperPage() {
             <nav style={{ backgroundColor: '#6B9EFF', width: '100%', padding: '20px 0', textAlign: 'center', color: '#fff', fontWeight: 'bold' }}>
                 <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
                     <li onClick={() => {router.push('../Profile')}} style={{padding: 20, cursor: 'pointer'}}>My Profile</li>
-                    <li onClick={() => auth.signOut().then(() => {router.push('../AdminLogin')})} style={{padding: 20, cursor: 'pointer'}}>Log Out</li>
-                    <li style={{padding: 20}}>Developer Dashboard</li>
-                    {isAdmin && <li onClick={() => router.push('/Admin/Home')} style={{padding: 20, cursor: 'pointer'}}>Admin Panel</li>}
+                    <li onClick={() => handleSignOut()} style={{padding: 20, cursor: 'pointer'}}>Log Out</li>
+                    <li style={{ padding: 20, fontWeight: "bold", backgroundColor: "rgba(255, 255, 255, 0.2)" }}>Developer Dashboard</li>
+                    {isAdmin && <li style={{ padding: 20}} onClick={() => router.push('/Admin/Home')}>Admin Dashboard</li>}
                 </ul>
             </nav>
 
-            <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>Developer</div>
+            <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>My Projects</div>
             <div style={{
                 display: 'flex',
                 width: '90%',
@@ -73,318 +79,26 @@ export default function DeveloperPage() {
                         justifyContent: 'flex-end',
                         width: '100%'
                     }}>
-                        <button style={{
-                            width: '66px',
-                            height: '32px',
-                            background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
-                            color: '#fff',
-                            borderRadius: '16px',
-                            boxShadow: '0px 3px 2px #dc4c25',
-                            marginTop: '10px',
-                            marginRight: '10px'
-                        }}>Close</button>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px' }}>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: "space-between",
-                            alignItems: 'center',
-                            width: '250px',
-                            height: '520px',
-                            padding: '0 10px',
-                            borderRight: '2px solid #ccc',
-                        }}>
-<div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: "space-between",
-                            marginLeft: '20px',
-                            width: '250px',
-                            height: '520px',
-                            padding: '0 10px',
-                            backgroundColor: '#6B9EFF',
-                            borderRadius: '10px',
-                        }}>
-                            <div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '10px',
-                                    fontSize: '13px'
-                                }}>
-                                    <span style={{ fontWeight: 700 }}>To do</span>
-                                    <div style={{
-                                        width: '20px',
-                                        height: '20px',
-                                        backgroundColor: 'red',
-                                        borderRadius: '50%',
-                                        lineHeight: '20px',
-                                        textAlign: 'center',
-                                        color: '#fff'
-                                    }}>2</div>
-                                </div>
-                                <div style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '10px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    Back End development
-                                </div>
-                                <div style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '10px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    Front End development
-                                </div>
-                            </div>
-                            <div style={{
-                                marginBottom: '20px',
-                                padding: '8px',
-                                border: '1px dotted #000',
-                                fontSize: '13px',
-                                borderRadius: '8px',
-                                textAlign: 'center',
-                                backgroundColor: 'rgba(255, 255, 255, 0.2)'
-                            }}>
-                                + <span>Add new task</span>
-                            </div>
-                        </div>
-
-                            <div style={{
+                        {projects.map(project => (
+                            <div key={project.id} style={{
                                 display: 'flex',
-                                justifyContent: "space-between",
+                                flexDirection: 'column',
+                                justifyContent: 'space-between',
                                 alignItems: 'center',
-                                width: '100%',
-                                padding: '8px 8px 0 8px',
-                                fontSize: '13px',
-                                color: '#fff'
-                            }}>
-                                
-                                    
-                               
+                                width: '250px',
+                                height: '250px',
+                                padding: '10px',
+                                border: '1px solid #ccc',
+                                borderRadius: '10px',
+                                margin: '10px',
+                                cursor: 'pointer'
+                            }} onClick={() => handleProjectClick(project.id)}>
+                                <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px', color: 'black' }}>{project.name}</div>
+                                <div style={{ color: 'black'}}>{project.description}</div>
                             </div>
-                        </div>
-                        
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: "space-between",
-                            marginLeft: '20px',
-                            width: '250px',
-                            height: '520px',
-                            padding: '0 10px',
-                            backgroundColor: '#49d290',
-                            borderRadius: '10px',
-                        }}>
-                            <div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '10px',
-                                    fontSize: '13px'
-                                }}>
-                                    <span style={{ fontWeight: 700 }}>In progress Task</span>
-                                    <div style={{
-                                        width: '20px',
-                                        height: '20px',
-                                        backgroundColor: 'red',
-                                        borderRadius: '50%',
-                                        lineHeight: '20px',
-                                        textAlign: 'center',
-                                        color: '#fff'
-                                    }}>2</div>
-                                </div>
-                                <div style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '10px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    Database
-                                </div>
-                                <div style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '10px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    placehold
-                                </div>
-                            </div>
-                            <div style={{
-                                marginBottom: '20px',
-                                padding: '8px',
-                                border: '1px dotted #000',
-                                fontSize: '13px',
-                                borderRadius: '8px',
-                                textAlign: 'center',
-                                backgroundColor: 'rgba(255, 255, 255, 0.2)'
-                            }}>
-                                + <span>Add new task</span>
-                            </div>
-                        </div>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: "space-between",
-                            width: '250px',
-                            height: '520px',
-                            margin: '0 15px',
-                            padding: '0 10px',
-                            backgroundColor: '#adc9fd',
-                            borderRadius: '10px',
-                        }}>
-                            <div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '10px',
-                                    fontSize: '13px'
-                                }}>
-                                    <span style={{ fontWeight: 700 }}>Completed Task</span>
-                                    <div style={{
-                                        width: '20px',
-                                        height: '20px',
-                                        backgroundColor: 'red',
-                                        borderRadius: '50%',
-                                        lineHeight: '20px',
-                                        textAlign: 'center',
-                                        color: '#fff'
-                                    }}>1</div>
-                                </div>
-                                <div style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '10px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    Ul design
-                                </div>
-                            </div>
-                            <div style={{
-                                marginBottom: '20px',
-                                padding: '8px',
-                                border: '1px dotted #000',
-                                fontSize: '13px',
-                                borderRadius: '8px',
-                                textAlign: 'center',
-                                backgroundColor: 'rgba(255, 255, 255, 0.2)'
-                            }}>
-                                + <span>Add new task</span>
-                            </div>
-                        </div>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: "space-between",
-                            width: '250px',
-                            height: '520px',
-                            padding: '0 10px',
-                            backgroundColor: '#ffc2af',
-                            borderRadius: '10px',
-                        }}>
-                            <div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '10px',
-                                    fontSize: '13px'
-                                }}>
-                                    <span style={{ fontWeight: 700 }}>Participating Staff</span>
-                                    <div style={{
-                                        width: '20px',
-                                        height: '20px',
-                                        backgroundColor: 'red',
-                                        borderRadius: '50%',
-                                        lineHeight: '20px',
-                                        textAlign: 'center',
-                                        color: '#fff'
-                                    }}>1</div>
-                                </div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: "space-between",
-                                    backgroundColor: '#fff',
-                                    borderRadius: '18px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    <div style={{ display: 'flex' }}>
-                                        <Image width={20} height={20} src='/Group 6.svg' />
-                                        <span style={{ marginLeft: '6px' }}>Cheelix zhang</span>
-                                    </div>
-                                    <span>Design</span>
-                                </div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: "space-between",
-                                    backgroundColor: '#fff',
-                                    borderRadius: '18px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    <div style={{ display: 'flex' }}>
-                                        <Image width={20} height={20} src='/Group 6.svg' />
-                                        <span style={{ marginLeft: '6px' }}>Mick Tang
-                                        </span>
-                                    </div>
-                                    <span>Testing</span>
-                                </div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: "space-between",
-                                    backgroundColor: '#fff',
-                                    borderRadius: '18px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    <div style={{ display: 'flex' }}>
-                                        <Image width={20} height={20} src='/Group 6.svg' />
-                                        <span style={{ marginLeft: '6px' }}>Marry Lee</span>
-                                    </div>
-                                    <span>Code</span>
-                                </div>
-                            </div>
-                            {/* <div style={{
-                                marginBottom: '20px',
-                                padding: '8px',
-                                border: '1px dotted #000',
-                                fontSize: '13px',
-                                borderRadius: '8px',
-                                textAlign: 'center',
-                                backgroundColor: 'rgba(255, 255, 255, 0.2)'
-                            }}>
-                                
-                            </div> */}
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>

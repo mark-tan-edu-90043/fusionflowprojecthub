@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function TodoList() {
+export default function todoList() {
     const [todos, setTodos] = useState([]);
     const [inputValue, setInputValue] = useState('');
 
@@ -40,5 +40,3 @@ function TodoList() {
     </div>
     );
 }
-
-export default TodoList;

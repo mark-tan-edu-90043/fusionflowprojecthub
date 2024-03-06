@@ -156,7 +156,7 @@ const AdminLogin = () => {
       </div>
 
       <button style={{ position: 'absolute', bottom: '70px', left: '20px' }}>  
-        <Link href="/">
+        <Link href="/Login">
           <div style={{ width: '170px', height: '35px', backgroundColor: 'blue', borderRadius: '50px' }}>Client Sign in</div>
         </Link>
       </button>

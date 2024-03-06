@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleAuth, ghAuth, db } from "../_utils/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import { useRouter } from 'next/router';
 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [name, setName] = useState('');
+  const router = useRouter();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -21,6 +24,10 @@ function SignUp() {
     setUsername(e.target.value);
   };
 
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -30,6 +37,7 @@ function SignUp() {
 
       // Store user information in Firestore
       await setDoc(doc(db, "users", user.uid),{
+        name: name,
         email: email,
         username: username,
         role: "Client"
@@ -39,7 +47,7 @@ function SignUp() {
       setTimeout(() => {
         setSuccessMessage('');
       }, 3000); // Clear success message after 3 seconds
-      window.location.href = '/';
+      router.push('/Login');
     } catch (error) {
       console.log('Error:', error.message);
       // Handle error, show error message to the user
@@ -55,6 +63,7 @@ function SignUp() {
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (!userDoc.exists()) { //Checks if the user exists
         await setDoc(doc(db, "users", user.uid), {
+          username: user.displayName,
           username: user.displayName,
           email: user.email,
           role: "Client"
@@ -123,6 +132,18 @@ function SignUp() {
             name="username"
             value={username}
             onChange={handleUsernameChange}
+            style={{ color: 'black' }}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="name" style={{ color: 'white' }}>Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={name}
+            onChange={handleNameChange}
             style={{ color: 'black' }}
             required
           />

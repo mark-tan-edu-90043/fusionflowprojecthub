@@ -150,7 +150,8 @@ export default function Admin() {
                                             <Image width={100} height={100} src='/Group 6.svg'></Image>
                                         </div>
                                         <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>StaffiD:</span> {selectedUser.uid}</div>
-                                        <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>Name:</span> {selectedUser.username}</div>
+                                        <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>Name:</span> {selectedUser.name}</div>
+                                        <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>Username:</span> {selectedUser.username}</div>
                                         <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>DOB:</span> {selectedUser.dob}</div>
                                         <div style={{ paddingTop: '5px' }}>
                                             <span style={{ fontWeight: 700 }}>
@@ -172,7 +173,7 @@ export default function Admin() {
                                                     </label>
                                                 </div>
                                             ) : (
-                                                <div>Role: {selectedUser.role}</div>
+                                                <div>{selectedUser.role}</div>
                                             )}
                                         </div>
                                         <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>Status:</span> {selectedUser.status}</div>
@@ -191,42 +192,45 @@ export default function Admin() {
                                 fontSize: '13px',
                                 color: '#fff'
                             }}>
-                                
-                                { editMode ? 
-                                <button style={{
-                                    display: 'flex',
-                                    padding: '2px 20px',
-                                    backgroundColor: '#6b9eff',
-                                    borderRadius: '12px'
-                                }} onClick={handleSave}>
-                                    <Image style={{
-                                        marginRight: '5px'
-                                    }} src='./Group 15.svg' width={15} height={15}></Image>
-                                    Edit
-                                </button>
-                                :
-                                <button style={{
-                                    display: 'flex',
-                                    padding: '2px 20px',
-                                    backgroundColor: '#6b9eff',
-                                    borderRadius: '12px'
-                                }} onClick={toggleEditMode}>
-                                    <Image style={{
-                                        marginRight: '5px'
-                                    }} src='./Group 15.svg' width={15} height={15}></Image>
-                                    Save
-                                </button>
-                                }
-                                <div style={{
-                                    display: 'flex',
-                                    padding: '2px 20px',
-                                    backgroundColor: '#e66098',
-                                    borderRadius: '12px'
-                                }}>
-                                    <Image style={{
-                                        marginRight: '5px'
-                                    }} src='./Group 15.svg' width={15} height={15}></Image>
-                                    Resigned</div>
+                                {selectedUser && (
+                                    <>
+                                    { editMode ? 
+                                    <button style={{
+                                        display: 'flex',
+                                        padding: '2px 20px',
+                                        backgroundColor: '#6b9eff',
+                                        borderRadius: '12px'
+                                    }} onClick={handleSave}>
+                                        <Image style={{
+                                            marginRight: '5px'
+                                        }} src='./Group 15.svg' width={15} height={15}></Image>
+                                        Save
+                                    </button>
+                                    :
+                                    <button style={{
+                                        display: 'flex',
+                                        padding: '2px 20px',
+                                        backgroundColor: '#6b9eff',
+                                        borderRadius: '12px'
+                                    }} onClick={toggleEditMode}>
+                                        <Image style={{
+                                            marginRight: '5px'
+                                        }} src='./Group 15.svg' width={15} height={15}></Image>
+                                        Edit
+                                    </button>
+                                    }
+                                    <div style={{
+                                        display: 'flex',
+                                        padding: '2px 20px',
+                                        backgroundColor: '#e66098',
+                                        borderRadius: '12px'
+                                    }}>
+                                        <Image style={{
+                                            marginRight: '5px'
+                                        }} src='./Group 15.svg' width={15} height={15}></Image>
+                                        Resigned</div>
+                                    </>
+                                )}
                             </div>
                         </div>
                         {/*Green Div stuff */}

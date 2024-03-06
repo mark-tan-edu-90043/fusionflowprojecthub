@@ -108,7 +108,7 @@
                                 marginRight: '10px'
                             }} onClick={() => router.push('/Developer/Home')}> Close </button>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px', flexDirection: 'row' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px'}}>
                             <div style={{
                                 display: 'flex',
                                 flexDirection: 'column',
@@ -180,7 +180,7 @@
                                                 onChange={handleTaskDescriptionChange}
                                                 placeholder="Task Description"
                                             />
-                                            <button onClick={handleSubmitTask}>Submit</button>
+                                            <button onClick={handleSubmitTask} style={{cursor: "pointer"}}>Submit</button>
                                         </div>
                                     </div>
                                 )}
@@ -201,7 +201,7 @@
                                 
                                 </div>
                             </div>
-                            
+                            <br></br><br></br><br></br><br></br><br></br>
                             <div style={{
                                 display: 'flex',
                                 flexDirection: 'column',

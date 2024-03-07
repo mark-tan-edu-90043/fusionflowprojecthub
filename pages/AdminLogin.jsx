@@ -91,7 +91,7 @@ const AdminLogin = () => {
       }
     } catch (error) {
       console.error('Error logging in:', error.message);
-      setErrorMessage('Incorrect email or password. Please try again.');
+      setErrorMessage('Incorrect email or password.Please try again.');
     }
   };
 
@@ -100,13 +100,13 @@ const AdminLogin = () => {
 
       <div style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '50px' }}>
-          <Image src="/Group 21.svg" alt="logo" width={24} height={24} />
+          {/* <Image src="/Group 21.svg" alt="logo" width={24} height={24} />
           <button>
             <p style={{ marginLeft: '8px' }}>Sign in</p>
-          </button>
+          </button> */}
         </div>
       </div>
-      <div style={{ width: 305, height: 542, background: '#D2DCF0', borderRadius: 42, display: 'flex', flexDirection: 'column', marginBottom: '90px', alignItems: 'center', position: 'relative', zIndex: '1' }}>
+      <div style={{ width: 305, height: 542, background: '#D2DCF0', borderRadius: 42, display: 'flex', flexDirection: 'column', marginBottom: '160px', alignItems: 'center', position: 'relative', zIndex: '1' }}>
         <div style={{ marginTop: '60px' }}>
           <Image src="/Group 66.svg" alt="fig" width={124} height={124} />
         </div>
@@ -125,18 +125,45 @@ const AdminLogin = () => {
               <input type="password" style={{ width: 140, height: '50%', outline: 'none', border: 'none', padding: '3px', marginLeft: '5px', color: '#979797', fontFamily: 'Inter, sans-serif' }} placeholder="" onChange={handlePasswordChange} />
             </div>
           </div>
+          <div style={{
+              color: 'grey',
+              position: 'absolute',
+              top: '390px', // Changed marginTop to top for proper CSS
+              textAlign: 'center',
+              width: '200px', // Adjust the width as needed
+              wordWrap: 'break-word', // This will ensure words break and wrap onto the next line
+              overflowWrap: 'break-word', // Use this for better support across different browsers
+              left: '50%',
+              transform: 'translateX(-50%)',
+              lineHeight: 1
+            }}>{errorMessage}</div>
+
           <button style={{ width: 198, height: 40, display: 'flex', alignItems: 'center', background: '#0057FF', borderRadius: 50, justifyContent: 'center', marginTop: '40px' }} onClick={handleSubmit}>
             <p style={{ color: 'white', fontSize: '18px', fontFamily: 'Inter, sans-serif', fontWeight: '900', fontStyle: 'italic' }}>Sign in</p>
           </button>
-          <button style={{ position: 'absolute', bottom: '0px', left: '50px'}} onClick={handleGoogleAuth}>
-            <Image src="/Google.webp" alt="Google Sign In" width={50} height={50} />
+          {/* <button style={{ position: 'absolute', bottom: '0px', left: '50px'}} onClick={handleGoogleAuth}>
+            <Image src="/Google.svg" alt="Google Sign In" width={30} height={30} />
           </button>
           <button style={{ position: 'absolute', bottom: '0px', left: '150px'}} onClick={handleGitHubAuth}>
-            <Image src="/Github.png" alt="GitHub Sign In" width={50} height={50} />
-          </button>
-          {errorMessage && (
-            <div style={{ marginTop: '20px', color: 'red' }}>{errorMessage}</div>
-          )}
+            <Image src="/Github.png" alt="GitHub Sign In" width={30} height={30} />
+          </button> */}
+              <div className="sign-in-buttons" style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    bottom: '0px',
+                    left: '0',
+                    right: '0',
+                    marginBottom: '20px'
+                  }}>
+                    <button onClick={handleGoogleAuth}>
+                      <Image src="/Google.svg" alt="Google Sign In" width={30} height={30} />
+                    </button>
+                    <button onClick={handleGitHubAuth} style={{ marginLeft: '20px' }}>
+                      <Image src="/Github.png" alt="GitHub Sign In" width={30} height={30} />
+                    </button>
+              </div>
+          
         </div>
       </div>
       <div style={{
@@ -157,7 +184,18 @@ const AdminLogin = () => {
 
       <button style={{ position: 'absolute', bottom: '70px', left: '20px' }}>  
         <Link href="/Login">
-          <div style={{ width: '170px', height: '35px', backgroundColor: 'blue', borderRadius: '50px' }}>Client Sign in</div>
+        <div style={{
+              width: '170px',
+              height: '35px',
+              backgroundColor: '#0057FF',
+              borderRadius: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center', 
+              color: 'white', 
+              fontFamily: 'Arial, sans-serif', 
+              fontSize: '14px', 
+            }}>Client Sign in</div>
         </Link>
       </button>
     </main>

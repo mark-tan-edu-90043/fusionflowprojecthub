@@ -44,7 +44,7 @@
                 fetchTasks();
                 console.log(projectName);
                 }
-            }, [projectId, tasks]); //IT works for now. I'll fix it later
+            }, [projectId]); //DO NOT PUT TASKS HERE. IT RUNS DOWN THE QUOTA
 
         const handleOpenPopup = () => {
             setShowPopup(true);

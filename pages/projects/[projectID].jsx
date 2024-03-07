@@ -44,7 +44,7 @@
                 fetchTasks();
                 console.log(projectName);
                 }
-            }, [projectId, tasks]); //IT works for now. I'll fix it later
+            }, [projectId]); //IT works for now. I'll fix it later
 
         const handleOpenPopup = () => {
             setShowPopup(true);

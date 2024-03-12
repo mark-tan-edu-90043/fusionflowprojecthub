@@ -76,8 +76,11 @@ export default function Login() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between" style={{ backgroundColor: '#E7E7E7' }}>
+      
       <div style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <img src="Slice 1.svg" alt="Logo" width={170} height={70}></img>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '50px' }}></div>
+        
       </div>
       <div style={{ width: 305, height: 542, background: '#D3D2F0', borderRadius: 42, display: 'flex', flexDirection: 'column', marginBottom: '160px', alignItems: 'center', position: 'relative', zIndex: '1' }}>
         <div style={{ marginTop: '60px' }}>
@@ -142,23 +145,23 @@ export default function Login() {
             bottom: 0,
             right: 0,
             zIndex: '0',
-            color: '#FFFFFF',
+            color: '#EFEFEF',
             fontFamily: 'Inter, sans-serif',
             fontWeight: '900',
             fontStyle: 'italic',
             textAlign: 'right',
-            marginBottom: '-20px'
+            marginBottom: '35px'
           }}>
         <p style={{ fontSize: '190px' }}>WELCOME</p>
       </div>
       <button style={{ position: 'absolute', bottom: '20px', left: '20px' }}>
         <Link href="/AdminLogin">
-        <div style={{ display: 'flex', width: '170px', height: '35px', backgroundColor: '#0057FF', borderRadius: '50px', alignItems: 'center', justifyContent: 'center'}}>Admin Sign in</div>
+        <div style={{ display: 'flex', width: '170px', height: '35px', backgroundColor: '#0057FF', borderRadius: '50px', alignItems: 'center', justifyContent: 'center', color: 'white'}}>Admin Sign in</div>
         </Link>
       </button>
       <button style={{ position: 'absolute', bottom: '70px', left: '20px' }}>
         <Link href="/SignUp">
-          <div style={{ display: 'flex', width: '170px', height: '35px', backgroundColor: '#0057FF', borderRadius: '50px', alignItems: 'center', justifyContent: 'center'}}>Sign up</div>
+          <div style={{ display: 'flex', width: '170px', height: '35px', backgroundColor: '#0057FF', borderRadius: '50px', alignItems: 'center', justifyContent: 'center', color: 'white'}}>Sign up</div>
         </Link>
       </button>
     </main>

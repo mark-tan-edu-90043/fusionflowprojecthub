@@ -76,10 +76,13 @@ export default function Login() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between" style={{ backgroundColor: '#E7E7E7' }}>
+      
       <div style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <img src="Slice 1.svg" alt="Logo" width={170} height={70}></img>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '50px' }}></div>
+        
       </div>
-      <div style={{ width: 305, height: 542, background: '#D3D2F0', borderRadius: 42, display: 'flex', flexDirection: 'column', marginBottom: '180px', alignItems: 'center', position: 'relative', zIndex: '1' }}>
+      <div style={{ width: 305, height: 542, background: '#D3D2F0', borderRadius: 42, display: 'flex', flexDirection: 'column', marginBottom: '160px', alignItems: 'center', position: 'relative', zIndex: '1' }}>
         <div style={{ marginTop: '60px' }}>
           <Image src="/Group 6.svg" alt="fig" width={124} height={124} />
         </div>
@@ -101,28 +104,64 @@ export default function Login() {
           <button style={{ width: 198, height: 40, display: 'flex', alignItems: 'center', background: '#7000FF', borderRadius: 50, justifyContent: 'center', marginTop: '40px' }} onClick={handleSubmit}>
             <p style={{ color: 'white', fontSize: '18px', fontFamily: 'Inter, sans-serif', fontWeight: '900', fontStyle: 'italic' }}>Sign in</p>
           </button>
-          {errorMessage && (
-            <div style={{ marginTop: '20px', color: 'red' }}>{errorMessage}</div>
-          )}
-          <button style={{ position: 'absolute', bottom: '0px', left: '50px' }} onClick={handleGoogleAuth}>
-            <Image src="/Google.webp" alt="Google Sign In" width={50} height={50} />
+          <div style={{
+            color: 'grey',
+            position: 'absolute',
+            top: '390px', // Changed marginTop to top for proper CSS
+            textAlign: 'center',
+            width: '200px', // Adjust the width as needed
+            wordWrap: 'break-word', // This will ensure words break and wrap onto the next line
+            overflowWrap: 'break-word', // Use this for better support across different browsers
+            left: '50%',
+            transform: 'translateX(-50%)',
+            lineHeight: 1
+          }}>{errorMessage}</div>
+          {/* <button style={{ position: 'absolute', bottom: '0px', left: '50px' }} onClick={handleGoogleAuth}>
+            <Image src="/Google.svg" alt="Google Sign In" width={30} height={30} />
           </button>
           <button style={{ position: 'absolute', bottom: '0px', left: '150px' }} onClick={handleGitHubAuth}>
-            <Image src="/Github.png" alt="GitHub Sign In" width={50} height={50} />
-          </button>
+            <Image src="/Github.svg" alt="GitHub Sign In" width={30} height={30} />
+          </button> */}
+          <div className="sign-in-buttons" style={{
+            display: 'flex',
+            justifyContent: 'center',
+            position: 'absolute',
+            bottom: '0px',
+            left: '0',
+            right: '0',
+            marginBottom: '20px',
+          }}>
+            <button onClick={handleGoogleAuth}>
+              <Image src="/Google.svg" alt="Google Sign In" width={30} height={30} />
+            </button>
+            <button onClick={handleGitHubAuth} style={{ marginLeft: '20px' }}>
+              <Image src="/Github.png" alt="GitHub Sign In" width={30} height={30} />
+            </button>
+          </div>
         </div>
       </div>
-      <div style={{ position: 'fixed', bottom: 0, right: 0, zIndex: '0', color: '#FFFFFF', fontFamily: 'Inter, sans-serif', fontWeight: '900', fontStyle: 'italic', textAlign: 'right', marginBottom: '-20px' }}>
+      <div style={{
+            position: 'fixed',
+            bottom: 0,
+            right: 0,
+            zIndex: '0',
+            color: '#EFEFEF',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: '900',
+            fontStyle: 'italic',
+            textAlign: 'right',
+            marginBottom: '35px'
+          }}>
         <p style={{ fontSize: '190px' }}>WELCOME</p>
       </div>
       <button style={{ position: 'absolute', bottom: '20px', left: '20px' }}>
         <Link href="/AdminLogin">
-          <Image src="/Group 4.svg" alt="Admin Sign In" width={170} height={50} />
+        <div style={{ display: 'flex', width: '170px', height: '35px', backgroundColor: '#0057FF', borderRadius: '50px', alignItems: 'center', justifyContent: 'center', color: 'white'}}>Admin Sign in</div>
         </Link>
       </button>
       <button style={{ position: 'absolute', bottom: '70px', left: '20px' }}>
         <Link href="/SignUp">
-          <div style={{ width: '170px', height: '35px', backgroundColor: 'blue', borderRadius: '50px' }}> Sign up</div>
+          <div style={{ display: 'flex', width: '170px', height: '35px', backgroundColor: '#0057FF', borderRadius: '50px', alignItems: 'center', justifyContent: 'center', color: 'white'}}>Sign up</div>
         </Link>
       </button>
     </main>

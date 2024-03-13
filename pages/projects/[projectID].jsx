@@ -105,7 +105,7 @@
                 <div style={{
                      display: 'flex',
                      width: '90%',
-                     height: '60%',
+                     height: '90%',
                      borderRadius: '10px',
                      backgroundColor: '#fff',
                      alignContent:'center'
@@ -173,9 +173,9 @@
                                             color: 'black'
                                         }}>
                                             {task.name}
-                                            
+                                            <br />
                                             <span style={{ color: 'grey' }}>{task.description}</span>
-                                           
+                                            <br />
                                             <button style={{color: 'red'}} onClick={() => handleDelete(task.id)}>Delete</button>
                                         </div>
                                     ))}

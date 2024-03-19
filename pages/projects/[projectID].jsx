@@ -99,20 +99,22 @@
     
 
         return (
-            <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-
+            <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0'  }}>
+                
                 <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>{projectName}</div>
                 <div style={{
-                    display: 'flex',
-                    width: '90%',
-                    height: '80%',
-                    borderRadius: '10px',
-                    backgroundColor: '#fff'
-                }}>
-                    <div style={{ width: '100%' }}>
+                     display: 'flex',
+                     width: '90%',
+                     height: '90%',
+                     borderRadius: '10px',
+                     backgroundColor: '#fff',
+                     alignContent:'center'
+                }}>       
+                    <div style={{ width:' 100%' }}>
                         <div style={{
                             display: 'flex',
                             justifyContent: 'flex-end',
+                            alignItems:'center',
                             width: '100%'
                         }}>
                             <button style={{
@@ -126,38 +128,41 @@
                                 marginRight: '10px'
                             }} onClick={() => router.push('/Developer/Home')}> Close </button>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px'}}>
+                                
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
                             <div style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: "space-between",
-                                alignItems: 'center',
-                                width: '250px',
-                                height: '520px',
-                                padding: '0 10px',
-                                borderRight: '2px solid #ccc',
+                                // display: 'flex',
+                                // flexDirection: 'column',
+                                // justifyContent: "space-between",
+                                // alignItems: 'center',
+                                // width: '250px',
+                                // height: '520px',
+                                // padding: '0 10px',
+                                // borderRight: '2px solid #ccc',
                             }}>
                             <div style={{
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: "space-between",
-                                marginLeft: '20px',
+                                // marginLeft: '20px',
                                 width: '250px',
                                 height: '520px',
                                 padding: '0 10px',
                                 backgroundColor: '#6B9EFF',
                                 borderRadius: '10px',
+                                marginRight: '15px'
                             }}>
                                 <div>
                                     <div style={{
                                         display: 'flex',
                                         justifyContent: 'space-between',
                                         padding: '10px',
-                                        fontSize: '13px'
+                                        fontSize: '13px',
+                                        
                                     }}>
                                         <span style={{ fontWeight: 700 }}>To do</span>
                                     </div>
-                                    {tasks.map(task => (
+                                        {tasks.map(task => (
                                         <div key={task.id} style={{ 
                                             backgroundColor: '#fff',
                                             borderRadius: '10px',
@@ -170,7 +175,7 @@
                                             {task.name}
                                             <br />
                                             <span style={{ color: 'grey' }}>{task.description}</span>
-                                            <br/>
+                                            <br />
                                             <button style={{color: 'red'}} onClick={() => handleDelete(task.id)}>Delete</button>
                                         </div>
                                     ))}
@@ -211,7 +216,7 @@
                                 </div>
                             </div>
 
-                                <div style={{
+                                {/* <div style={{
                                     display: 'flex',
                                     justifyContent: "space-between",
                                     alignItems: 'center',
@@ -220,22 +225,19 @@
                                     fontSize: '13px',
                                     color: '#fff'
                                 }}>
-                                    
-                                        
-                                
-                                </div>
-                            </div>
-                            <br></br><br></br><br></br><br></br><br></br>
-                            <div style={{
+                               
+                                </div> */}
+                                <div style={{
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: "space-between",
-                                marginLeft: '20px',
+                                // marginLeft: '20px',
                                 width: '250px',
                                 height: '520px',
                                 padding: '0 10px',
                                 backgroundColor: '#49d290',
                                 borderRadius: '10px',
+                                marginRight:'15px'
                             }}>
                                 <div>
                                     <div style={{
@@ -296,10 +298,11 @@
                                 justifyContent: "space-between",
                                 width: '250px',
                                 height: '520px',
-                                margin: '0 15px',
+                                // margin: '0 15px',
                                 padding: '0 10px',
                                 backgroundColor: '#adc9fd',
                                 borderRadius: '10px',
+                                marginRight:'15px'
                             }}>
                                 <div>
                                     <div style={{
@@ -352,6 +355,8 @@
                                 padding: '0 10px',
                                 backgroundColor: '#ffc2af',
                                 borderRadius: '10px',
+                                marginRight:'15px',
+                                // marginLeft:'10px'
                             }}>
                                 <div>
                                     <div style={{
@@ -424,20 +429,11 @@
                                         <span>Code</span>
                                     </div>
                                 </div>
-                                {/* <div style={{
-                                    marginBottom: '20px',
-                                    padding: '8px',
-                                    border: '1px dotted #000',
-                                    fontSize: '13px',
-                                    borderRadius: '8px',
-                                    textAlign: 'center',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.2)'
-                                }}>
-                                    
-                                </div> */}
                             </div>
-                        </div>
-                    </div>
+                        </div>            
+                        </div>       
+                    
+                    </div>                
             </main>
         );
     }

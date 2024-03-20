@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../_utils/firebase";
 import { useRouter } from "next/router";
+import Popups from "../components/AddProject";
 
 export default function DeveloperPage() {
     const router = useRouter();
@@ -10,6 +11,15 @@ export default function DeveloperPage() {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false); // State to store admin status
+    const [showModal, setShowModal] = useState(false);
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -42,19 +52,8 @@ export default function DeveloperPage() {
         });
     };
 
-    const handleSignOut = async (e) => {
-        auth.signOut()
-            .then(() => {
-                router.push('/AdminLogin');
-            })
-    };
-
     if (loading) {
         return <div>Loading...</div>; // Render a loading indicator while loading
-    }
-
-    const createProject = async (e) => {
-
     }
 
     return (
@@ -117,13 +116,19 @@ export default function DeveloperPage() {
                                 borderRadius: '10px',
                                 margin: '10px',
                                 cursor: 'pointer'
-                            }} onClick={() => createProject()}>
+                            }} onClick={() => handleOpenModal()}>
                                 <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px', color: 'black' }}>Create New Project</div>
                                 <div style={{ color: 'black'}}>+</div>
                             </div>
                     </div>
                 </div>
             </div>
+
+            {showModal && (
+                <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000 }}>
+                    <Popups handleClose={handleCloseModal} />
+                </div>
+            )}
         </main>
     );
 }

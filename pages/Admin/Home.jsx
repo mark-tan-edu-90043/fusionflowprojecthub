@@ -1,22 +1,22 @@
 import Image from "next/image";
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore";
-import { auth, db } from "../../_utils/firebase";
+import { collection, getDocs, query, where, getFirestore } from "firebase/firestore";
+import { db } from "../../_utils/firebase";
 import { useRouter } from "next/router";
 
-// Defining a functional component named Admin
 export default function Admin() {
     const router = useRouter();
-
     const [users, setUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [editMode, setEditMode] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
-    // Fetch user data from Firestore
     const getUsersData = async () => {
         try {
             const usersCollection = collection(db, 'users');
-            const usersSnapshot = await getDocs(usersCollection);
+            let q = usersCollection;
+            if (searchQuery) {
+                q = query(usersCollection, where('name', '>=', searchQuery));
+            }
+            const usersSnapshot = await getDocs(q);
             const usersData = usersSnapshot.docs.map(doc => {
                 const userData = doc.data();    
                 userData.uid = doc.id; // Set the user ID from the document ID
@@ -27,64 +27,20 @@ export default function Admin() {
             console.error('Error fetching users:', error);
         }
     };
-    
-
-    // Function to handle user click
-    const handleUserClick = (user) => {
-        setSelectedUser(user);
-    };
-
-    const toggleEditMode = () => {
-        setEditMode(!editMode);
-    };
-
-    // Function to handle save button click
-    const handleSave = async () => {
-        try {
-            if (!selectedUser || !selectedUser.uid) {
-                console.error("Error: Selected user or user ID is undefined.");
-                return;
-            }
-    
-            // Update the user's role in the database
-            const userRef = doc(db, "users", selectedUser.uid);
-            await updateDoc(userRef, {
-                role: selectedUser.role
-            });
-            console.log("Role updated successfully:", selectedUser);
-            setEditMode(false); // Turn off edit mode after saving changes
-        } catch (error) {
-            console.error("Error updating role:", error);
-        }
-    };
-    
-
-    // Function to handle delete button click
-    const handleDelete = () => {
-        // Delete the user from the database
-        // This is where you would implement the logic to delete the user from Firestore
-        // You need to use the selectedUser state to access the data of the user being deleted
-        console.log("User deleted:", selectedUser);
-        // Implement deletion logic here...
-        setSelectedUser(null); // Clear selectedUser state after deletion
-    };
-
-    // Function to handle position change
-    const handlePositionChange = (e) => {
-        // Update the position of the selected user
-        setSelectedUser({ ...selectedUser, role: e.target.value });
-    };
-
 
     useEffect(() => {
         getUsersData();
-    }, []);
+    }, [searchQuery]);
+
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value.toLowerCase());
+    };
 
     return (
-        <main style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+        <main className="h-screen" style={{ backgroundColor: '#D2DCF0' }}>
 
-            <nav style={{ backgroundColor: '#6B9EFF', width: '100%', padding: '20px 0', textAlign: 'center', color: '#fff', fontWeight: 'bold' }}>
-                <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
+            <nav style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <ul style={{ listStyleType: 'none', color: 'black', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
                     <li onClick={() => { router.push('../Profile') }} style={{ padding: 20, cursor: 'pointer' }}>My Profile</li>
                     <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ padding: 20, cursor: 'pointer' }}>Log Out</li>
                     <li onClick={() => router.push('/Developer/Home')} style={{ padding: 20, cursor: 'pointer' }}>Developer Dashboard</li>
@@ -92,184 +48,41 @@ export default function Admin() {
                 </ul>
             </nav>
 
+            <p style={{ marginTop: '20px', marginLeft: '30px' }}>
+                Home - Admin
+            </p>
+            <p style={{ fontSize: '40px', color: 'white', backgroundColor: '#D2DCF0', textAlign: 'right', marginRight: '30px', fontWeight: 'bold' }}>
+                Staff Management
+            </p>
 
-            <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>Admin</div>
-            <div style={{
-                display: 'flex',
-                width: '90%',
-                height: '80%',
-                borderRadius: '10px',
-                backgroundColor: '#fff'
-            }}>
-                <div style={{ width: '100%' }}>
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        width: '100%'
-                    }}>
-                        <button style={{
-                            width: '66px',
-                            height: '32px',
-                            background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
-                            color: '#fff',
-                            borderRadius: '16px',
-                            boxShadow: '0px 3px 2px #dc4c25',
-                            marginTop: '10px',
-                            marginRight: '10px'
-                        }}>Close</button>
+            <div style={{ marginTop: '20px', marginLeft: '30px', marginRight: '30px', marginBottom: '60px', backgroundColor: 'white', borderRadius: '30px', boxShadow: '0px 20px 20px rgba(0, 0, 0, 0.1)', padding: '20px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#0057FF', borderRadius: '30px', paddingLeft: '10px', paddingRight: '10px', marginBottom: '10px' }}>
+                        <p style={{ color: 'white', margin: '0' }}>Search Staff</p>
+                        <div style={{ width: 343, height: 34, backgroundColor: '#fff', borderRadius: '30px', display: 'flex', alignItems: 'center' }}>
+                            <input type="text" style={{ color: 'black', width: 280, height: '50%', outline: 'none', border: 'none' }} value={searchQuery} onChange={handleSearch} />
+                            <Image style={{ marginLeft: '15px' }} src="/Group 42.svg" alt="logo" width={24} height={24} />
+                        </div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px' }}>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: "space-between",
-                            alignItems: 'center',
-                            width: '250px',
-                            height: '520px',
-                            padding: '0 10px',
-                            borderRight: '2px solid #ccc',
-                        }}>
-                            <div style={{
-                                fontSize: '13px',
-                                color: '#ccc',
-                                marginTop: '10px',
-                                marginBottom: '10px'
-                            }}>
-                                {selectedUser && (
-                                    <>
-                                        <div style={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            marginTop: '8px',
-                                            marginBottom: '20px',
-                                            width: '120px',
-                                            height: '120px',
-                                            borderRadius: '50%',
-                                        }}>
-                                            <Image width={100} height={100} src='/Group 6.svg'></Image>
-                                        </div>
-                                        <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>StaffiD:</span> {selectedUser.uid}</div>
-                                        <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>Name:</span> {selectedUser.name}</div>
-                                        <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>Username:</span> {selectedUser.username}</div>
-                                        <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>DOB:</span> {selectedUser.dob}</div>
-                                        <div style={{ paddingTop: '5px' }}>
-                                            <span style={{ fontWeight: 700 }}>
-                                                Role:
-                                            </span>
-                                            {editMode ? (
-                                                <div>
-                                                    <label>
-                                                        <input type="radio" value="Client" checked={selectedUser && selectedUser.role === "Client"} onChange={handlePositionChange} />
-                                                        Client
-                                                    </label>
-                                                    <label>
-                                                        <input type="radio" value="Developer" checked={selectedUser && selectedUser.role === "Developer"} onChange={handlePositionChange} />
-                                                        Developer
-                                                    </label>
-                                                    <label>
-                                                        <input type="radio" value="Admin" checked={selectedUser && selectedUser.role === "Admin"} onChange={handlePositionChange} />
-                                                        Admin
-                                                    </label>
-                                                </div>
-                                            ) : (
-                                                <div>{selectedUser.role}</div>
-                                            )}
-                                        </div>
-                                        <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>Status:</span> {selectedUser.status}</div>
-                                        <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>Projects:</span>  {selectedUser.projects}</div>
-                                        <div style={{ paddingTop: '5px' }}><span style={{ fontWeight: 700 }}>Current pro:</span> {selectedUser.currentProjects}</div>
-
-                                    </>
-                                )}
-                            </div>
-                            <div style={{
-                                display: 'flex',
-                                justifyContent: "space-between",
-                                alignItems: 'center',
-                                width: '100%',
-                                padding: '8px 8px 0 8px',
-                                fontSize: '13px',
-                                color: '#fff'
-                            }}>
-                                {selectedUser && (
-                                    <>
-                                    { editMode ? 
-                                    <button style={{
-                                        display: 'flex',
-                                        padding: '2px 20px',
-                                        backgroundColor: '#6b9eff',
-                                        borderRadius: '12px'
-                                    }} onClick={handleSave}>
-                                        <Image style={{
-                                            marginRight: '5px'
-                                        }} src='./Group 15.svg' width={15} height={15}></Image>
-                                        Save
-                                    </button>
-                                    :
-                                    <button style={{
-                                        display: 'flex',
-                                        padding: '2px 20px',
-                                        backgroundColor: '#6b9eff',
-                                        borderRadius: '12px'
-                                    }} onClick={toggleEditMode}>
-                                        <Image style={{
-                                            marginRight: '5px'
-                                        }} src='./Group 15.svg' width={15} height={15}></Image>
-                                        Edit
-                                    </button>
-                                    }
-                                    <div style={{
-                                        display: 'flex',
-                                        padding: '2px 20px',
-                                        backgroundColor: '#e66098',
-                                        borderRadius: '12px'
-                                    }}>
-                                        <Image style={{
-                                            marginRight: '5px'
-                                        }} src='./Group 15.svg' width={15} height={15}></Image>
-                                        Resigned</div>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                        {/*Green Div stuff */}
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: "space-between",
-                            marginLeft: '20px',
-                            width: '70%',
-                            height: '40%',
-                            padding: '0 10px',
-                            backgroundColor: '#49d290',
-                            borderRadius: '10px',
-                        }}>
-                            <div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '10px',
-                                    fontSize: '13px'
-                                }}>
-                                    <span style={{ fontWeight: 700 }}>Employee Manager</span>
-                                </div>
-                                {users.map((user, index) => (
-                                    <div key={index} style={{ padding: '20px', borderBottom: '1px solid #fff', cursor: 'pointer' }} onClick={() => handleUserClick(user)}>
-                                        <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#fff' }}>User {index + 1}</div>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', color: '#fff' }}>
-                                            <div style={{ marginRight: '20px' }}>
-                                                <div>Email: {user.email}</div>
-                                                <div>Username: {user.username}</div>
-                                                <div>Role: {user.role}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                    <div style={{ backgroundColor: '#E3E3E3', borderRadius: '10px', display: 'flex', paddingLeft: '10px', alignItems: 'center', marginBottom: '10px' }}>
+                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>ID</p>
+                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '2' }}>Name</p>
+                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>BOD</p>
+                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>Status</p>
+                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '2' }}>Position</p>
+                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>Control</p>
                     </div>
                 </div>
+                {users.map((user, index) => (
+                    <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px', backgroundColor: index % 2 === 0 ? '#fff' : '#F1F1F1', borderRadius: '10px', paddingLeft: '10px', paddingRight: '10px' }}>
+                        <p style={{ color: '#858585', margin: '0', flex: '1', maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.uid}</p>
+                        <p style={{ color: '#858585', margin: '0', flex: '2' }}>{user.name}</p>
+                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>Test</p>
+                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>Active</p>
+                        <p style={{ color: '#858585', margin: '0', flex: '2' }}>{user.role}</p>
+                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>{/* Add control options here */}</p>
+                    </div>
+                ))}
             </div>
         </main>
     );

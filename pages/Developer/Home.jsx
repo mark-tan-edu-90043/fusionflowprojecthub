@@ -56,13 +56,12 @@ export default function DeveloperPage() {
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }}>
 
-            <nav style={{ backgroundColor: '#6B9EFF', width: '100%', padding: '20px 0', textAlign: 'center', color: '#F1F1F1', fontWeight: 'bold' }}>
-                <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
-                    <li onClick={() => {router.push('../Profile')}} style={{padding: 20, cursor: 'pointer'}}>My Profile</li>
-                    
+            <nav style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <ul style={{ listStyleType: 'none', color: 'black', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
+                    <li onClick={() => { router.push('../Profile') }} style={{ padding: 20, cursor: 'pointer' }}>My Profile</li>
+                    <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ padding: 20, cursor: 'pointer' }}>Log Out</li>
                     <li style={{ padding: 20, fontWeight: "bold", backgroundColor: "rgba(255, 255, 255, 0.2)" }}>Developer Dashboard</li>
-                    {isAdmin && <li style={{ padding: 20}} onClick={() => router.push('/Admin/Home')}>Admin Dashboard</li>}
-                    <li onClick={() => handleSignOut()} style={{padding: 20, cursor: 'pointer'}}>Log Out</li>
+                    <li onClick={() => router.push('/Admin/Home')} style={{ padding: 20, cursor: 'pointer' }}>Admin Panel</li>
                 </ul>
             </nav>
 

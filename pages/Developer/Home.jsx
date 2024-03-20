@@ -53,6 +53,10 @@ export default function DeveloperPage() {
         return <div>Loading...</div>; // Render a loading indicator while loading
     }
 
+    const createProject = async (e) => {
+
+    }
+
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }}>
 
@@ -60,7 +64,7 @@ export default function DeveloperPage() {
                 <ul style={{ listStyleType: 'none', color: 'black', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
                     <li onClick={() => { router.push('../Profile') }} style={{ padding: 20, cursor: 'pointer' }}>My Profile</li>
                     <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ padding: 20, cursor: 'pointer' }}>Log Out</li>
-                    <li style={{ padding: 20, fontWeight: "bold", backgroundColor: "rgba(255, 255, 255, 0.2)" }}>Developer Dashboard</li>
+                    <li style={{ padding: 20, fontWeight: "bold" }}>Developer Dashboard</li>
                     <li onClick={() => router.push('/Admin/Home')} style={{ padding: 20, cursor: 'pointer' }}>Admin Panel</li>
                 </ul>
             </nav>
@@ -100,8 +104,25 @@ export default function DeveloperPage() {
                             </div>
                         ))}
                     </div>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px' }}>
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                width: '250px',
+                                height: '250px',
+                                padding: '10px',
+                                border: '1px solid #ccc',
+                                borderRadius: '10px',
+                                margin: '10px',
+                                cursor: 'pointer'
+                            }} onClick={() => createProject()}>
+                                <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px', color: 'black' }}>Create New Project</div>
+                                <div style={{ color: 'black'}}>+</div>
+                            </div>
+                    </div>
                 </div>
-                
             </div>
         </main>
     );

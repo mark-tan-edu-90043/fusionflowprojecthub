@@ -76,7 +76,9 @@ export default function ProjectDash() {
         try {
             const taskRef = await addDoc(collection(db, "projects", projectId, "tasks"), {
                 name: taskName,
-                description: taskDescription
+                description: taskDescription,
+                deadline: "Temp",
+                status: 'To do',
             });
             console.log("New task added with ID: ", taskRef.id);
             setTaskName('');

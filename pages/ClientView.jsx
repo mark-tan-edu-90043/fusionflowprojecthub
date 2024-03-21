@@ -1,5 +1,4 @@
-
-           import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { auth } from "../../_utils/firebase";
 import { useRouter } from "next/router";
 import ChatRoom from "./ChatRoom"; // Import ChatRoom component

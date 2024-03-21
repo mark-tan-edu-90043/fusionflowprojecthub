@@ -1,101 +1,91 @@
-    import Image from "next/image";
-    import React, {useState, useEffect} from 'react';
-    import { collection, query, where, getDocs, doc, collectionGroup, getDoc, addDoc, deleteDoc} from "firebase/firestore";
-    import { auth, db } from "../../_utils/firebase";
-    import { useRouter } from "next/router";
+import React, { useState, useEffect } from 'react';
+import { collection, query, where, getDocs, doc, collectionGroup, getDoc, addDoc, deleteDoc } from "firebase/firestore";
+import { auth, db } from "../../_utils/firebase";
+import { useRouter } from "next/router";
+import Image from 'next/image';
+import Task from './task';
 
-    export default function ProjectDash() {
-        const router = useRouter();
-        const [projectName, setProjectName] = useState('');
-        const [tasks, setTasks] = useState([]);
-        const projectId = router.query.projectId; 
-        const [showPopup, setShowPopup] = useState(false);
-        const [taskName, setTaskName] = useState('');
-        const [taskDescription, setTaskDescription] = useState('');
+export default function ProjectDash() {
+    const router = useRouter();
+    const [projectName, setProjectName] = useState('');
+    const [tasks, setTasks] = useState([]);
+    const projectId = router.query.projectId;
+    const [showPopup, setShowPopup] = useState(false);
+    const [taskName, setTaskName] = useState('');
+    const [taskDescription, setTaskDescription] = useState('');
 
-            useEffect(() => {
-                if (projectId) {
-                    // Fetch project name from the database using the project ID
-                    const fetchProjectName = async () => {
-                        try {
-                            const projectDoc = await getDoc(doc(db, "projects", projectId));
-                            if (projectDoc.exists()) {
-                                setProjectName(projectDoc.data().name);
-                            } else {
-                                console.log("No such document!");
-                            }
-                        } catch (error) {
-                            console.error("Error getting document:", error);
-                        }
-                    };
-                                // Fetch tasks associated with the project from the subcollection
-                const fetchTasks = async () => {
-                    try {
-                        const tasksQuery = query(collection(db, "projects", projectId, "tasks"));
-                        const tasksSnapshot = await getDocs(tasksQuery);
-                        const tasksData = tasksSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                        setTasks(tasksData);
-                    } catch (error) {
-                        console.error("Error fetching tasks:", error);
+    useEffect(() => {
+        if (projectId) {
+            const fetchProjectName = async () => {
+                try {
+                    const projectDoc = await getDoc(doc(db, "projects", projectId));
+                    if (projectDoc.exists()) {
+                        setProjectName(projectDoc.data().name);
+                    } else {
+                        console.log("No such document!");
                     }
-                };
-
-                fetchProjectName();
-                fetchTasks();
-                console.log(projectName);
+                } catch (error) {
+                    console.error("Error getting document:", error);
                 }
-            }, [projectId]); //IT works for now. I'll fix it later
+            };
 
-        const handleOpenPopup = () => {
-            setShowPopup(true);
-        };
-    
-        const handleClosePopup = () => {
+            const fetchTasks = async () => {
+                try {
+                    const tasksQuery = query(collection(db, "projects", projectId, "tasks"));
+                    const tasksSnapshot = await getDocs(tasksQuery);
+                    const tasksData = tasksSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    setTasks(tasksData);
+                } catch (error) {
+                    console.error("Error fetching tasks:", error);
+                }
+            };
+
+            fetchProjectName();
+            fetchTasks();
+        }
+    }, [projectId]);
+
+    const handleOpenPopup = () => {
+        setShowPopup(true);
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    };
+
+    const handleTaskNameChange = (e) => {
+        setTaskName(e.target.value);
+    };
+
+    const handleTaskDescriptionChange = (e) => {
+        setTaskDescription(e.target.value);
+    };
+
+    const handleDelete = async (taskId) => {
+        try {
+            const taskRef = doc(db, "projects", projectId, "tasks", taskId);
+            await deleteDoc(taskRef);
+            setTasks(tasks.filter(task => task.id !== taskId));
+            console.log("Task deleted successfully!");
+        } catch (error) {
+            console.error("Error deleting task:", error);
+        }
+    };
+
+    const handleSubmitTask = async () => {
+        try {
+            const taskRef = await addDoc(collection(db, "projects", projectId, "tasks"), {
+                name: taskName,
+                description: taskDescription
+            });
+            console.log("New task added with ID: ", taskRef.id);
+            setTaskName('');
+            setTaskDescription('');
             setShowPopup(false);
-        };
-    
-        const handleTaskNameChange = (e) => {
-            setTaskName(e.target.value);
-        };
-    
-        const handleTaskDescriptionChange = (e) => {
-            setTaskDescription(e.target.value);
-        };
-
-        const handleDelete = async (taskId) => {
-            try {
-                // Construct the reference to the task document
-                const taskRef = doc(db, "projects", projectId, "tasks", taskId);
-                
-                // Delete the task document
-                await deleteDoc(taskRef);
-                
-                // Remove the task from the local state
-                setTasks(tasks.filter(task => task.id !== taskId));
-                
-                console.log("Task deleted successfully!");
-            } catch (error) {
-                console.error("Error deleting task:", error);
-            }
-        };
-        
-    
-        const handleSubmitTask = async () => {
-            try {
-                // Add the new task to the database
-                const taskRef = await addDoc(collection(db, "projects", projectId, "tasks"), {
-                    name: taskName,
-                    description: taskDescription
-                });
-                console.log("New task added with ID: ", taskRef.id);
-                // Clear input fields and close the popup
-                setTaskName('');
-                setTaskDescription('');
-                setShowPopup(false);
-            } catch (error) {
-                console.error("Error adding document: ", error);
-            }
-        };
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
+    };
     
 
         return (
@@ -162,22 +152,8 @@
                                     }}>
                                         <span style={{ fontWeight: 700 }}>To do</span>
                                     </div>
-                                        {tasks.map(task => (
-                                        <div key={task.id} style={{ 
-                                            backgroundColor: '#fff',
-                                            borderRadius: '10px',
-                                            padding: '10px',
-                                            fontSize: '13px',
-                                            lineHeight: '20px',
-                                            marginTop: '20px',
-                                            color: 'black'
-                                        }}>
-                                            {task.name}
-                                            <br />
-                                            <span style={{ color: 'grey' }}>{task.description}</span>
-                                            <br />
-                                            <button style={{color: 'red'}} onClick={() => handleDelete(task.id)}>Delete</button>
-                                        </div>
+                                    {tasks.map(task => (
+                                        <Task key={task.id} task={task} onDelete={handleDelete} />
                                     ))}
                                 </div>
                                 <div style={{

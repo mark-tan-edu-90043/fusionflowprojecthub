@@ -58,10 +58,11 @@ export default function DeveloperPage() {
 
             <nav style={{ backgroundColor: '#6B9EFF', width: '100%', padding: '20px 0', textAlign: 'center', color: '#fff', fontWeight: 'bold' }}>
                 <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
-                    <li onClick={() => {router.push('../Profile')}} style={{padding: 20, cursor: 'pointer'}}>My Profile</li>
-                    <li onClick={() => handleSignOut()} style={{padding: 20, cursor: 'pointer'}}>Log Out</li>
+                    <li onClick={() => {router.push('../Profile')}} style={{padding: 20, cursor: 'pointer', fontWeight: "bold"}}>My Profile</li>
+                    
                     <li style={{ padding: 20, fontWeight: "bold", backgroundColor: "rgba(255, 255, 255, 0.2)" }}>Developer Dashboard</li>
-                    {isAdmin && <li style={{ padding: 20}} onClick={() => router.push('/Admin/Home')}>Admin Dashboard</li>}
+                    {isAdmin && <li style={{ padding: 20, fontWeight: "bold"}} onClick={() => router.push('/Admin/Home')}>Admin Dashboard</li>}
+                    <li onClick={() => handleSignOut()} style={{padding: 20, cursor: 'pointer', fontWeight: "bold"}}>Log Out</li>
                 </ul>
             </nav>
 

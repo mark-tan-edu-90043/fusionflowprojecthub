@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import Image from 'next/image';
 import Task from '../components/task';
 import AddTask from '../components/addTask';
+import FileList from '../components/fileList';
+import FileUpload from '../components/fileUpload';
 
 export default function ProjectDash() {
     const router = useRouter();
@@ -385,7 +387,11 @@ if (projectDoc.exists()) {
 
                                 </div>
                             </div>
-                        </div>            
+                        </div>         
+                        
+                        <FileUpload projectId={projectId} />   
+                                                    <br />
+                        <FileList projectId={projectId} />
                         </div>       
                     
                     </div>      

@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -14,7 +15,7 @@ const firebaseConfig = {
   storageBucket: "fusionflow-project-hub.appspot.com",
   messagingSenderId: "363660351086",
   appId: "1:363660351086:web:c1b401ff21e64e7fa4f87f",
-  measurementId: "G-651SFF9LWX"
+  measurementId: "G-651SFF9LWX",
 };
 
 // Initialize Firebase
@@ -23,5 +24,6 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const googleAuth = new GoogleAuthProvider();
 const ghAuth = new GithubAuthProvider();
+const storage = new getStorage();
 
-export {app, db, auth, googleAuth, ghAuth};
+export {app, db, auth, googleAuth, ghAuth, storage};

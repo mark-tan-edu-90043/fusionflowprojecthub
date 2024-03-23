@@ -4,7 +4,7 @@ import { auth, db } from "../../_utils/firebase";
 import { useRouter } from "next/router";
 import ChatRoom from "./ChatRoom"; // Import ChatRoom component
 
-export default function DeveloperPage() {
+export default function Home() {
     const router = useRouter();
     const [user, setUser] = useState(null);
     const [projects, setProjects] = useState([]);
@@ -82,4 +82,3 @@ export default function DeveloperPage() {
         </main>
     );
 }
-

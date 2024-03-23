@@ -110,10 +110,11 @@ if (projectDoc.exists()) {
     }, [projectId]);
 
     useEffect(() => {
+        console.log('fetching tasks...')
         if (projectId) {
             fetchTasks();
         }
-    }, [projectId, tasks]);
+    }, [projectId]);
 
     const handleOpenPopup = () => {
         setShowPopup(true);

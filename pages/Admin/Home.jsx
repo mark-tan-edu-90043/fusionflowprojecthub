@@ -38,13 +38,13 @@ export default function Admin() {
 
     return (
         <main className="h-screen" style={{ backgroundColor: '#D2DCF0' }}>
-
             <nav style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <ul style={{ listStyleType: 'none', color: 'black', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
                     <li onClick={() => { router.push('../Profile') }} style={{ padding: 20, cursor: 'pointer' }}>My Profile</li>
                     <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ padding: 20, cursor: 'pointer' }}>Log Out</li>
                     <li onClick={() => router.push('/Developer/Home')} style={{ padding: 20, cursor: 'pointer' }}>Developer Dashboard</li>
                     <li style={{ padding: 20, fontWeight: "bold", backgroundColor: "rgba(255, 255, 255, 0.2)" }}>Admin Panel</li>
+                    <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ padding: 20, cursor: 'pointer', fontWeight: "bold" }}>Log Out</li>
                 </ul>
             </nav>
 

@@ -60,7 +60,7 @@ export default function UserTestPage() {
                     alignContent:'center'
                }}>  
 
-                    <div className="container" style={{
+                    <div style={{
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',

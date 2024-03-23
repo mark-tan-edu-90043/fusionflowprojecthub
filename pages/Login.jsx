@@ -98,7 +98,7 @@ export default function Login() {
             <p style={{ color: '#6B6B6B', fontSize: '14px', fontFamily: 'Inter, sans-serif' }}>Password</p>
             <div style={{ display: 'flex' }}>
               <Image src="/Group 1.svg" alt="fig" width={23} height={16} />
-              <input type="password" id="password" name="password" value={password} onChange={handlePasswordChange} style={{ width: 140, height: '50%', outline: 'none', border: 'none', padding: '3px', marginLeft: '5px', color: '#979797', fontFamily: 'Inter, sans-serif' }} placeholder="" />
+              <input type="password" id="password" name="password" value={password} onChange={handlePasswordChange} style={{ width: 140, height: '50%', outline: 'none', border: 'none', marginLeft: '5px', color: '#979797', fontFamily: 'Inter, sans-serif' }} placeholder="" />
             </div>
           </div>
           <button style={{ width: 198, height: 40, display: 'flex', alignItems: 'center', background: '#7000FF', borderRadius: 50, justifyContent: 'center', marginTop: '40px' }} onClick={handleSubmit}>

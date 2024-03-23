@@ -1,6 +1,27 @@
 import Image from "next/image";
-import React from 'react';
+import React, { useState } from 'react';
+
 export default function ClientManagment() {
+    const [showPopup, setShowPopup] = useState(false);
+    const [selectedProject, setSelectedProject] = useState("project1");
+    const selectProject = (projectId) => {
+        setSelectedProject(projectId);
+        setShowPopup(!showPopup);
+    };
+
+    const togglePopup = () => {
+        setShowPopup(!showPopup);
+    };
+
+    const projectData = {
+        project1: {
+          inProgressTasks: ["Task 1", "Task 2"],
+          participatingStaff: ["Staff A", "Staff B"],
+          completedTasks: ["Task 3"]
+        },
+        
+      };
+
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>Client View</div>
@@ -35,42 +56,85 @@ export default function ClientManagment() {
                         flexDirection: 'column',
 
                     }}>
-                        <div style={{
-                            display: 'flex',
-                            width: '780px'
-                        }}>
-                            <Image src="/Group 6.svg" alt="fig" width={86} height={86} />
-                            <div style={{
-                                marginLeft: '10px',
-                                borderTop: '2px solid #ccc',
-                                borderBottom: '2px solid #ccc',
-                                color: '#ccc',
-                                fontSize: '12px'
-                            }}>
-                                <div style={{
-                                    display: 'flex',
-                                    borderBottom: '2px solid #ccc',
-                                    lineHeight: '20px'
-                                }}> <Image style={{ marginRight: '4px' }} src='./Group 1.svg' width={14} height={14}></Image> 4647 16 Ave NW, Calgary, AB T3B OM7</div>
-                                <div style={{
-                                    display: 'flex',
-                                    lineHeight: '20px'
-                                }}><Image style={{ marginRight: '4px' }} src='./Group 15.svg' width={14} height={14}></Image>Project: Distribution System Development</div>
-                                <div style={{
-                                    display: 'flex',
-                                    lineHeight: '20px'
-                                }}><Image style={{ marginRight: '4px' }} src='./Group 2.svg' width={14} height={14}></Image>Contact Person: Tom Johnson</div>
-                                <div style={{
-                                    display: 'flex',
-                                    lineHeight: '20px'
-                                }}><Image style={{ marginRight: '4px' }} src='./Group 1.svg' width={14} height={14}></Image>Phone:+18773466244</div>
-                            </div>
-                        </div>
+                        
                         <div style={{
                             display: 'flex',
                             justifyContent: 'center',
                             marginTop: '25px'
                         }}>
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: "space-between",
+                                // marginLeft: '20px',
+                                width: '250px',
+                                height: '480px',
+                                padding: '0 10px',
+                                backgroundColor: '#6B9EFF',
+                                borderRadius: '10px',
+                                marginRight: '15px'
+                            }}>
+                                <div>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        padding: '10px',
+                                        fontSize: '13px',
+                                        
+                                    }}>
+                                        <span style={{ fontWeight: 700 }}>Project</span>
+                                    </div>
+                                    <div onClick={()=>selectProject("project1")} style={{
+                                    backgroundColor: '#fff',
+                                    borderRadius: '10px',
+                                    padding: '10px',
+                                    fontSize: '13px',
+                                    lineHeight: '20px',
+                                    marginTop: '20px',
+                                    color: '#ccc',
+                                    cursor: 'pointer'
+                                }}>
+                                    
+                                    Project 1
+                                    
+                                        {showPopup && (
+                                                <div className="popup">
+                                                    <div className="popup-content">
+                                                    
+                                                        <h2>Company Name:</h2>
+                                                        <h2>Address:</h2>
+                                                        <h2>Contact Person:</h2>
+                                                        <h2>Number:</h2>
+                                                    </div>
+                                                </div>
+                                            )}
+                                    </div>
+                                       
+                                    <div  style={{
+                                        backgroundColor: '#fff',
+                                        borderRadius: '10px',
+                                        padding: '10px',
+                                        fontSize: '13px',
+                                        lineHeight: '20px',
+                                        marginTop: '20px',
+                                        color: '#ccc'
+                                    }}>
+                                        Project 2
+                                    </div>
+                                    
+                                    <div style={{
+                                        backgroundColor: '#fff',
+                                        borderRadius: '10px',
+                                        padding: '10px',
+                                        fontSize: '13px',
+                                        lineHeight: '20px',
+                                        marginTop: '20px',
+                                        color: '#ccc'
+                                    }}>
+                                        Project 3
+                                    </div>    
+                                </div>
+                            </div>
                             <div style={{
                                 width: '250px',
                                 height: '480px',
@@ -85,17 +149,11 @@ export default function ClientManagment() {
                                     fontSize: '13px'
                                 }}>
                                     <span style={{ fontWeight: 700 }}>In progress Task</span>
-                                    <div style={{
-                                        width: '20px',
-                                        height: '20px',
-                                        backgroundColor: 'red',
-                                        borderRadius: '50%',
-                                        lineHeight: '20px',
-                                        textAlign: 'center',
-                                        color: '#fff'
-                                    }}>2</div>
+                                    
+                                    
                                 </div>
-                                <div style={{
+                                {projectData[selectedProject].inProgressTasks.map((task) => (
+                                <div key={task} style={{
                                     backgroundColor: '#fff',
                                     borderRadius: '10px',
                                     padding: '10px',
@@ -106,6 +164,7 @@ export default function ClientManagment() {
                                 }}>
                                     Back End development
                                 </div>
+                                ))}
                                 <div style={{
                                     backgroundColor: '#fff',
                                     borderRadius: '10px',
@@ -133,27 +192,21 @@ export default function ClientManagment() {
                                     fontSize: '13px'
                                 }}>
                                     <span style={{ fontWeight: 700 }}>Completed Task</span>
-                                    <div style={{
-                                        width: '20px',
-                                        height: '20px',
-                                        backgroundColor: 'red',
-                                        borderRadius: '50%',
+                                    
+                                </div>
+                                {projectData[selectedProject].inProgressTasks.map((task) => (
+                                    <div key={task} style={{
+                                        backgroundColor: '#fff',
+                                        borderRadius: '10px',
+                                        padding: '10px',
+                                        fontSize: '13px',
                                         lineHeight: '20px',
-                                        textAlign: 'center',
-                                        color: '#fff'
-                                    }}>1</div>
-                                </div>
-                                <div style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '10px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    Ul design
-                                </div>
+                                        marginTop: '20px',
+                                        color: '#ccc'
+                                    }}>
+                                        Ul design
+                                    </div>
+                                ))}    
                             </div>
                             <div style={{
                                 width: '250px',
@@ -168,18 +221,9 @@ export default function ClientManagment() {
                                     padding: '10px',
                                     fontSize: '13px'
                                 }}>
-                                    <span style={{ fontWeight: 700 }}>Participating Staff</span>
-                                    <div style={{
-                                        width: '20px',
-                                        height: '20px',
-                                        backgroundColor: 'red',
-                                        borderRadius: '50%',
-                                        lineHeight: '20px',
-                                        textAlign: 'center',
-                                        color: '#fff'
-                                    }}>3</div>
+                                    <span style={{ fontWeight: 700 }}>Participating Staff</span>   
                                 </div>
-
+                                {projectData[selectedProject].inProgressTasks.map((staff) => (
                                 <div style={{
                                     display: 'flex',
                                     justifyContent: "space-between",
@@ -191,12 +235,13 @@ export default function ClientManagment() {
                                     marginTop: '20px',
                                     color: '#ccc'
                                 }}>
-                                    <div style={{ display: 'flex' }}>
+                                    <div key={staff} style={{ display: 'flex' }}>
                                         <Image width={20} height={20} src='/Group 6.svg' />
                                         <span style={{ marginLeft: '6px' }}>Cheelix zhang</span>
                                     </div>
                                     <span>Design</span>
                                 </div>
+                                ))}
                                 <div style={{
                                     display: 'flex',
                                     justifyContent: "space-between",

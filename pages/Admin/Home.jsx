@@ -3,11 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs, query, where, getFirestore } from "firebase/firestore";
 import { db } from "../../_utils/firebase";
 import { useRouter } from "next/router";
+import StaffInfo from "../components/StaffInfo";
 
 export default function Admin() {
     const router = useRouter();
     const [users, setUsers] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     const getUsersData = async () => {
         try {
@@ -28,9 +31,23 @@ export default function Admin() {
         }
     };
 
+    const handleUserInfo = (user) => {
+        setSelectedUser(user); // Set the selected user
+        console.log(selectedUser);
+        setShowModal(true); // Show the modal
+      };
+    
+      const handleCloseModal = () => {
+        setShowModal(false); // Hide the modal
+      };
+
     useEffect(() => {
         getUsersData();
     }, [searchQuery]);
+
+    useEffect(() => {
+        console.log(selectedUser); // Log selectedUser here to see its updated value
+    }, [selectedUser]);
 
     const handleSearch = (e) => {
         setSearchQuery(e.target.value.toLowerCase());
@@ -68,24 +85,32 @@ export default function Admin() {
                     </div>
                     <div style={{ backgroundColor: '#E3E3E3', borderRadius: '10px', display: 'flex', paddingLeft: '10px', alignItems: 'center', marginBottom: '10px' }}>
                         <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>ID</p>
-                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '2' }}>Name</p>
+                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>Name</p>
+                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>Username</p>
                         <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>BOD</p>
                         <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>Status</p>
-                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '2' }}>Position</p>
+                        <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>Position</p>
                         <p style={{ color: '#858585', fontWeight: 'bold', margin: '0', flex: '1' }}>Control</p>
                     </div>
                 </div>
                 {users.map((user, index) => (
                     <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px', backgroundColor: index % 2 === 0 ? '#fff' : '#F1F1F1', borderRadius: '10px', paddingLeft: '10px', paddingRight: '10px' }}>
                         <p style={{ color: '#858585', margin: '0', flex: '1', maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.uid}</p>
-                        <p style={{ color: '#858585', margin: '0', flex: '2' }}>{user.name}</p>
-                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>Test</p>
-                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>Active</p>
-                        <p style={{ color: '#858585', margin: '0', flex: '2' }}>{user.role}</p>
-                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>{/* Add control options here */}</p>
+                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>{user.name}</p>
+                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>{user.username}</p>
+                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>{user.dob}</p>
+                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>{user.status}</p>
+                        <p style={{ color: '#858585', margin: '0', flex: '1' }}>{user.role}</p>
+                        <button style={{ marginTop: '10px' }}>
+                            <div style={{ color: "white", width: '80px', height: '20px', backgroundColor: '#ACC8FD', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => handleUserInfo(user)}>Edit</div>
+                        </button>
                     </div>
                 ))}
             </div>
+
+            {showModal && selectedUser && (
+                <StaffInfo handleClose={handleCloseModal} user={selectedUser}></StaffInfo>
+            )}
         </main>
     );
 }

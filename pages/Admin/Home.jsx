@@ -38,13 +38,13 @@ export default function Admin() {
 
     return (
         <main className="h-screen" style={{ backgroundColor: '#D2DCF0' }}>
+
             <nav style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <ul style={{ listStyleType: 'none', color: 'black', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
-                    <li onClick={() => { router.push('../Profile') }} style={{ padding: 20, cursor: 'pointer' }}>My Profile</li>
-                    <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ padding: 20, cursor: 'pointer' }}>Log Out</li>
-                    <li onClick={() => router.push('/Developer/Home')} style={{ padding: 20, cursor: 'pointer' }}>Developer Dashboard</li>
-                    <li style={{ padding: 20, fontWeight: "bold", backgroundColor: "rgba(255, 255, 255, 0.2)" }}>Admin Panel</li>
-                    <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ padding: 20, cursor: 'pointer', fontWeight: "bold" }}>Log Out</li>
+                <ul style={{ listStyleType: 'none',  display: 'flex', justifyContent: 'space-around', alignContent:'center', padding:'0px 200px'}}>
+                    <li onClick={() => { router.push('../Profile') }} style={{backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>My Profile</li>
+                    <li onClick={() => router.push('/Developer/Home')} style={{backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>Developer Dashboard</li>
+                    <li style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>Admin Panel</li>
+                    <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>Log Out</li>
                 </ul>
             </nav>
 
@@ -55,13 +55,15 @@ export default function Admin() {
                 Staff Management
             </p>
 
-            <div style={{ marginTop: '20px', marginLeft: '30px', marginRight: '30px', marginBottom: '60px', backgroundColor: 'white', borderRadius: '30px', boxShadow: '0px 20px 20px rgba(0, 0, 0, 0.1)', padding: '20px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#0057FF', borderRadius: '30px', paddingLeft: '10px', paddingRight: '10px', marginBottom: '10px' }}>
-                        <p style={{ color: 'white', margin: '0' }}>Search Staff</p>
-                        <div style={{ width: 343, height: 34, backgroundColor: '#fff', borderRadius: '30px', display: 'flex', alignItems: 'center' }}>
-                            <input type="text" style={{ color: 'black', width: 280, height: '50%', outline: 'none', border: 'none' }} value={searchQuery} onChange={handleSearch} />
-                            <Image style={{ marginLeft: '15px' }} src="/Group 42.svg" alt="logo" width={24} height={24} />
+            <div style={{ marginTop: '20px', marginLeft: '30px', marginRight: '30px', marginBottom: '60px', backgroundColor: 'white', borderRadius: '10px', boxShadow: '0px 20px 20px rgba(0, 0, 0, 0.1)', padding: '20px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px', }}>
+                    <div style={{ width:500, height:40, display: 'flex',  alignItems: 'center', backgroundColor: '#0057FF', borderRadius: '30px', paddingLeft: '10px',  marginBottom: '10px' }}>
+                        <p style={{ color: 'white' }}>Search Staff</p>
+                        <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '30px', display: 'flex', alignItems: 'center', justifyContent:'center',marginLeft:'15px' }}>
+                            <div style={{display:'flex', alignItems: 'center', justifyContent:'center'}}>
+                                <input type="text" style={{ color: 'black', width: 280, height: '50%', outline: 'none', border: 'none' }} value={searchQuery} onChange={handleSearch} />   
+                            </div>
+                            <Image style={{ marginLeft: '60px' }} src="/Group 23.png" alt="search" width={24} height={24} />
                         </div>
                     </div>
                     <div style={{ backgroundColor: '#E3E3E3', borderRadius: '10px', display: 'flex', paddingLeft: '10px', alignItems: 'center', marginBottom: '10px' }}>

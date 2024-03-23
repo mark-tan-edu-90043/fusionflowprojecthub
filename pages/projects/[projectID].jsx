@@ -4,46 +4,116 @@ import { auth, db } from "../../_utils/firebase";
 import { useRouter } from "next/router";
 import Image from 'next/image';
 import Task from './task';
+import AddTask from './addTask';
 
 export default function ProjectDash() {
     const router = useRouter();
     const [projectName, setProjectName] = useState('');
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState({
+        toDo: [],
+        inProgress: [],
+        done: []
+    });
     const projectId = router.query.projectId;
     const [showPopup, setShowPopup] = useState(false);
-    const [taskName, setTaskName] = useState('');
-    const [taskDescription, setTaskDescription] = useState('');
+    const [developers, setDevelopers] = useState([])
+
+    const fetchProjectName = async () => {
+        try {
+            const projectDoc = await getDoc(doc(db, "projects", projectId));
+            if (projectDoc.exists()) {
+                setProjectName(projectDoc.data().name);
+            } else {
+                console.log("No such document!");
+            }
+        } catch (error) {
+            console.error("Error getting document:", error);
+        }
+    };
+
+    const fetchTasks = async () => {
+        try {
+            const tasksQuery = query(collection(db, "projects", projectId, "tasks"));
+            const tasksSnapshot = await getDocs(tasksQuery);
+            
+            // Initialize arrays for each status
+            let todoTasks = [];
+            let inProgressTasks = [];
+            let doneTasks = [];
+    
+            tasksSnapshot.forEach(taskDoc => {
+                const taskData = taskDoc.data();
+                const task = { id: taskDoc.id, ...taskData };
+    
+                // Assign tasks to respective arrays based on status
+                switch (task.status) {
+                    case 'todo':
+                        todoTasks.push(task);
+                        break;
+                    case 'inProgress':
+                        inProgressTasks.push(task);
+                        break;
+                    case 'done':
+                        doneTasks.push(task);
+                        break;
+                    default:
+                        console.warn(`Task with unknown status: ${task.status}`);
+                }
+            });
+    
+            // Set tasks state
+            setTasks({
+                toDo: todoTasks,
+                inProgress: inProgressTasks,
+                done: doneTasks
+            });
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+        }
+    };                   
+
+    const fetchDevs = async() => {
+        try{
+             // Query the project document to get the array of developer UserIDs
+const projectDoc = await getDoc(doc(db, "projects", projectId));
+if (projectDoc.exists()) {
+    const developerUserIDs = projectDoc.data().developers;
+
+    // Fetch the details of each developer using their UserIDs
+    const developers = [];
+    for (const userID of developerUserIDs) {
+        const userDoc = await getDoc(doc(db, "users", userID));
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            developers.push(userData);
+        } else {
+            console.log(`User with ID ${userID} does not exist.`);
+        }
+    }
+    setDevelopers(developers);
+
+    console.log("Developers assigned to the project:", developers);
+} else {
+    console.log("Project document does not exist.");
+}
+        } catch (error) {
+            console.error("You suck. This is why: ", error)
+        }
+    }
 
     useEffect(() => {
         if (projectId) {
-            const fetchProjectName = async () => {
-                try {
-                    const projectDoc = await getDoc(doc(db, "projects", projectId));
-                    if (projectDoc.exists()) {
-                        setProjectName(projectDoc.data().name);
-                    } else {
-                        console.log("No such document!");
-                    }
-                } catch (error) {
-                    console.error("Error getting document:", error);
-                }
-            };
-
-            const fetchTasks = async () => {
-                try {
-                    const tasksQuery = query(collection(db, "projects", projectId, "tasks"));
-                    const tasksSnapshot = await getDocs(tasksQuery);
-                    const tasksData = tasksSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    setTasks(tasksData);
-                } catch (error) {
-                    console.error("Error fetching tasks:", error);
-                }
-            };
-
             fetchProjectName();
             fetchTasks();
+            fetchDevs();
         }
     }, [projectId]);
+
+    useEffect(() => {
+        if (projectId) {
+            fetchTasks();
+        }
+    }, [projectId, tasks]);
 
     const handleOpenPopup = () => {
         setShowPopup(true);
@@ -53,39 +123,20 @@ export default function ProjectDash() {
         setShowPopup(false);
     };
 
-    const handleTaskNameChange = (e) => {
-        setTaskName(e.target.value);
-    };
-
-    const handleTaskDescriptionChange = (e) => {
-        setTaskDescription(e.target.value);
-    };
-
     const handleDelete = async (taskId) => {
         try {
             const taskRef = doc(db, "projects", projectId, "tasks", taskId);
             await deleteDoc(taskRef);
-            setTasks(tasks.filter(task => task.id !== taskId));
+            // Update the tasks state by filtering out the deleted task from the respective array
+            setTasks(prevTasks => ({
+                ...prevTasks,
+                toDo: prevTasks.toDo.filter(task => task.id !== taskId),
+                inProgress: prevTasks.inProgress.filter(task => task.id !== taskId),
+                done: prevTasks.done.filter(task => task.id !== taskId)
+            }));
             console.log("Task deleted successfully!");
         } catch (error) {
             console.error("Error deleting task:", error);
-        }
-    };
-
-    const handleSubmitTask = async () => {
-        try {
-            const taskRef = await addDoc(collection(db, "projects", projectId, "tasks"), {
-                name: taskName,
-                description: taskDescription,
-                deadline: "Temp",
-                status: 'To do',
-            });
-            console.log("New task added with ID: ", taskRef.id);
-            setTaskName('');
-            setTaskDescription('');
-            setShowPopup(false);
-        } catch (error) {
-            console.error("Error adding document: ", error);
         }
     };
     
@@ -151,10 +202,19 @@ export default function ProjectDash() {
                                         padding: '10px',
                                         fontSize: '13px',
                                         
-                                    }}>
+                                    }}> 
                                         <span style={{ fontWeight: 700 }}>To do</span>
+                                        <div style={{
+                                            width: '20px',
+                                            height: '20px',
+                                            backgroundColor: 'red',
+                                            borderRadius: '50%',
+                                            lineHeight: '20px',
+                                            textAlign: 'center',
+                                            color: '#fff'
+                                        }}>{tasks.done.length}</div>
                                     </div>
-                                    {tasks.map(task => (
+                                    {tasks.toDo.map(task => (
                                         <Task key={task.id} task={task} onDelete={handleDelete} />
                                     ))}
                                 </div>
@@ -169,28 +229,6 @@ export default function ProjectDash() {
                                 }}>
                                     <button onClick={handleOpenPopup}>Add new task</button>
                                 </div>
-                                {showPopup && (
-                                    <div className="popup">
-                                        <div className="popup-content">
-                                            <span className="close" onClick={handleClosePopup}>&times;</span>
-                                            <h2>Add New Task</h2>
-                                            <input
-                                                type="text"
-                                                value={taskName}
-                                                onChange={handleTaskNameChange}
-                                                placeholder="Task Name"
-                                                style={{ color: 'black' }}
-                                            />
-                                            <textarea
-                                                value={taskDescription}
-                                                onChange={handleTaskDescriptionChange}
-                                                placeholder="Task Description"
-                                                style={{ color: 'black' }}
-                                            />
-                                            <button onClick={handleSubmitTask} style={{cursor: "pointer"}}>Submit</button>
-                                        </div>
-                                    </div>
-                                )}
                                 </div>
                             </div>
 
@@ -233,30 +271,11 @@ export default function ProjectDash() {
                                             lineHeight: '20px',
                                             textAlign: 'center',
                                             color: '#fff'
-                                        }}>2</div>
+                                        }}>{tasks.inProgress.length}</div>
                                     </div>
-                                    <div style={{
-                                        backgroundColor: '#fff',
-                                        borderRadius: '10px',
-                                        padding: '10px',
-                                        fontSize: '13px',
-                                        lineHeight: '20px',
-                                        marginTop: '20px',
-                                        color: '#ccc'
-                                    }}>
-                                        Database
-                                    </div>
-                                    <div style={{
-                                        backgroundColor: '#fff',
-                                        borderRadius: '10px',
-                                        padding: '10px',
-                                        fontSize: '13px',
-                                        lineHeight: '20px',
-                                        marginTop: '20px',
-                                        color: '#ccc'
-                                    }}>
-                                        placehold
-                                    </div>
+                                    {tasks.inProgress.map(task => (
+                                        <Task key={task.id} task={task} onDelete={handleDelete} />
+                                    ))}
                                 </div>
                                 <div style={{
                                     marginBottom: '20px',
@@ -298,19 +317,11 @@ export default function ProjectDash() {
                                             lineHeight: '20px',
                                             textAlign: 'center',
                                             color: '#fff'
-                                        }}>1</div>
+                                        }}>{tasks.done.length}</div>
                                     </div>
-                                    <div style={{
-                                        backgroundColor: '#fff',
-                                        borderRadius: '10px',
-                                        padding: '10px',
-                                        fontSize: '13px',
-                                        lineHeight: '20px',
-                                        marginTop: '20px',
-                                        color: '#ccc'
-                                    }}>
-                                        Ul design
-                                    </div>
+                                    {tasks.done.map(task => (
+                                        <Task key={task.id} task={task} onDelete={handleDelete} />
+                                    ))}
                                 </div>
                                 <div style={{
                                     marginBottom: '20px',
@@ -344,74 +355,44 @@ export default function ProjectDash() {
                                         fontSize: '13px'
                                     }}>
                                         <span style={{ fontWeight: 700 }}>Participating Staff</span>
+                                    </div>
+                                    {developers.map(developer  => (
                                         <div style={{
-                                            width: '20px',
-                                            height: '20px',
-                                            backgroundColor: 'red',
-                                            borderRadius: '50%',
+                                            display: 'flex',
+                                            justifyContent: "space-between",
+                                            backgroundColor: '#fff',
+                                            borderRadius: '18px',
+                                            padding: '10px',
+                                            fontSize: '13px',
                                             lineHeight: '20px',
-                                            textAlign: 'center',
-                                            color: '#fff'
-                                        }}>1</div>
-                                    </div>
-                                    <div style={{
-                                        display: 'flex',
-                                        justifyContent: "space-between",
-                                        backgroundColor: '#fff',
-                                        borderRadius: '18px',
-                                        padding: '10px',
-                                        fontSize: '13px',
-                                        lineHeight: '20px',
-                                        marginTop: '20px',
-                                        color: '#ccc'
-                                    }}>
-                                        <div style={{ display: 'flex' }}>
-                                            <Image width={20} height={20} src='/Group 6.svg' />
-                                            <span style={{ marginLeft: '6px' }}>Cheelix zhang</span>
+                                            marginTop: '20px',
+                                            color: '#ccc'
+                                        }}>
+                                            <div style={{ display: 'flex' }}>
+                                                {developer.photoURL ?   (
+                                                    <Image width={20} height={20} src={developer.photoURL}/>
+                                                ) : (
+                                                    <Image width={20} height={20} src='/Group 6.svg' />
+                                                )}
+
+                                                <span style={{ marginLeft: '6px' }}>{developer.name}</span>
+                                            </div>
+                                            <span>{developer.role}</span>
                                         </div>
-                                        <span>Design</span>
-                                    </div>
-                                    <div style={{
-                                        display: 'flex',
-                                        justifyContent: "space-between",
-                                        backgroundColor: '#fff',
-                                        borderRadius: '18px',
-                                        padding: '10px',
-                                        fontSize: '13px',
-                                        lineHeight: '20px',
-                                        marginTop: '20px',
-                                        color: '#ccc'
-                                    }}>
-                                        <div style={{ display: 'flex' }}>
-                                            <Image width={20} height={20} src='/Group 6.svg' />
-                                            <span style={{ marginLeft: '6px' }}>Mick Tang
-                                            </span>
-                                        </div>
-                                        <span>Testing</span>
-                                    </div>
-                                    <div style={{
-                                        display: 'flex',
-                                        justifyContent: "space-between",
-                                        backgroundColor: '#fff',
-                                        borderRadius: '18px',
-                                        padding: '10px',
-                                        fontSize: '13px',
-                                        lineHeight: '20px',
-                                        marginTop: '20px',
-                                        color: '#ccc'
-                                    }}>
-                                        <div style={{ display: 'flex' }}>
-                                            <Image width={20} height={20} src='/Group 6.svg' />
-                                            <span style={{ marginLeft: '6px' }}>Marry Lee</span>
-                                        </div>
-                                        <span>Code</span>
-                                    </div>
+                                    ))}
+
                                 </div>
                             </div>
                         </div>            
                         </div>       
                     
-                    </div>                
+                    </div>      
+
+                    {showPopup && (
+                        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000 }}>
+                    <AddTask handleClose={handleClosePopup} projectId={projectId} />
+                </div>
+            )}          
             </main>
         );
     }

@@ -58,16 +58,28 @@ export default function DeveloperPage() {
 
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }}>
-            <nav style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <ul style={{ listStyleType: 'none', color: 'black', margin: 0, padding: 0, display: 'flex', justifyContent: 'center' }}>
-                    <li onClick={() => { router.push('../Profile') }} style={{ padding: 20, cursor: 'pointer' }}>My Profile</li>
-                    <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ padding: 20, cursor: 'pointer' }}>Log Out</li>
-                    <li style={{ padding: 20, fontWeight: "bold" }}>Developer Dashboard</li>
-                    <li onClick={() => router.push('/Admin/Home')} style={{ padding: 20, cursor: 'pointer' }}>Admin Panel</li>
+
+            <nav style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', alignContent:'center', justifyContent:'center' }}>
+                <ul style={{ listStyleType: 'none',  display: 'flex', justifyContent: 'space-around', alignContent:'center', padding:'0px 200px' }}>
+                    <li onClick={() => { router.push('../Profile') }} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>My Profile</li>
+                    <li style={{backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Developer Dashboard</li>
+                    <li onClick={() => router.push('/Admin/Home')} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>Admin Panel</li>
+                    <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>Log Out</li>
                 </ul>
             </nav>
 
-            <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>My Projects</div>
+            <div style={{ width: '90%', fontSize: '40px', fontWeight: 'bold', color: '#fff', textAlign: 'end', }}>My Projects</div>
+            
+                <div style={{ width:520, height:40, display: 'flex',  alignItems: 'center', justifyContent:'center', backgroundColor: '#0057FF', borderRadius: '30px', paddingLeft: '10px',  marginBottom: '10px' }}>
+                    <p style={{ color: 'white' }}>Search Project</p>
+                    <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '30px', display: 'flex', alignItems: 'center', justifyContent:'center',marginLeft:'15px' }}>
+                        <div style={{display:'flex', alignItems: 'center', justifyContent:'center'}}>
+                        <input type="text" style={{ color: 'black', width: 280, height: '50%', outline: 'none', border: 'none' }}/>   
+                        </div>
+                        <Image style={{ marginLeft: '60px' }} src="/Group 23.png" alt="search" width={24} height={24} />
+                    </div>
+                </div>
+               
             <div style={{
                 display: 'flex',
                 width: '90%',

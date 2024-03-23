@@ -3,8 +3,8 @@ import { collection, query, where, getDocs, doc, collectionGroup, getDoc, addDoc
 import { auth, db } from "../../_utils/firebase";
 import { useRouter } from "next/router";
 import Image from 'next/image';
-import Task from './task';
-import AddTask from './addTask';
+import Task from '../components/task';
+import AddTask from '../components/addTask';
 
 export default function ProjectDash() {
     const router = useRouter();
@@ -102,6 +102,7 @@ if (projectDoc.exists()) {
     }
 
     useEffect(() => {
+        console.log('fetching everything...')
         if (projectId) {
             fetchProjectName();
             fetchTasks();

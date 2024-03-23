@@ -97,7 +97,7 @@ function SignUp() {
   };
 
   return (
-    <div className="container" style={{
+    <div style={{
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',

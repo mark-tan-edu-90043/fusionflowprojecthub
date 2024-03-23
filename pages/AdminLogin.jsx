@@ -123,7 +123,7 @@ const AdminLogin = () => {
             <p style={{ color: '#6B6B6B', fontSize: '14px', fontFamily: 'Inter, sans-serif' }}>Password</p>
             <div style={{ display: 'flex', }}>
               <Image src="/Group 1.svg" alt="fig" width={23} height={16} />
-              <input type="password" style={{ width: 140, height: '50%', outline: 'none', border: 'none', padding: '3px', marginLeft: '5px', color: '#979797', fontFamily: 'Inter, sans-serif' }} placeholder="" onChange={handlePasswordChange} />
+              <input type="password" style={{ width: 140, height: '50%', outline: 'none', border: 'none', marginLeft: '5px', color: '#979797', fontFamily: 'Inter, sans-serif' }} placeholder="" onChange={handlePasswordChange} />
             </div>
           </div>
           <div style={{

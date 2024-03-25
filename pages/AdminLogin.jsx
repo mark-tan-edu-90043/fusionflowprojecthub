@@ -179,8 +179,7 @@ const AdminLogin = () => {
         textAlign: 'right',
         marginBottom: '35px'
       }}>
-        <p style={{ fontSize: '190px' }}>ADMINISTRATOR</p>
-        <p style={{ fontSize: '190px' }}>SIGN IN</p>
+
       </div>
 
       <button style={{ position: 'absolute', bottom: '70px', left: '20px' }}>  

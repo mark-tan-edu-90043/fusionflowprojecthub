@@ -167,7 +167,7 @@ const AdminLogin = () => {
           
         </div>
       </div>
-      <div style={{
+      {/* <div style={{
         position: 'fixed',
         bottom: 0,
         right: 0,
@@ -181,7 +181,7 @@ const AdminLogin = () => {
       }}>
         <p style={{ fontSize: '190px' }}>ADMINISTRATOR</p>
         <p style={{ fontSize: '190px' }}>SIGN IN</p>
-      </div>
+      </div> */}
 
       <button style={{ position: 'absolute', bottom: '70px', left: '20px' }}>  
         <Link href="/Login">

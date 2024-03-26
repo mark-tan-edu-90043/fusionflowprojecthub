@@ -140,7 +140,7 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <div style={{
+      {/* <div style={{
             position: 'fixed',
             bottom: 0,
             right: 0,
@@ -153,7 +153,7 @@ export default function Login() {
             marginBottom: '35px'
           }}>
         <p style={{ fontSize: '190px' }}>WELCOME</p>
-      </div>
+      </div> */}
       <button style={{ position: 'absolute', bottom: '20px', left: '20px' }}>
         <Link href="/AdminLogin">
         <div style={{ display: 'flex', width: '170px', height: '35px', backgroundColor: '#0057FF', borderRadius: '50px', alignItems: 'center', justifyContent: 'center', color: 'white'}}>Admin Sign in</div>

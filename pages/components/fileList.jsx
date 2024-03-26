@@ -1,0 +1,98 @@
+// FileList.js
+import React, { useState, useEffect } from 'react';
+import { db, storage } from '../../_utils/firebase';
+import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
+import { deleteObject, ref } from 'firebase/storage';
+
+const FileList = ({ projectId }) => {
+  const [files, setFiles] = useState([]);
+
+  useEffect(() => {
+    const fetchFiles = async () => {
+      try {
+        console.log('Attempting to fetch files...');
+        const filesSnapshot = await getDocs(collection(db, "projects", projectId, "files"));
+        const filesData = filesSnapshot.docs.map(doc => ({ fileId: doc.id, ...doc.data() }));
+        console.log('Fetched files:', filesData); // Add this line for debugging
+        setFiles(filesData);
+      } catch (error) {
+        console.log('Error fetching files:', error);
+      }
+    };    
+  
+    fetchFiles();
+  }, [projectId]);  
+
+  const handleDownload = (url) => {
+    // Implement file download logic
+    window.open(url, '_blank');
+  };
+  
+  const handleDelete = async (url, fileId) => {
+    try {
+      const storageRef = ref(storage, url);
+      const pathRef = doc(db, "projects", projectId, "files", fileId);
+  
+      await deleteObject(storageRef);
+      await deleteDoc(pathRef); 
+      setFiles(prevFiles => prevFiles.filter(file => file.url !== url));
+      console.log('File deleted successfully!');
+      console.log('Filepath removed from database');
+    } catch (error) {
+      console.error('Failed to delete file:', error);
+    }
+  };
+  
+
+  return (
+    <div style={{ color: 'black' }}>
+    <h3>Files</h3>
+    <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+    <tbody>
+      {console.log(files)}
+      {files.map((file, index) => (
+        <tr key={file.fileId} style={{ borderBottom: '1px solid #ccc' }}>
+          {console.log(file.fileId)}
+          <td style={{ padding: '10px 0' }}>
+            <span>{file.name}</span>
+          </td>
+          <td style={{ textAlign: 'right' }}>
+            <button
+              onClick={() => handleDownload(file.url)}
+              style={{
+                backgroundColor: 'purple',
+                color: 'white',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                marginRight: '10px',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s ease',
+              }}
+            >
+              Download
+            </button>
+            <button
+              onClick={() => handleDelete(file.url, file.fileId)}
+              style={{
+                backgroundColor: 'red',
+                color: 'white',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s ease',
+              }}
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+    </table>
+  </div>
+  );
+};
+
+export default FileList;

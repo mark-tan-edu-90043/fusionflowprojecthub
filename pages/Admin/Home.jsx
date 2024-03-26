@@ -65,9 +65,9 @@ export default function Admin() {
                 </ul>
             </nav>
 
-            <p style={{ marginTop: '20px', marginLeft: '30px' }}>
+            {/* <p style={{ marginTop: '20px', marginLeft: '30px' }}>
                 Home - Admin
-            </p>
+            </p> */}
             <p style={{ fontSize: '40px', color: 'white', backgroundColor: '#D2DCF0', textAlign: 'right', marginRight: '30px', fontWeight: 'bold' }}>
                 Staff Management
             </p>

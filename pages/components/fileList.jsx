@@ -60,7 +60,7 @@ const FileList = ({ projectId }) => {
             <button
               onClick={() => handleDownload(file.url)}
               style={{
-                backgroundColor: 'purple',
+                backgroundColor: '#6B9EFF',
                 color: 'white',
                 border: 'none',
                 padding: '10px 20px',
@@ -75,7 +75,7 @@ const FileList = ({ projectId }) => {
             <button
               onClick={() => handleDelete(file.url, file.fileId)}
               style={{
-                backgroundColor: 'red',
+                backgroundColor: '#EB465A',
                 color: 'white',
                 border: 'none',
                 padding: '10px 20px',

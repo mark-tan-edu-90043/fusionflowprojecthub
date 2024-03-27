@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Task from '../components/task';
 import AddTask from '../components/addTask';
 import FileList from '../components/fileList';
-import FileUpload from '../components/fileUpload';
+
 
 export default function ProjectDash() {
     const router = useRouter();
@@ -19,6 +19,7 @@ export default function ProjectDash() {
     const projectId = router.query.projectId;
     const [showPopup, setShowPopup] = useState(false);
     const [developers, setDevelopers] = useState([])
+    const [showUploadPopup, setShowUploadPopup] = useState(false);
 
     const fetchProjectName = async () => {
         try {
@@ -143,7 +144,6 @@ if (projectDoc.exists()) {
             console.error("Error deleting task:", error);
         }
     };
-    
 
         return (
             <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0'  }}>
@@ -164,12 +164,13 @@ if (projectDoc.exists()) {
                             alignItems:'center',
                             width: '100%'
                         }}>
+                            
                             <button style={{
-                                width: '66px',
-                                height: '32px',
+                                width: '70px',
+                                height: '30px',
                                 background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
                                 color: '#fff',
-                                borderRadius: '16px',
+                                borderRadius: '10px',
                                 boxShadow: '0px 3px 2px #dc4c25',
                                 marginTop: '10px',
                                 marginRight: '10px'
@@ -388,9 +389,7 @@ if (projectDoc.exists()) {
                                 </div>
                             </div>
                         </div>         
-                        
-                        <FileUpload projectId={projectId} />   
-                                                    <br />
+                     
                         <FileList projectId={projectId} />
                         </div>       
                     

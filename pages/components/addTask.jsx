@@ -61,13 +61,23 @@ export default function AddTask({ handleClose, projectId }) {
     };
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between" style={{ backgroundColor: 'rgba(231, 231, 231, 0.7)' }}>
+        <main className="flex min-h-screen flex-col items-center justify-between" style={{ display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: 'rgba(231, 231, 231, 0.7)',
+        position: 'fixed', 
+        top: 0,
+        left: 0,
+        zIndex: 1000 
+     }}>
             <div style={{
                 padding: '40px',
                 width: 517,
                 height: 600,
                 background: '#FFFFFF',
-                borderRadius: 22,
+                borderRadius: '10px',
                 display: 'flex',
                 flexDirection: 'column',
                 position: 'relative',

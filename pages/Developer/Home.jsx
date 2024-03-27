@@ -12,6 +12,7 @@ export default function DeveloperPage() {
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false); // State to store admin status
     const [showModal, setShowModal] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const handleOpenModal = () => {
         setShowModal(true);
@@ -52,6 +53,15 @@ export default function DeveloperPage() {
         });
     };
 
+    const filteredProjects = projects.filter(project =>
+        project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value); // Update the search query state with the input value
+    };
+
     if (loading) {
         return <div>Loading...</div>; // Render a loading indicator while loading
     }
@@ -74,7 +84,7 @@ export default function DeveloperPage() {
                     <p style={{ color: 'white' }}>Search Project</p>
                     <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '30px', display: 'flex', alignItems: 'center', justifyContent:'center',marginLeft:'15px' }}>
                         <div style={{display:'flex', alignItems: 'center', justifyContent:'center'}}>
-                        <input type="text" style={{ color: 'black', width: 280, height: '50%', outline: 'none', border: 'none' }}/>   
+                        <input type="text" style={{ color: 'black', width: 280, height: '50%', outline: 'none', border: 'none' }} value={searchQuery} onChange={handleSearchInputChange}/>   
                         </div>
                         <Image style={{ marginLeft: '60px' }} src="/Group 23.png" alt="search" width={24} height={24} />
                     </div>
@@ -95,9 +105,8 @@ export default function DeveloperPage() {
                     }}>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px' }}>
-                        {projects.map(project => (
+                        {filteredProjects.map(project => (
                             <div key={project.id} style={{
-                                display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'space-between',
                                 alignItems: 'center',

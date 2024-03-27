@@ -6,7 +6,7 @@ import React from 'react';
 import png1 from '@/public/1.png'
 import png2 from '@/public/2.png'
 import png3 from '@/public/3.png'
-export default function Popups({ handleClose }) {
+export default function EditProject({ handleClose, project }) {
 
   const [user, setUser] = useState();
   const [developers, setDevelopers] = useState([]);
@@ -14,11 +14,11 @@ export default function Popups({ handleClose }) {
   const [clients, setClients] = useState([]);
   const [selectedClients, setSelectedClients] = useState([]);
   const [formData, setFormData] = useState({
-    name: "",
-    clientCompany: "",
-    description: "",
-    developers: [],
-    clients:[]
+    name: project.name || '',
+    clientCompany: project.clientCompany || '',
+    description: project.clientCompany || '',
+    developers: project.developers || [],
+    clients: project.clients || []
   });
 
   useEffect(() => {   //Grabs user data

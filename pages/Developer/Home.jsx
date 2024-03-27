@@ -80,7 +80,7 @@ export default function DeveloperPage() {
 
             <div style={{ width: '90%', fontSize: '40px', fontWeight: 'bold', color: '#fff', textAlign: 'end', }}>My Projects</div>
             
-                <div style={{ width:520, height:40, display: 'flex',  alignItems: 'center', justifyContent:'center', backgroundColor: '#0057FF', borderRadius: '30px', paddingLeft: '10px',  marginBottom: '10px' }}>
+                <div style={{ width:520, height:40, display: 'flex',  alignItems: 'center', justifyContent:'center', backgroundColor: '#3C89FC', borderRadius: '30px', paddingLeft: '10px',  marginBottom: '10px' }}>
                     <p style={{ color: 'white' }}>Search Project</p>
                     <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '30px', display: 'flex', alignItems: 'center', justifyContent:'center',marginLeft:'15px' }}>
                         <div style={{display:'flex', alignItems: 'center', justifyContent:'center'}}>

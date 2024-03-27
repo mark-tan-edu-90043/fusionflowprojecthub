@@ -108,12 +108,12 @@ useEffect(() => {
       <div style={{
         position: 'relative',
         width: '400px',
-        height: '500px',
+        height: '550px',
         backgroundColor: '#fff',
         borderRadius: '10px',
         padding: '30px 20px 0 30px',
       }}>
-        <div style={{ color: '#ccc', marginBottom: '5px' }}>Project Title</div>
+        <div style={{ color: '#929292', marginBottom: '5px' }}>Project Title</div>
         <input type="text" placeholder="Your Project Title here" style={{
             width: '260px',
             height: '30px',
@@ -125,7 +125,7 @@ useEffect(() => {
           value={formData.title} 
           onChange={handleTitleChange}  />
         
-        <div style={{
+        {/* <div style={{
           position: 'absolute',
           top: '-10px',
           right: '-10px',
@@ -139,7 +139,7 @@ useEffect(() => {
           borderRadius: '50%',
           fontSize: '12px',
           cursor: 'pointer'
-        }} onClick={handleClose}>X</div>
+        }} onClick={handleClose}>X</div> */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <input type="text" placeholder="Client Company" style={{
             width: '260px',
@@ -156,7 +156,7 @@ useEffect(() => {
             borderRadius: '5px',
             color: '#fff',
             fontSize: '12px',
-            background: 'linear-gradient(to bottom, #468efc, #b4c7ff)',
+            background: '#30b546',
             boxSizing: 'border-box',
             boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
           }}>Create</button>
@@ -181,7 +181,7 @@ useEffect(() => {
             <span style={{ marginLeft: '2px' }}>Amazon SAlT distribute potint</span>
           </div>
         </div>
-        <div style={{ color: '#ccc', marginBottom: '5px' }}>Description</div>
+        <div style={{ color: '#929292', marginBottom: '5px' }}>Description</div>
         <div style={{ border: '1px solid #ccc', borderRadius: '5px' }}>
           <div style={{
             display: 'flex',
@@ -207,8 +207,8 @@ useEffect(() => {
         <div> 
     <div style={{ display: 'flex' }}>
       <div>
-        <h2>Select Developers:</h2>
-        <select multiple onChange={handleDeveloperChange} style={{ marginRight: '20px' }}>
+        <h2 style={{color:'#929292'}}>Select Developers:</h2>
+        <select multiple onChange={handleDeveloperChange} style={{ marginRight: '20px',color:'#929292' }}>
           {developers.map((developer) => (
             <option key={developer.uid} value={developer.uid}>
               {developer.name}
@@ -217,10 +217,10 @@ useEffect(() => {
         </select>
       </div>
       <div>
-        <h2>Selected Developers:</h2>
+        <h2 style={{color:'#929292'}}>Selected Developers:</h2>
         <ul>
           {selectedDevelopers.map((developerId) => (
-            <li key={developerId}>
+            <li style={{color:'#929292'}}key={developerId}>
               {developers.find((developer) => developer.uid === developerId)?.name}
             </li>
           ))}
@@ -233,7 +233,7 @@ useEffect(() => {
           justifyContent: 'space-between',
           alignItems: 'center',
           marginTop: '4px',
-
+          
         }}>
         </div>
 
@@ -247,14 +247,25 @@ useEffect(() => {
             paddingLeft: '5px',
           }} />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'end', marginTop: '8px' }}>
+        <div style={{ display: 'flex', justifyContent: 'end', marginTop: '8px',  }}>
+        <button style={{
+            height: '30px',
+            padding: '5px 20px',
+            borderRadius: '5px',
+            marginRight:'20px',
+            color: '#929292',
+            fontSize: '12px',
+            background: '#E3E3E3',
+            boxSizing: 'border-box',
+            boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
+          }} onClick={handleClose}>Cancle</button>
           <button style={{
             height: '30px',
             padding: '5px 20px',
             borderRadius: '5px',
             color: '#fff',
             fontSize: '12px',
-            background: 'linear-gradient(to bottom, #30b546, #5ed972)',
+            background: '#3C89FC',
             boxSizing: 'border-box',
             boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
           }} onClick={handleSubmit}>Submit</button>

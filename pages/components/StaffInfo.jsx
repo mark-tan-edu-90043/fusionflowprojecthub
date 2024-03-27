@@ -120,42 +120,42 @@
                     <div style={{ marginTop: '20px', width: '100%' }}>
                     <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left', marginTop: '10px' }}>Staff ID:</label>
                         <p style={{ width: '100%', height: '30px', borderRadius: '5px', marginTop: '5px' }}>{user.uid}</p>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-                        <div style={{ width: '60%' }}>
-                            <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>Name:</label>
-                            <input 
-                                type="text" 
-                                style={{ width: '100%', height: '30px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }} 
-                                value={formData.name} // Pre-fill with user's name
-                                onChange={(e) => setFormData(prevState => ({ ...prevState, name: e.target.value }))} // Update user state
-                            />
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', gap: '20px' }}>
+                            <div style={{ width: '60%' }}>
+                                <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>Name:</label>
+                                <input 
+                                    type="text" 
+                                    style={{ width: '100%', height: '30px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }} 
+                                    value={formData.name} // Pre-fill with user's name
+                                    onChange={(e) => setFormData(prevState => ({ ...prevState, name: e.target.value }))} // Update user state
+                                />
+                            </div>
+                            <div style={{ width: '60%' }}>
+                                <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>Username:</label>
+                                <input 
+                                    type="text" 
+                                    style={{ width: '100%', height: '30px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }} 
+                                    value={formData.username} // Pre-fill with user's name
+                                    onChange={(e) => setFormData(prevState => ({ ...prevState, name: e.target.value }))} // Update user state
+                                />
+                            </div>
+                            <div style={{ width: '38%' }}>
+                                <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>DoB:</label>
+                                {/* Calendar Input */}
+                                <input 
+                                    type="date" 
+                                    style={{ width: '100%', height: '30px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }} 
+                                    value={formData.dob} // Pre-fill with user's date of birth
+                                    onChange={(e) => setFormData(prevState => ({ ...prevState, dob: e.target.value }))} // Update user state
+                                />
+                            </div>
                         </div>
-                        <div style={{ width: '60%' }}>
-                            <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>Username:</label>
-                            <input 
-                                type="text" 
-                                style={{ width: '100%', height: '30px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }} 
-                                value={formData.username} // Pre-fill with user's name
-                                onChange={(e) => setFormData(prevState => ({ ...prevState, name: e.target.value }))} // Update user state
-                            />
-                        </div>
-                        <div style={{ width: '38%' }}>
-                            <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>DoB:</label>
-                            {/* Calendar Input */}
-                            <input 
-                                type="date" 
-                                style={{ width: '100%', height: '30px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }} 
-                                value={formData.dob} // Pre-fill with user's date of birth
-                                onChange={(e) => setFormData(prevState => ({ ...prevState, dob: e.target.value }))} // Update user state
-                            />
-                        </div>
-                    </div>
                     
                         <div style={{marginTop: '10px'}}>
                         <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left', marginTop: '10px' ,}}>Role:</label>
                         </div>
                         {/* Dropdown Menu for Position */}
-                        <div style={{ marginTop: '10px' }}>
+                        <div style={{ display:'flex',  }}>
                             <select 
                                 style={{ width: '100%', height: '30px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }}
                                 value={formData.role} // Pre-select the option based on user's role
@@ -169,7 +169,7 @@
 
 
                         <div style={{ marginTop: '10px' }}>
-                            <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left', marginTop: '10px' }}>Status:</label>
+                            <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>Status:</label>
                             {/* Dropdown Menu for Status */}
                             <select 
                                 style={{ width: '100%', height: '30px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }}
@@ -183,7 +183,7 @@
                         </div>
 
                         <div style={{ marginTop: '10px', height: '100px', overflowY: 'auto' }}>
-                            <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left', marginTop: '10px' }}>Current Projects:</label>
+                            <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>Current Projects:</label>
                             <div>
                                 {projects.map(project => (
                                     <div key={project.id} style={{ marginBottom: '5px', color: selectedProjectToRemove === project.id ? 'red' : (selectedProjectToAdd === project.id ? 'green' : 'black') }} onClick={(e) => handleRemoveFromProject(e.target.value)}>{project.name}</div>
@@ -208,8 +208,8 @@
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', width: '100%' }}>
-                        <button style={{color:'white', marginRight: '10px', backgroundColor: '#D2DCF0', borderRadius: '10px', padding: '5px 15px', border: 'none' }} onClick={handleClose}>Cancel</button>
-                        <button style={{color:'white' ,backgroundColor: '#0057FF', borderRadius: '10px', padding: '5px 15px', border: 'none' }} onClick={handleFormSubmit}>Submit</button>
+                        <button style={{color:'#929292', marginRight: '10px', backgroundColor: '#E3E3E3', borderRadius: '5px', padding: '5px 15px', border: 'none' }} onClick={handleClose}>Cancel</button>
+                        <button style={{color:'white' ,backgroundColor: '#3C89FC', borderRadius: '5px', padding: '5px 15px', border: 'none' }} onClick={handleFormSubmit}>Submit</button>
                     </div>
                 </div>
             </main>

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Task from '../components/task';
 import AddTask from '../components/addTask';
 import FileList from '../components/fileList';
+import EditProject from '../components/EditProject';
 
 
 export default function ProjectDash() {
@@ -20,6 +21,7 @@ export default function ProjectDash() {
     const [showPopup, setShowPopup] = useState(false);
     const [developers, setDevelopers] = useState([])
     const [showUploadPopup, setShowUploadPopup] = useState(false);
+    const [showEdit, setShowEdit] = useState(false);
 
         const fetchProjectName = async () => {
             try {
@@ -128,6 +130,14 @@ export default function ProjectDash() {
             setShowPopup(false);
         };
 
+        const handleEdit = () => {
+            setShowEdit(true);
+        };
+
+        const handleCloseEdit = () => {
+            setShowEdit(true);
+        };
+
     const handleDelete = async (taskId) => {
         try {
             const taskRef = doc(db, "projects", projectId, "tasks", taskId);
@@ -175,6 +185,17 @@ export default function ProjectDash() {
                                 marginTop: '10px',
                                 marginRight: '10px'
                             }} onClick={() => router.push('/Developer/Home')}> Close </button>
+
+                            <button style={{
+                                width: '70px',
+                                height: '30px',
+                                background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
+                                color: '#fff',
+                                borderRadius: '10px',
+                                boxShadow: '0px 3px 2px #dc4c25',
+                                marginTop: '10px',
+                                marginRight: '10px'
+                            }} onClick={() => router.push('/Developer/Home')}> Edit </button>
                         </div>
                                 
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
@@ -400,6 +421,12 @@ export default function ProjectDash() {
                         <AddTask handleClose={handleClosePopup} projectId={projectId} />
                     </div>
                 )}          
+
+                        {showEdit && (
+                            <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000 }}>
+                        <AddTask handleClose={handleCloseEdit} projectId={projectId} />
+                    </div>
+                )}
                 </main>
             );
         }  

@@ -208,8 +208,8 @@
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', width: '100%' }}>
-                        <button style={{color:'#929292', marginRight: '10px', backgroundColor: '#E3E3E3', borderRadius: '10px', padding: '5px 15px', border: 'none' }} onClick={handleClose}>Cancel</button>
-                        <button style={{color:'white' ,backgroundColor: '#3C89FC', borderRadius: '10px', padding: '5px 15px', border: 'none' }} onClick={handleFormSubmit}>Submit</button>
+                        <button style={{color:'#929292', marginRight: '10px', backgroundColor: '#E3E3E3', borderRadius: '5px', padding: '5px 15px', border: 'none' }} onClick={handleClose}>Cancel</button>
+                        <button style={{color:'white' ,backgroundColor: '#3C89FC', borderRadius: '5px', padding: '5px 15px', border: 'none' }} onClick={handleFormSubmit}>Submit</button>
                     </div>
                 </div>
             </main>

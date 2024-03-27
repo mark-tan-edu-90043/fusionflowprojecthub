@@ -34,9 +34,18 @@ const FileUpload = ({ projectId }) => {
   
 
   return (
-    <div style={{color: 'black'}}>
+    <div style={{display:'flex', color: 'black', marginTop:'10px'}}>
       <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
+      <button style={{
+            height: '30px',
+            padding: '0 20px',
+            borderRadius: '5px',
+            color: '#fff',
+            fontSize: '12px',
+            background: '#30b546',
+            boxSizing: 'border-box',
+            
+          }} onClick={handleUpload}>Upload</button>
     </div>
   );
 };

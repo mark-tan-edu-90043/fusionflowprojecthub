@@ -99,8 +99,8 @@ export default function AddTask({ handleClose, projectId }) {
                     <textarea style={{ marginTop: '10px', height: '160px', width: '100%', borderColor: '#A09595', borderWidth: 1, borderStyle: 'solid', borderRadius: 10, padding: 5, marginBottom: 10, resize: 'none' }} onChange={handleTaskDescriptionChange} value={taskData.description} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <button style={{ backgroundColor: '#E3E3E3', color: '#929292', width: '123px', height: '37px', borderRadius: '6px', fontSize: '16px', marginRight: '20px' }} onClick={handleClose}>Cancel</button>
-                    <button style={{ backgroundColor: '#3C89FC', color: '#FFF', width: '123px', height: '37px', borderRadius: '6px', fontSize: '16px' }} onClick={handleSubmit}>Submit</button>
+                    <button style={{ backgroundColor: '#E3E3E3', color: '#929292', width: '123px', height: '37px', borderRadius: '5px', fontSize: '16px', marginRight: '20px' }} onClick={handleClose}>Cancel</button>
+                    <button style={{ backgroundColor: '#3C89FC', color: '#FFF', width: '123px', height: '37px', borderRadius: '5px', fontSize: '16px' }} onClick={handleSubmit}>Submit</button>
                 </div>
             </div>
         </main>

@@ -45,8 +45,8 @@ const FileList = ({ projectId }) => {
   
 
   return (
-    <div style={{ color: 'black' }}>
-    <h3>Files</h3>
+    <div style={{}}>
+    <h3 style={{ backgroundColor: '#E3E3E3',  marginBottom: '5px', marginTop:'1px'}}>Files</h3>
     <table style={{ borderCollapse: 'collapse', width: '100%' }}>
     <tbody>
       {console.log(files)}
@@ -56,18 +56,22 @@ const FileList = ({ projectId }) => {
           <td style={{ padding: '10px 0' }}>
             <span>{file.name}</span>
           </td>
-          <td style={{ textAlign: 'right' }}>
+          <td style={{display:'flex', justifyContent:'flex-end' }}>
             <button
               onClick={() => handleDownload(file.url)}
               style={{
                 backgroundColor: '#6B9EFF',
                 color: 'white',
                 border: 'none',
-                padding: '10px 20px',
+                
                 borderRadius: '5px',
                 marginRight: '10px',
+                textAlign:'center',
+                lineHeight: '20px',
                 cursor: 'pointer',
                 transition: 'background-color 0.3s ease',
+                width:'100px',
+                height:'40px' 
               }}
             >
               Download
@@ -78,10 +82,12 @@ const FileList = ({ projectId }) => {
                 backgroundColor: '#EB465A',
                 color: 'white',
                 border: 'none',
-                padding: '10px 20px',
+                
                 borderRadius: '5px',
                 cursor: 'pointer',
                 transition: 'background-color 0.3s ease',
+                width:'100px',
+                height:'40px'
               }}
             >
               Delete

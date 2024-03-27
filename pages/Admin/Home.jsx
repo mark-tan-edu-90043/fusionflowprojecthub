@@ -74,7 +74,7 @@ export default function Admin() {
 
             <div style={{ marginTop: '20px', marginLeft: '30px', marginRight: '30px', marginBottom: '60px', backgroundColor: 'white', borderRadius: '10px', boxShadow: '0px 20px 20px rgba(0, 0, 0, 0.1)', padding: '20px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px', }}>
-                    <div style={{ width:500, height:40, display: 'flex',  alignItems: 'center', backgroundColor: '#0057FF', borderRadius: '30px', paddingLeft: '10px',  marginBottom: '10px' }}>
+                    <div style={{ width:500, height:40, display: 'flex',  alignItems: 'center', backgroundColor: '#3C89FC', borderRadius: '30px', paddingLeft: '10px',  marginBottom: '10px' }}>
                         <p style={{ color: 'white' }}>Search Staff</p>
                         <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '30px', display: 'flex', alignItems: 'center', justifyContent:'center',marginLeft:'15px' }}>
                             <div style={{display:'flex', alignItems: 'center', justifyContent:'center'}}>
@@ -102,7 +102,7 @@ export default function Admin() {
                         <p style={{ color: '#858585', margin: '0', flex: '1' }}>{user.status}</p>
                         <p style={{ color: '#858585', margin: '0', flex: '1' }}>{user.role}</p>
                         <button style={{ marginTop: '10px' }}>
-                            <div style={{ color: "white", width: '80px', height: '20px', backgroundColor: '#ACC8FD', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => handleUserInfo(user)}>Edit</div>
+                            <div style={{ color: "white", width: '80px', height: '20px', backgroundColor: '#ACC8FD', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => handleUserInfo(user)}>Edit</div>
                         </button>
                     </div>
                 ))}

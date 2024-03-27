@@ -3,7 +3,7 @@
     import Link from 'next/link';
     import { useState, useEffect } from "react";
     import { collection, query, where, getDocs, doc, updateDoc, arrayUnion } from "firebase/firestore";
-    import { db } from "@/_utils/firebase";
+    import { db } from "../../_utils/firebase";
 
     export default function StaffInfo({handleClose, user}) {
         const [projects, setProjects] = useState([]);

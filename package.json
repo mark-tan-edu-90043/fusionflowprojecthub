@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "encoding": "^0.1.13",
@@ -18,12 +20,23 @@
     "react-router-dom": "^6.22.2"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^1.2.25",
     "@playwright/test": "^1.42.1",
+    "@storybook/addon-essentials": "^8.0.4",
+    "@storybook/addon-interactions": "^8.0.4",
+    "@storybook/addon-links": "^8.0.4",
+    "@storybook/addon-onboarding": "^8.0.4",
+    "@storybook/blocks": "^8.0.4",
+    "@storybook/nextjs": "^8.0.4",
+    "@storybook/react": "^8.0.4",
+    "@storybook/test": "^8.0.4",
     "@types/node": "^20.11.30",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
+    "eslint-plugin-storybook": "^0.8.0",
     "postcss": "^8",
+    "storybook": "^8.0.4",
     "tailwindcss": "^3.3.0"
   }
 }

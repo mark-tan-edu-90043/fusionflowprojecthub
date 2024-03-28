@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { db, storage } from '../../_utils/firebase';
 import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
-import FileUpload from './FileUpload';
+import FileUpload from './fileUpload';
 
 
 const FileList = ({ projectId}) => {

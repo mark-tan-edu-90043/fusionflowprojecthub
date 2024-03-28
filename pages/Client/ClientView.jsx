@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React, { useState } from 'react';
+import { v4 } from "uuid";
 
 export default function ClientManagment() {
     const [showPopup, setShowPopup] = useState(false);
@@ -153,7 +154,7 @@ export default function ClientManagment() {
                                     
                                 </div>
                                 {projectData[selectedProject].inProgressTasks.map((task) => (
-                                <div key={task} style={{
+                                <div key={v4()} style={{
                                     backgroundColor: '#fff',
                                     borderRadius: '10px',
                                     padding: '10px',
@@ -195,7 +196,7 @@ export default function ClientManagment() {
                                     
                                 </div>
                                 {projectData[selectedProject].inProgressTasks.map((task) => (
-                                    <div key={task} style={{
+                                    <div key={v4()} style={{
                                         backgroundColor: '#fff',
                                         borderRadius: '10px',
                                         padding: '10px',
@@ -223,7 +224,7 @@ export default function ClientManagment() {
                                 }}>
                                     <span style={{ fontWeight: 700 }}>Participating Staff</span>   
                                 </div>
-                                {projectData[selectedProject].inProgressTasks.map((staff) => (
+                                {projectData[selectedProject].inProgressTasks.map((staff) => {
                                 <div style={{
                                     display: 'flex',
                                     justifyContent: "space-between",
@@ -235,13 +236,13 @@ export default function ClientManagment() {
                                     marginTop: '20px',
                                     color: '#ccc'
                                 }}>
-                                    <div key={staff} style={{ display: 'flex' }}>
+                                    <div key={v4()} style={{ display: 'flex' }}>
                                         <Image width={20} height={20} src='/Group 6.svg' />
                                         <span style={{ marginLeft: '6px' }}>Cheelix zhang</span>
                                     </div>
                                     <span>Design</span>
                                 </div>
-                                ))}
+                                })}
                                 <div style={{
                                     display: 'flex',
                                     justifyContent: "space-between",

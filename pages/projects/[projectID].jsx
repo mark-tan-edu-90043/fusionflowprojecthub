@@ -7,6 +7,7 @@ import Task from '../components/task';
 import AddTask from '../components/addTask';
 import FileList from '../components/fileList';
 import EditProject from '../components/EditProject';
+import { v4 } from 'uuid';
 
 
 export default function ProjectDash() {
@@ -63,6 +64,7 @@ export default function ProjectDash() {
                 tasksSnapshot.forEach(taskDoc => {
                     const taskData = taskDoc.data();
                     const task = { id: taskDoc.id, ...taskData };
+                    console.log(task.id);
         
                     // Assign tasks to respective arrays based on status
                     switch (task.status) {
@@ -194,7 +196,7 @@ export default function ProjectDash() {
                                 marginTop: '10px',
                                 marginRight: '10px'
                             }} onClick={() => router.push('/Developer/Home')}> Close </button>
-                            {/* Should ultimately check if the user is admin first. Doesn't for debug reasons. */}
+                            {/* Should ultimately check if the */}
                             <button style={{
                                 width: '70px',
                                 height: '30px',
@@ -249,9 +251,9 @@ export default function ProjectDash() {
                                             color: '#fff'
                                         }}>{tasks.done.length}</div>
                                     </div>
-                                    {tasks.toDo.map(task => {
+                                    {tasks.toDo.map(task => (
                                         <Task key={task.id} task={task} onDelete={handleDelete} />
-                                    })}
+                                    ))}
                                 </div>
                                 <div style={{
                                     marginBottom: '20px',
@@ -308,9 +310,9 @@ export default function ProjectDash() {
                                                 color: '#fff'
                                             }}>{tasks.inProgress.length}</div>
                                         </div>
-                                        {tasks.inProgress.map(task => {
+                                        {tasks.inProgress.map(task => (
                                             <Task key={task.id} task={task} onDelete={handleDelete} />
-                                        })}
+                                        ))}
                                     </div>
                                     <div style={{
                                         marginBottom: '20px',
@@ -354,9 +356,9 @@ export default function ProjectDash() {
                                                 color: '#fff'
                                             }}>{tasks.done.length}</div>
                                         </div>
-                                        {tasks.done.map(task => {
+                                        {tasks.done.map(task => (
                                             <Task key={task.id} task={task} onDelete={handleDelete} />
-                                        })}
+                                        ))}
                                     </div>
                                     <div style={{
                                         marginBottom: '20px',
@@ -391,8 +393,8 @@ export default function ProjectDash() {
                                         }}>
                                             <span style={{ fontWeight: 700 }}>Participating Staff</span>
                                         </div>
-                                        {developers.map(developer  => {
-                                            <div style={{
+                                        {developers.map(developer  => (
+                                            <div key={v4()} style={{
                                                 display: 'flex',
                                                 justifyContent: "space-between",
                                                 backgroundColor: '#fff',
@@ -414,7 +416,7 @@ export default function ProjectDash() {
                                                 </div>
                                                 <span>{developer.role}</span>
                                             </div>
-                                        })}
+                                        ))}
 
                                 </div>
                             </div>

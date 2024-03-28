@@ -194,7 +194,7 @@ export default function ProjectDash() {
                                 marginTop: '10px',
                                 marginRight: '10px'
                             }} onClick={() => router.push('/Developer/Home')}> Close </button>
-
+                            {/* Should ultimately check if the user is admin first. Doesn't for debug reasons. */}
                             <button style={{
                                 width: '70px',
                                 height: '30px',
@@ -249,9 +249,9 @@ export default function ProjectDash() {
                                             color: '#fff'
                                         }}>{tasks.done.length}</div>
                                     </div>
-                                    {tasks.toDo.map(task => (
+                                    {tasks.toDo.map(task => {
                                         <Task key={task.id} task={task} onDelete={handleDelete} />
-                                    ))}
+                                    })}
                                 </div>
                                 <div style={{
                                     marginBottom: '20px',
@@ -308,9 +308,9 @@ export default function ProjectDash() {
                                                 color: '#fff'
                                             }}>{tasks.inProgress.length}</div>
                                         </div>
-                                        {tasks.inProgress.map(task => (
+                                        {tasks.inProgress.map(task => {
                                             <Task key={task.id} task={task} onDelete={handleDelete} />
-                                        ))}
+                                        })}
                                     </div>
                                     <div style={{
                                         marginBottom: '20px',
@@ -354,9 +354,9 @@ export default function ProjectDash() {
                                                 color: '#fff'
                                             }}>{tasks.done.length}</div>
                                         </div>
-                                        {tasks.done.map(task => (
+                                        {tasks.done.map(task => {
                                             <Task key={task.id} task={task} onDelete={handleDelete} />
-                                        ))}
+                                        })}
                                     </div>
                                     <div style={{
                                         marginBottom: '20px',
@@ -391,7 +391,7 @@ export default function ProjectDash() {
                                         }}>
                                             <span style={{ fontWeight: 700 }}>Participating Staff</span>
                                         </div>
-                                        {developers.map(developer  => (
+                                        {developers.map(developer  => {
                                             <div style={{
                                                 display: 'flex',
                                                 justifyContent: "space-between",
@@ -414,7 +414,7 @@ export default function ProjectDash() {
                                                 </div>
                                                 <span>{developer.role}</span>
                                             </div>
-                                        ))}
+                                        })}
 
                                 </div>
                             </div>

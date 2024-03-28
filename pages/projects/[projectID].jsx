@@ -22,12 +22,26 @@ export default function ProjectDash() {
     const [developers, setDevelopers] = useState([])
     const [showUploadPopup, setShowUploadPopup] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [project, setProject] = useState(null);
 
         const fetchProjectName = async () => {
             try {
                 const projectDoc = await getDoc(doc(db, "projects", projectId));
                 if (projectDoc.exists()) {
                     setProjectName(projectDoc.data().name);
+                } else {
+                    console.log("No such document!");
+                }
+            } catch (error) {
+                console.error("Error getting document:", error);
+            }
+        };
+
+        const fetchProjectDetails = async () => {
+            try {
+                const projectDoc = await getDoc(doc(db, "projects", projectId));
+                if (projectDoc.exists()) {
+                    setProject(projectDoc.data());
                 } else {
                     console.log("No such document!");
                 }
@@ -80,6 +94,7 @@ export default function ProjectDash() {
         const fetchDevs = async() => {
             try{
                 // Query the project document to get the array of developer UserIDs
+
     const projectDoc = await getDoc(doc(db, "projects", projectId));
     if (projectDoc.exists()) {
         const developerUserIDs = projectDoc.data().developers;
@@ -112,13 +127,7 @@ export default function ProjectDash() {
                 fetchProjectName();
                 fetchTasks();
                 fetchDevs();
-            }
-        }, [projectId]);
-
-        useEffect(() => {
-            console.log('fetching tasks...')
-            if (projectId) {
-                fetchTasks();
+                fetchProjectDetails();
             }
         }, [projectId]);
 
@@ -135,7 +144,7 @@ export default function ProjectDash() {
         };
 
         const handleCloseEdit = () => {
-            setShowEdit(true);
+            setShowEdit(false);
         };
 
     const handleDelete = async (taskId) => {
@@ -195,7 +204,7 @@ export default function ProjectDash() {
                                 boxShadow: '0px 3px 2px #dc4c25',
                                 marginTop: '10px',
                                 marginRight: '10px'
-                            }} onClick={() => router.push('/Developer/Home')}> Edit </button>
+                            }} onClick={handleEdit}> Edit </button>
                         </div>
                                 
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
@@ -424,7 +433,7 @@ export default function ProjectDash() {
 
                         {showEdit && (
                             <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000 }}>
-                        <AddTask handleClose={handleCloseEdit} projectId={projectId} />
+                        <EditProject handleClose={handleCloseEdit} project={project} projectId={projectId} />
                     </div>
                 )}
                 </main>

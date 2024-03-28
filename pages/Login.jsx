@@ -70,7 +70,10 @@ export default function Login() {
       router.push('/Client/ClientView'); // Use router.push for navigation
     } catch (error) {
       console.error('Error logging in:', error.message);
-      setErrorMessage('Incorrect email or password. Please try again.');
+      if (error.message == "Firebase: Error (auth/invalid-email).")
+        setErrorMessage(error.message);
+      else 
+        setErrorMessage('Password bad')
     }
   };
 

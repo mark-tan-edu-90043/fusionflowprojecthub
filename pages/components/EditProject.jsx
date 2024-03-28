@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { getDocs, setDoc, doc, addDoc, collection, query, or, where } from "firebase/firestore";
+import { getDocs, setDoc, doc, addDoc, collection, query, or, where, updateDoc } from "firebase/firestore";
 import { db, auth } from "../../_utils/firebase"
 import React from 'react';
 import png1 from '@/public/1.png'
 import png2 from '@/public/2.png'
 import png3 from '@/public/3.png'
-export default function EditProject({ handleClose, project }) {
+export default function EditProject({ handleClose, project, projectId }) {
 
   const [user, setUser] = useState();
   const [developers, setDevelopers] = useState([]);
@@ -35,6 +35,16 @@ export default function EditProject({ handleClose, project }) {
 useEffect(() => {
     getDevelopers();
     getClients();
+    console.log(project);
+    if (project.developers) {
+      setSelectedDevelopers(project.developers)
+    }
+    if (project.clients) {
+      setSelectedClients(project.clients)
+    }
+    console.log(project.clients)
+    console.log(project.developers)
+
 }, []);
 
   const handleTitleChange = (e) => {
@@ -73,6 +83,7 @@ useEffect(() => {
   const handleDeveloperChange = (e) => {
     const selectedDeveloperIds = Array.from(e.target.selectedOptions, (option) => option.value);
     setSelectedDevelopers(selectedDeveloperIds);
+    console.log(selectedDevelopers);
   };
 
   const getClients = async () => {
@@ -94,29 +105,28 @@ useEffect(() => {
   const handleClientChange = (e) => {
     const selectedClientIds = Array.from(e.target.selectedOptions, (option) => option.value);
     setSelectedClients(selectedClientIds);
+    console.log(selectedClients)
   };  
 
   const handleSubmit = async () => {
     try {
-      const projRef = await addDoc(collection(db, 'projects'), {
+      await updateDoc(doc(db, 'projects', projectId), {
         name: formData.name,
         description: formData.description,
         clientCompany: formData.clientCompany,
-        developers: [...selectedDevelopers, user.uid],
+        developers: selectedDevelopers,
         clients: selectedClients
       });
-      console.log('New project added with ID: ', projRef.id);
-      setFormData({
-        name: '',
-        description: '',
-        clientCompany: '',
-      });
+      console.log('Updated project', projectId);
       handleClose();
     } catch (error) {
       console.error('Error adding document: ', error);
     }
   };
 
+  const handleDelete = async () => {
+    confirm("Are you sure? All data related to the project will be deleted. \n\nTHIS ACTION IS IRREVERSIBLE.");
+  };
 
   return (
     <main style={{
@@ -146,7 +156,7 @@ useEffect(() => {
             fontSize: '12px',
             paddingLeft: '5px',
           }}        
-          value={formData.title} 
+          value={formData.name} 
           onChange={handleTitleChange}  />
         
         {/* <div style={{
@@ -289,6 +299,16 @@ useEffect(() => {
 
       
         <div style={{ display: 'flex', justifyContent: 'end', marginTop: '8px',  }}>
+        <button style={{
+            height: '30px',
+            padding: '5px 20px',
+            borderRadius: '5px',
+            color: '#fff',
+            fontSize: '12px',
+            background: '#FF0000',
+            boxSizing: 'border-box',
+            boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
+          }} onClick={handleDelete}>Delete Project</button>
         <button style={{
             height: '30px',
             padding: '5px 20px',

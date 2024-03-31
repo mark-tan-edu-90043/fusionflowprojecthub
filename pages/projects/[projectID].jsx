@@ -185,7 +185,6 @@ export default function ProjectDash() {
                             alignItems:'center',
                             width: '100%'
                         }}>
-                            
                             <button style={{
                                 width: '70px',
                                 height: '30px',
@@ -195,8 +194,8 @@ export default function ProjectDash() {
                                 boxShadow: '0px 3px 2px #dc4c25',
                                 marginTop: '10px',
                                 marginRight: '10px'
-                            }} onClick={() => router.push('/Developer/Home')}> Close </button>
-                            {/* Should ultimately check if the */}
+                            }} onClick={() => router.push('/Developer/Home')}> Edit </button>
+
                             <button style={{
                                 width: '70px',
                                 height: '30px',
@@ -206,9 +205,7 @@ export default function ProjectDash() {
                                 boxShadow: '0px 3px 2px #dc4c25',
                                 marginTop: '10px',
                                 marginRight: '10px'
-                            }} onClick={handleEdit}> Edit </button>
-                        </div>
-                                
+                            }} onClick={() => router.push('/Developer/Home')}> Close </button>                               
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
                             <div style={{
                                 // display: 'flex',

@@ -435,6 +435,7 @@ export default function ProjectDash() {
                         <EditProject handleClose={handleCloseEdit} project={project} projectId={projectId} />
                     </div>
                 )}
+                </div>
                 </main>
             );
         }  

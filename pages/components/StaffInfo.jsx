@@ -6,6 +6,12 @@
     import { db } from "../../_utils/firebase";
 
     export default function StaffInfo({handleClose, user}) {
+
+        if (!user) { //Please
+            return null;
+        }
+
+        
         const [projects, setProjects] = useState([]);
         const [otherProjects, setOtherProjects] = useState([]);
         const [formData, setFormData] = useState({

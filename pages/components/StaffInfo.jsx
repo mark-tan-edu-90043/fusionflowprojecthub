@@ -9,13 +9,14 @@
         const [projects, setProjects] = useState([]);
         const [otherProjects, setOtherProjects] = useState([]);
         const [formData, setFormData] = useState({
-            name: user.name || '',
-            username: user.username || '',
-            dob: user.dob || '',
-            role: user.role || '',
-            status: user.status || '',
-            currentProjectId: user.currentProjectId || '',
+            name: user ? user.name || '' : '',
+            username: user ? user.username || '' : '',
+            dob: user ? user.dob || '' : '',    
+            role: user ? user.role || '' : '',
+            status: user ? user.status || '' : '',
+            currentProjectId: user ? user.currentProjectId || '' : '',
         });
+
 
         const [selectedProjectToAdd, setSelectedProjectToAdd] = useState('');
         const [selectedProjectToRemove, setSelectedProjectToRemove] = useState('');

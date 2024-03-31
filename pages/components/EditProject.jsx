@@ -14,12 +14,12 @@ export default function EditProject({ handleClose, project, projectId }) {
   const [clients, setClients] = useState([]);
   const [selectedClients, setSelectedClients] = useState([]);
   const [formData, setFormData] = useState({
-    name: project.name || '',
-    clientCompany: project.clientCompany || '',
-    description: project.clientCompany || '',
-    developers: project.developers || [],
-    clients: project.clients || []
-  });
+    name: project ? project.name || '' : '',
+    clientCompany: project ? project.clientCompany || '' : '',
+    description: project ? project.description || '' : '',
+    developers: project ? project.developers || [] : [],
+    clients: project ? project.clients || [] : []
+});
 
   useEffect(() => {   //Grabs user data
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {

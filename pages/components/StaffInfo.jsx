@@ -7,10 +7,6 @@
 
     export default function StaffInfo({handleClose, user}) {
 
-        if (!user) { //Please
-            return null;
-        }
-
         
         const [projects, setProjects] = useState([]);
         const [otherProjects, setOtherProjects] = useState([]);
@@ -22,10 +18,12 @@
             status: user ? user.status || '' : '',
             currentProjectId: user ? user.currentProjectId || '' : '',
         });
-
-
         const [selectedProjectToAdd, setSelectedProjectToAdd] = useState('');
         const [selectedProjectToRemove, setSelectedProjectToRemove] = useState('');
+
+        if (!user) { //Please
+            return null;
+        }
 
         useEffect(() => {
             // Fetch projects where the developer UID array contains the UID of the selected user

@@ -174,7 +174,17 @@ export default function ProjectDash() {
                             alignItems:'center',
                             width: '100%'
                         }}>
-                            
+                            <button style={{
+                                width: '70px',
+                                height: '30px',
+                                background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
+                                color: '#fff',
+                                borderRadius: '10px',
+                                boxShadow: '0px 3px 2px #dc4c25',
+                                marginTop: '10px',
+                                marginRight: '10px'
+                            }} onClick={() => router.push('/Developer/Home')}> Edit </button>
+
                             <button style={{
                                 width: '70px',
                                 height: '30px',
@@ -186,16 +196,6 @@ export default function ProjectDash() {
                                 marginRight: '10px'
                             }} onClick={() => router.push('/Developer/Home')}> Close </button>
 
-                            <button style={{
-                                width: '70px',
-                                height: '30px',
-                                background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
-                                color: '#fff',
-                                borderRadius: '10px',
-                                boxShadow: '0px 3px 2px #dc4c25',
-                                marginTop: '10px',
-                                marginRight: '10px'
-                            }} onClick={() => router.push('/Developer/Home')}> Edit </button>
                         </div>
                                 
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px'}}>

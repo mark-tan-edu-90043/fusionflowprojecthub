@@ -21,10 +21,6 @@
         const [selectedProjectToAdd, setSelectedProjectToAdd] = useState('');
         const [selectedProjectToRemove, setSelectedProjectToRemove] = useState('');
 
-        if (!user) { //Please
-            return null;
-        }
-
         useEffect(() => {
             // Fetch projects where the developer UID array contains the UID of the selected user
             const fetchProjects = async () => {
@@ -56,6 +52,10 @@
             console.log(projects)
             console.log(otherProjects)
         }, [projects, otherProjects]);
+
+        if (!user) { //Please
+            return null;
+        }
 
         const handleFormSubmit = async (e) => {
             e.preventDefault();

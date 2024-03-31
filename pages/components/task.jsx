@@ -1,6 +1,11 @@
 import React from 'react';
 
 const Task = ({ task, onDelete }) => {
+
+    if (!task) {
+        return null; // or any other appropriate action
+    }
+    
     const { id, name, description, deadline, status } = task;
 
     const handleDelete = () => {

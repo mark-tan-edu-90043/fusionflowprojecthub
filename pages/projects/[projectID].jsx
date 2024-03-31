@@ -7,6 +7,7 @@ import Task from '../components/task';
 import AddTask from '../components/addTask';
 import FileList from '../components/fileList';
 import EditProject from '../components/EditProject';
+import { v4 } from 'uuid';
 
 
 export default function ProjectDash() {
@@ -22,12 +23,26 @@ export default function ProjectDash() {
     const [developers, setDevelopers] = useState([])
     const [showUploadPopup, setShowUploadPopup] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [project, setProject] = useState(null);
 
         const fetchProjectName = async () => {
             try {
                 const projectDoc = await getDoc(doc(db, "projects", projectId));
                 if (projectDoc.exists()) {
                     setProjectName(projectDoc.data().name);
+                } else {
+                    console.log("No such document!");
+                }
+            } catch (error) {
+                console.error("Error getting document:", error);
+            }
+        };
+
+        const fetchProjectDetails = async () => {
+            try {
+                const projectDoc = await getDoc(doc(db, "projects", projectId));
+                if (projectDoc.exists()) {
+                    setProject(projectDoc.data());
                 } else {
                     console.log("No such document!");
                 }
@@ -49,6 +64,7 @@ export default function ProjectDash() {
                 tasksSnapshot.forEach(taskDoc => {
                     const taskData = taskDoc.data();
                     const task = { id: taskDoc.id, ...taskData };
+                    console.log(task.id);
         
                     // Assign tasks to respective arrays based on status
                     switch (task.status) {
@@ -80,6 +96,7 @@ export default function ProjectDash() {
         const fetchDevs = async() => {
             try{
                 // Query the project document to get the array of developer UserIDs
+
     const projectDoc = await getDoc(doc(db, "projects", projectId));
     if (projectDoc.exists()) {
         const developerUserIDs = projectDoc.data().developers;
@@ -112,13 +129,7 @@ export default function ProjectDash() {
                 fetchProjectName();
                 fetchTasks();
                 fetchDevs();
-            }
-        }, [projectId]);
-
-        useEffect(() => {
-            console.log('fetching tasks...')
-            if (projectId) {
-                fetchTasks();
+                fetchProjectDetails();
             }
         }, [projectId]);
 
@@ -135,7 +146,7 @@ export default function ProjectDash() {
         };
 
         const handleCloseEdit = () => {
-            setShowEdit(true);
+            setShowEdit(false);
         };
 
     const handleDelete = async (taskId) => {
@@ -194,10 +205,7 @@ export default function ProjectDash() {
                                 boxShadow: '0px 3px 2px #dc4c25',
                                 marginTop: '10px',
                                 marginRight: '10px'
-                            }} onClick={() => router.push('/Developer/Home')}> Close </button>
-
-                        </div>
-                                
+                            }} onClick={() => router.push('/Developer/Home')}> Close </button>                               
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
                             <div style={{
                                 // display: 'flex',
@@ -383,7 +391,7 @@ export default function ProjectDash() {
                                             <span style={{ fontWeight: 700 }}>Participating Staff</span>
                                         </div>
                                         {developers.map(developer  => (
-                                            <div style={{
+                                            <div key={v4()} style={{
                                                 display: 'flex',
                                                 justifyContent: "space-between",
                                                 backgroundColor: '#fff',
@@ -424,7 +432,7 @@ export default function ProjectDash() {
 
                         {showEdit && (
                             <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000 }}>
-                        <AddTask handleClose={handleCloseEdit} projectId={projectId} />
+                        <EditProject handleClose={handleCloseEdit} project={project} projectId={projectId} />
                     </div>
                 )}
                 </main>

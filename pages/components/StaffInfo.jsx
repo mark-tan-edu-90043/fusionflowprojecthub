@@ -6,17 +6,18 @@
     import { db } from "../../_utils/firebase";
 
     export default function StaffInfo({handleClose, user}) {
+
+        
         const [projects, setProjects] = useState([]);
         const [otherProjects, setOtherProjects] = useState([]);
         const [formData, setFormData] = useState({
-            name: user.name || '',
-            username: user.username || '',
-            dob: user.dob || '',
-            role: user.role || '',
-            status: user.status || '',
-            currentProjectId: user.currentProjectId || '',
+            name: user ? user.name || '' : '',
+            username: user ? user.username || '' : '',
+            dob: user ? user.dob || '' : '',    
+            role: user ? user.role || '' : '',
+            status: user ? user.status || '' : '',
+            currentProjectId: user ? user.currentProjectId || '' : '',
         });
-
         const [selectedProjectToAdd, setSelectedProjectToAdd] = useState('');
         const [selectedProjectToRemove, setSelectedProjectToRemove] = useState('');
 
@@ -51,6 +52,10 @@
             console.log(projects)
             console.log(otherProjects)
         }, [projects, otherProjects]);
+
+        if (!user) { //Please
+            return null;
+        }
 
         const handleFormSubmit = async (e) => {
             e.preventDefault();

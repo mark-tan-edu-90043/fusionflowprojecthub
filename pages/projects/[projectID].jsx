@@ -177,7 +177,8 @@ export default function ProjectDash() {
                      borderRadius: '10px',
                      backgroundColor: '#fff',
                      alignContent:'center'
-                }}>       
+                }}>
+                       
                     <div style={{ width:' 100%' }}>
                         <div style={{
                             display: 'flex',
@@ -205,7 +206,8 @@ export default function ProjectDash() {
                                 boxShadow: '0px 3px 2px #dc4c25',
                                 marginTop: '10px',
                                 marginRight: '10px'
-                            }} onClick={() => router.push('/Developer/Home')}> Close </button>                               
+                            }} onClick={() => router.push('/Developer/Home')}> Close </button>
+                        </div>                               
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
                             <div style={{
                                 // display: 'flex',
@@ -229,6 +231,7 @@ export default function ProjectDash() {
                                 borderRadius: '10px',
                                 marginRight: '15px'
                             }}>
+                                
                                 <div>
                                     <div style={{
                                         display: 'flex',
@@ -248,10 +251,12 @@ export default function ProjectDash() {
                                             color: '#fff'
                                         }}>{tasks.done.length}</div>
                                     </div>
+                                    
                                     {tasks.toDo.map(task => (
                                         <Task key={task.id} task={task} onDelete={handleDelete} />
                                     ))}
                                 </div>
+                                
                                 <div style={{
                                     marginBottom: '20px',
                                     padding: '8px',
@@ -423,7 +428,7 @@ export default function ProjectDash() {
                         </div>       
                     
                     </div>      
-
+                                                        
                         {showPopup && (
                             <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000 }}>
                         <AddTask handleClose={handleClosePopup} projectId={projectId} />
@@ -435,7 +440,7 @@ export default function ProjectDash() {
                         <EditProject handleClose={handleCloseEdit} project={project} projectId={projectId} />
                     </div>
                 )}
-                </div>
+                
                 </main>
             );
         }  

@@ -3,11 +3,11 @@ import { useState } from 'react';
 
 const Task = ({ task, onDelete, onEditStatus }) => {
 
-    const [taskStatus, setTaskStatus] = useState(task.status);
-
     if (!task) {
         return null; // or any other appropriate action
     }
+
+    const [taskStatus, setTaskStatus] = useState(task.status);
     
     const { id, name, description, deadline } = task;
 

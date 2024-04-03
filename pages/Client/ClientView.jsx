@@ -1,27 +1,96 @@
 import Image from "next/image";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../_utils/firebase";
+import { useRouter } from "next/router";
 import { v4 } from "uuid";
 
-export default function ClientManagment() {
+export default function ClientManagement() {
     const [showPopup, setShowPopup] = useState(false);
-    const [selectedProject, setSelectedProject] = useState("project1");
-    const selectProject = (projectId) => {
-        setSelectedProject(projectId);
-        setShowPopup(!showPopup);
-    };
+    const [selectedProject, setSelectedProject] = useState(null); // Initialize selectedProject as null
+    const [user, setUser] = useState(null);
+    const [projects, setProjects] = useState([]);
+    const [tasks, setTasks] = useState({
+        toDo: [],
+        inProgress: [],
+        done: []
+    });
 
     const togglePopup = () => {
         setShowPopup(!showPopup);
     };
 
-    const projectData = {
-        project1: {
-          inProgressTasks: ["Task 1", "Task 2"],
-          participatingStaff: ["Staff A", "Staff B"],
-          completedTasks: ["Task 3"]
-        },
-        
-      };
+    const selectProject = (projectId) => {
+        setSelectedProject(projectId);
+        setShowPopup(!showPopup);
+    };
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+            if (currentUser) {
+                setUser(currentUser);
+                const userDoc = await getDoc(doc(db, "users", currentUser.uid)); // Assuming user data is stored in "users" collection
+                const projectsQuery = query(collection(db, "projects"), where("clients", "array-contains", currentUser.uid)); //Grab all projects where the Developer is involved
+                const projectsSnapshot = await getDocs(projectsQuery);
+                const projectsData = projectsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setProjects(projectsData);
+            } else {
+                setUser(null);
+            }
+        });
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        if (selectedProject) {
+            fetchTasks(selectedProject); // Fetch tasks only when selectedProject changes
+            console.log(tasks.inProgress)
+        }
+    }, [selectedProject]);
+
+    const fetchTasks = async (projectId) => {
+        try {
+            console.log(projectId)
+            const tasksQuery = query(collection(db, "projects", projectId, "tasks"));
+            const tasksSnapshot = await getDocs(tasksQuery);
+            
+            // Initialize arrays for each status
+            let inProgressTasks = [];
+            let doneTasks = [];
+
+            console.log(tasksQuery);
+            console.log(tasksSnapshot);
+    
+            tasksSnapshot.forEach(taskDoc => {
+                console.log(taskDoc.id);
+                const taskData = taskDoc.data();
+                const task = { id: taskDoc.id, ...taskData };
+    
+                // Assign tasks to respective arrays based on status
+                switch (task.status) {
+                    case 'todo':
+                        inProgressTasks.push(task);
+                        break;
+                    case 'inProgress':
+                        inProgressTasks.push(task);
+                        break;
+                    case 'done':
+                        doneTasks.push(task);
+                        break;
+                    default:
+                        console.warn(`Task with unknown status: ${task.status}`);
+                }
+            });
+    
+            // Set tasks state
+            setTasks({
+                inProgress: inProgressTasks,
+                done: doneTasks
+            });
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+        }
+    };                   
 
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
@@ -57,7 +126,6 @@ export default function ClientManagment() {
                         flexDirection: 'column',
 
                     }}>
-                        
                         <div style={{
                             display: 'flex',
                             justifyContent: 'center',
@@ -67,7 +135,6 @@ export default function ClientManagment() {
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: "space-between",
-                                // marginLeft: '20px',
                                 width: '250px',
                                 height: '480px',
                                 padding: '0 10px',
@@ -81,204 +148,103 @@ export default function ClientManagment() {
                                         justifyContent: 'space-between',
                                         padding: '10px',
                                         fontSize: '13px',
-                                        
                                     }}>
                                         <span style={{ fontWeight: 700 }}>Project</span>
                                     </div>
-                                    <div onClick={()=>selectProject("project1")} style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '10px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc',
-                                    cursor: 'pointer'
-                                }}>
-                                    
-                                    Project 1
-                                    
-                                        {showPopup && (
-                                                <div className="popup">
-                                                    <div className="popup-content">
-                                                    
-                                                        <h2>Company Name:</h2>
-                                                        <h2>Address:</h2>
-                                                        <h2>Contact Person:</h2>
-                                                        <h2>Number:</h2>
+                                    <div>
+                                        {projects.map(project => (
+                                            <div key={project.id} onClick={() => selectProject(project.id)} style={{
+                                                backgroundColor: selectedProject === project.id ? '#ccc' : '#fff',
+                                                borderRadius: '10px',
+                                                padding: '10px',
+                                                fontSize: '13px',
+                                                lineHeight: '20px',
+                                                marginTop: '20px',
+                                                color: selectedProject === project.id ? '#000' : '#ccc',
+                                                cursor: 'pointer'
+                                            }}>
+                                                {project.name}
+                                                {showPopup && (
+                                                    <div className="popup">
+                                                        <div className="popup-content">
+                                                            <h2>Company Name: {project.companyName}</h2>
+                                                            <h2>Address: {project.address}</h2>
+                                                            <h2>Contact Person: {project.contactPerson}</h2>
+                                                            <h2>Number: {project.number}</h2>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            )}
+                                                )}
+                                            </div>
+                                        ))}
                                     </div>
-                                       
-                                    <div  style={{
-                                        backgroundColor: '#fff',
-                                        borderRadius: '10px',
-                                        padding: '10px',
-                                        fontSize: '13px',
-                                        lineHeight: '20px',
-                                        marginTop: '20px',
-                                        color: '#ccc'
-                                    }}>
-                                        Project 2
-                                    </div>
-                                    
+                                </div>
+                            </div>
+                            {/* Render tasks based on selected project */}
+                            {selectedProject && (
+                                <>
+                                    {/* Render inProgress tasks */}
                                     <div style={{
-                                        backgroundColor: '#fff',
+                                        width: '250px',
+                                        height: '480px',
+                                        padding: '0 10px',
+                                        backgroundColor: '#49d290',
                                         borderRadius: '10px',
-                                        padding: '10px',
-                                        fontSize: '13px',
-                                        lineHeight: '20px',
-                                        marginTop: '20px',
-                                        color: '#ccc'
                                     }}>
-                                        Project 3
-                                    </div>    
-                                </div>
-                            </div>
-                            <div style={{
-                                width: '250px',
-                                height: '480px',
-                                padding: '0 10px',
-                                backgroundColor: '#49d290',
-                                borderRadius: '10px',
-                            }}>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '10px',
-                                    fontSize: '13px'
-                                }}>
-                                    <span style={{ fontWeight: 700 }}>In progress Task</span>
-                                    
-                                    
-                                </div>
-                                {projectData[selectedProject].inProgressTasks.map((task) => (
-                                <div key={v4()} style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '10px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    Back End development
-                                </div>
-                                ))}
-                                <div style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '10px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    Front End development
-                                </div>
-                            </div>
-                            <div style={{
-                                width: '250px',
-                                height: '480px',
-                                margin: '0 15px',
-                                padding: '0 10px',
-                                backgroundColor: '#adc9fd',
-                                borderRadius: '10px',
-                            }}>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '10px',
-                                    fontSize: '13px'
-                                }}>
-                                    <span style={{ fontWeight: 700 }}>Completed Task</span>
-                                    
-                                </div>
-                                {projectData[selectedProject].inProgressTasks.map((task) => (
-                                    <div key={v4()} style={{
-                                        backgroundColor: '#fff',
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            padding: '10px',
+                                            fontSize: '13px'
+                                        }}>
+                                            <span style={{ fontWeight: 700 }}>In progress Task</span>
+                                        </div>
+                                        {tasks.inProgress.map((task) => (
+                                            <div key={task.id} style={{
+                                                backgroundColor: '#fff',
+                                                borderRadius: '10px',
+                                                padding: '10px',
+                                                fontSize: '13px',
+                                                lineHeight: '20px',
+                                                marginTop: '20px',
+                                                color: '#ccc'
+                                            }}>
+                                                {task.name} {/* Assuming you have a taskName field in your task document */}
+                                            </div>
+                                        ))}
+                                    </div>
+                                    {/* Render done tasks */}
+                                    <div style={{
+                                        width: '250px',
+                                        height: '480px',
+                                        margin: '0 15px',
+                                        padding: '0 10px',
+                                        backgroundColor: '#adc9fd',
                                         borderRadius: '10px',
-                                        padding: '10px',
-                                        fontSize: '13px',
-                                        lineHeight: '20px',
-                                        marginTop: '20px',
-                                        color: '#ccc'
                                     }}>
-                                        Ul design
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            padding: '10px',
+                                            fontSize: '13px'
+                                        }}>
+                                            <span style={{ fontWeight: 700 }}>Completed Task</span>
+                                        </div>
+                                        {tasks.done.map((task) => (
+                                            <div key={task.id} style={{
+                                                backgroundColor: '#fff',
+                                                borderRadius: '10px',
+                                                padding: '10px',
+                                                fontSize: '13px',
+                                                lineHeight: '20px',
+                                                marginTop: '20px',
+                                                color: '#ccc'
+                                            }}>
+                                                {task.taskName} {/* Assuming you have a taskName field in your task document */}
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}    
-                            </div>
-                            <div style={{
-                                width: '250px',
-                                height: '480px',
-                                padding: '0 10px',
-                                backgroundColor: '#ffc2af',
-                                borderRadius: '10px',
-                            }}>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '10px',
-                                    fontSize: '13px'
-                                }}>
-                                    <span style={{ fontWeight: 700 }}>Participating Staff</span>   
-                                </div>
-                                {projectData[selectedProject].inProgressTasks.map((staff) => {
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: "space-between",
-                                    backgroundColor: '#fff',
-                                    borderRadius: '18px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    <div key={v4()} style={{ display: 'flex' }}>
-                                        <Image width={20} height={20} src='/Group 6.svg' />
-                                        <span style={{ marginLeft: '6px' }}>Cheelix zhang</span>
-                                    </div>
-                                    <span>Design</span>
-                                </div>
-                                })}
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: "space-between",
-                                    backgroundColor: '#fff',
-                                    borderRadius: '18px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    <div style={{ display: 'flex' }}>
-                                        <Image width={20} height={20} src='/Group 6.svg' />
-                                        <span style={{ marginLeft: '6px' }}>Mick Tang
-                                        </span>
-                                    </div>
-                                    <span>Testing</span>
-                                </div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: "space-between",
-                                    backgroundColor: '#fff',
-                                    borderRadius: '18px',
-                                    padding: '10px',
-                                    fontSize: '13px',
-                                    lineHeight: '20px',
-                                    marginTop: '20px',
-                                    color: '#ccc'
-                                }}>
-                                    <div style={{ display: 'flex' }}>
-                                        <Image width={20} height={20} src='/Group 6.svg' />
-                                        <span style={{ marginLeft: '6px' }}>Marry Lee</span>
-                                    </div>
-                                    <span>Code</span>
-                                </div>
-                            </div>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

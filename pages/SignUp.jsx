@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleAuth, ghAuth, db } from "../_utils/firebase";
-import { doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { useRouter } from 'next/router';
 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [name, setName] = useState('');
+  const router = useRouter();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -21,6 +24,10 @@ function SignUp() {
     setUsername(e.target.value);
   };
 
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -29,16 +36,18 @@ function SignUp() {
       const user = userCredential.user;
 
       // Store user information in Firestore
-      await setDoc(doc(db, "users", user.uid),{
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
         email: email,
         username: username,
+        role: "Client"
       });
 
       setSuccessMessage('Sign up successful! You will be redirected to the login page shortly.');
       setTimeout(() => {
         setSuccessMessage('');
       }, 3000); // Clear success message after 3 seconds
-      window.location.href = '/';
+      router.push('/Login');
     } catch (error) {
       console.log('Error:', error.message);
       // Handle error, show error message to the user
@@ -50,56 +59,77 @@ function SignUp() {
     try {
       const result = await signInWithPopup(auth, googleAuth);
       const user = result.user;
-      await setDoc(doc(db, "users", user.uid), {
-        username: user.displayName,
-        email: user.email
-      });
-      // Redirect to ClientView or perform any other action
-      window.location.href = '/ClientView';
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (!userDoc.exists()) { //Checks if the user exists
+        await setDoc(doc(db, "users", user.uid), {
+          username: user.displayName,
+          username: user.displayName,
+          email: user.email,
+          role: "Client"
+        });
+      }
+      window.location.href = '/UserTestPage';
     } catch (error) {
-      console.log('Google sign-in error:', error.message);
-      // Handle Google sign-in error
+      console.log(error);
     }
-  }
-  
+  };
+
 
   const handleGitHubAuth = async () => {
     console.log('Attempting GitHub sign-in...');
     try {
       const result = await signInWithPopup(auth, ghAuth);
       const user = result.user;
-      // Use user's UID as username
-      await setDoc(doc(db, "users", user.uid), {
-        username: user.displayName,
-        email: user.email
-      });
-      // Redirect to ClientView or perform any other action
-      window.location.href = '/ClientView';
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (!userDoc.exists()) { //Checks if the user exists
+        await setDoc(doc(db, "users", user.uid), {
+          username: user.displayName,
+          email: user.email,
+          role: "Client"
+        });
+      }
+      window.location.href = '/UserTestPage';
     } catch (error) {
-      console.log('GitHub sign-in error:', error.message);
-      // Handle GitHub sign-in error
+      console.log(error);
     }
-  }
-  
+  };
 
   return (
-    <div className="container">
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email" style={{ color: 'white' }}>Email:</label>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+      backgroundColor: '#F1F1F1',
+      width: '100%',
+      boxSizing: 'border-box', 
+      overflowX: 'hidden' 
+    }}>
+      <h2 style={{ color: '#858585', fontSize: '40px', fontWeight: 'bold', marginBottom: '10px' }}>Sign Up</h2>
+      <form onSubmit={handleSubmit} style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: '500px'
+      }}>
+        <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+          <label htmlFor="email" style={{ color: '#858585', width: '100px', marginRight: '10px', textAlign: 'right' }}>Email:</label>
           <input
             type="email"
             id="email"
             name="email"
             value={email}
             onChange={handleEmailChange}
-            style={{ color: 'black' }}
+            style={{ flex: 1, color: 'black' }}
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password" style={{ color: 'white' }}>Password:</label>
+        <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+          <label htmlFor="email" style={{ color: '#858585', width: '100px', marginRight: '10px', textAlign: 'right' }}>Password:</label>
           <input
             type="password"
             id="password"
@@ -110,8 +140,8 @@ function SignUp() {
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="username" style={{ color: 'white' }}>Username:</label>
+        <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+          <label htmlFor="email" style={{ color: '#858585', width: '100px', marginRight: '10px', textAlign: 'right' }}>Username:</label>
           <input
             type="text"
             id="username"
@@ -122,15 +152,45 @@ function SignUp() {
             required
           />
         </div>
-        <button type="submit" className="btn">Sign Up</button>
+        <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+          <label htmlFor="email" style={{ color: '#858585', width: '100px', marginRight: '10px', textAlign: 'right' }}>Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={name}
+            onChange={handleNameChange}
+            style={{ color: 'black' }}
+            required
+          />
+        </div>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <button type="submit" className="btn" style={{
+            color: '#fff',
+            backgroundColor: '#007bff',
+            padding: '10px 20px',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginTop: '10px'
+          }}>
+            Sign Up
+          </button>
+        </div>
       </form>
       {successMessage && (
-        <div className="success-message">   
+        <div className="success-message">
           {successMessage}
         </div>
       )}
-      <button style={{ position: 'absolute', bottom: '70px', left: '20px', backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', }} onClick={handleGoogleAuth}>Sign in with Google</button>
-      <button style={{ position: 'absolute', bottom: '70px', left: '500px', backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', }} onClick={handleGitHubAuth}>Sign in with Github</button>
+      <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '500px' }}>
+        <button onClick={handleGoogleAuth} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+          Sign in with Google
+        </button>
+        <button onClick={handleGitHubAuth} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+          Sign in with Github
+        </button>
+      </div>
     </div>
   );
 }

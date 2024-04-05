@@ -311,17 +311,17 @@ useEffect(() => {
         </div>
 
       
-        <div style={{ display: 'flex', justifyContent: 'end', marginTop: '8px',  }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px',  }}>
         <button style={{
             height: '30px',
             padding: '5px 20px',
             borderRadius: '5px',
             color: '#fff',
             fontSize: '12px',
-            background: '#FF0000',
+            background: '#EB465A',
             boxSizing: 'border-box',
             boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
-          }} onClick={handleDelete}>Delete Project</button>
+          }} onClick={handleDelete}>Delete</button>
         <button style={{
             height: '30px',
             padding: '5px 20px',

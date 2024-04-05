@@ -62,41 +62,67 @@ export default function DeveloperPage() {
         setSearchQuery(event.target.value); // Update the search query state with the input value
     };
 
+    
     if (loading) {
         return (
-        <main className='h-screen' style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }}>
-            <div style={{ width: '100%', background: 'white', paddingTop: '10px', paddingBottom: '10px', display: 'flex', justifyContent: 'center' }}>
-                <div style={{ width: '90%', }}>
-                    <nav style={{ background: 'white', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center' }}>
-                        <ul style={{ listStyleType: 'none', display: 'flex', justifyContent: 'flex-end', alignContent: 'center', }}>
-                            <li onClick={() => { router.push('../Profile') }} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>My Profile</li>
-                            <li onClick={() => router.push('/Developer/Home')} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Developer Dashboard</li>
-                            <li style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Admin Panel</li>
-                            <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', }}>Log Out</li>
-                        </ul>
-                    </nav>
+            <main className='h-screen' style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }}>
+                <div style={{ width: '100%', background: 'white', paddingTop: '10px', paddingBottom: '10px', display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ width: '90%', }}>
+                        <nav style={{ background: 'white', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center' }}>
+                            <ul style={{ listStyleType: 'none', display: 'flex', justifyContent: 'flex-end', alignContent: 'center', }}>
+                                <li onClick={() => { router.push('../Profile') }} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>My Profile</li>
+                                <li onClick={() => router.push('/Developer/Home')} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Developer Dashboard</li>
+                                <li style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Admin Panel</li>
+                                <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', }}>Log Out</li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-            </div>
-            <p>Loading...</p>
-        </main>
-        )
-    }
+                <p>Loading...</p>
+            </main>
+            )
+        }
+    
+        const handleMouseEnter = (e) => {
+            e.currentTarget.style.backgroundColor = '#f2f2f2';
+            e.currentTarget.style.color = '#000000'; 
+        };
+    
+        const handleMouseLeave = (e) => {
+            e.currentTarget.style.backgroundColor = '#007bff';
+            e.currentTarget.style.color = '#fff'; 
+        };
 
+        
     return (
         <main className='h-screen' style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }}>
 
-
-            <div style={{ width: '100%', background: 'white', paddingTop: '10px', paddingBottom: '10px', display: 'flex', justifyContent: 'center' }}>
-                <div style={{ width: '90%', }}>
+            
+            <div style={{ width: '100%', background: 'white', paddingTop: '5px', paddingBottom: '5px', display: 'flex', justifyContent: 'center' }}>
+            <img src="/Slice 1.svg" alt="Logo" width={170} height={80}></img>
+                <div style={{ width: '78%', }}>
                     <nav style={{ background: 'white', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center' }}>
                         <ul style={{ listStyleType: 'none', display: 'flex', justifyContent: 'flex-end', alignContent: 'center', }}>
-                            <li onClick={() => { router.push('../Profile') }} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>My Profile</li>
-                            <li style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Developer Dashboard</li>
-                            <li onClick={() => router.push('/Admin/Home')} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Admin Panel</li>
-                            <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', }}>Log Out</li>
+                            <li onClick={() => { router.push('../Profile') }} 
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>My Profile</li>
+                            <li 
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Developer Dashboard</li>
+                            <li onClick={() => router.push('/Admin/Home')} 
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Admin Panel</li>
+                            <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} 
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', }}>Log Out</li>
                         </ul>
                     </nav>
                 </div>
+                
             </div>
 
 
@@ -107,9 +133,9 @@ export default function DeveloperPage() {
             <div style={{ width: '100%', paddingTop: '10px', paddingBottom: '10px', display: 'flex', justifyContent: 'center' }}>
                 <div style={{ width: '90%', marginTop: "30px" }}>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", }}>
-                        <div style={{ width: 520, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#3C89FC', borderRadius: '30px', paddingLeft: '10px', marginBottom: '10px' }}>
+                        <div style={{ width: 520, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#3C89FC', borderRadius: '10px', paddingLeft: '12px', marginBottom: '10px' }}>
                             <p style={{ color: 'white' }}>Search Project</p>
-                            <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '15px' }}>
+                            <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '15px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <input type="text" style={{ color: 'black', width: 280, height: '50%', outline: 'none', border: 'none' }} value={searchQuery} onChange={handleSearchInputChange} />
                                 </div>
@@ -144,34 +170,33 @@ export default function DeveloperPage() {
 
                     {/* create new project bottom */}
                     <div
-    style={{
-        width: 'calc(50% - 20px)',
-        maxWidth: '250px',
-        minWidth: '200px',
-        height: '100px',
-        backgroundColor: '#f2f2f2',
-        borderRadius: '10px',
-        margin: '10px',
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center', 
-        transition: 'background-color 0.3s ease',
-        color: 'black',
-    }}
-    onClick={() => handleOpenModal()}
-    onMouseEnter={(e) => { 
-        e.currentTarget.style.backgroundColor = '#3C89FC';  
-        e.currentTarget.querySelector('div').style.color = '#ffffff';  
-    }} 
-    onMouseLeave={(e) => { 
-        e.currentTarget.style.backgroundColor = '#f2f2f2';  
-        e.currentTarget.querySelector('div').style.color = '#000000';  
-    }} 
->
-    <div>Create new project</div>
-</div>
+                        style={{
+                            width: 'calc(50% - 20px)',
+                            maxWidth: '250px',
+                            minWidth: '200px',
+                            height: '100px',
+                            backgroundColor: '#f2f2f2',
+                            borderRadius: '10px',
+                            margin: '10px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            transition: 'background-color 0.3s ease',
+                        }}
+                        onClick={() => handleOpenModal()}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#3C89FC';
+                            e.currentTarget.querySelector('div').style.color = '#ffffff';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = '#f2f2f2';
+                            e.currentTarget.querySelector('div').style.color = '#000000';
+                        }}
+                    >
+                        <div>Create new project</div>
+                    </div>
 
 
 

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { db } from '../../_utils/firebase'; // Import necessary Firebase Firestore functions
 import { collection, doc, addDoc } from 'firebase/firestore';
+import { useRouter } from 'next/router';
 
 export default function AddTask({ handleClose, projectId }) {
+    const Router = useRouter();
     const [taskData, setTaskData] = useState({
         name: '',
         description: '',
@@ -55,6 +57,7 @@ export default function AddTask({ handleClose, projectId }) {
             // Optionally, you can perform additional actions after successfully adding the task
             // For example, you can close the modal/dialog
             handleClose();
+            Router.reload();
         } catch (error) {
             console.error("Error adding task: ", error);
         }

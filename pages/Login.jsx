@@ -71,9 +71,9 @@ export default function Login() {
     } catch (error) {
       console.error('Error logging in:', error.message);
       if (error.message == "Firebase: Error (auth/invalid-email).")
-        setErrorMessage(error.message);
+        setErrorMessage('Email bad');
       else 
-        setErrorMessage('Password bad')
+        setErrorMessage('Password bad');
     }
   };
 

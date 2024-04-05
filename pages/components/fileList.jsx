@@ -82,7 +82,7 @@ const FileList = ({ projectId}) => {
           <tbody>
             {console.log(files)}
             {files.map((file, index) => (
-              <tr key={file.fileId} style={{ borderBottom: '1px solid #ccc' }}>
+              <tr key={file.fileId} style={{ borderBottom: '1px solid #ccc', color:'black' }}>
                 {console.log(file.fileId)}
                 <td style={{ padding: '5px 0' }}>
                   <span>{file.name}</span>

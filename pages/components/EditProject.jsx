@@ -1,13 +1,15 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { getDocs, setDoc, doc, addDoc, collection, query, or, where, updateDoc } from "firebase/firestore";
+import { getDocs, setDoc, doc, deleteDoc, collection, query, or, where, updateDoc } from "firebase/firestore";
 import { db, auth } from "../../_utils/firebase"
 import React from 'react';
 import png1 from '@/public/1.png'
 import png2 from '@/public/2.png'
 import png3 from '@/public/3.png'
-export default function EditProject({ handleClose, project, projectId }) {
+import { useRouter } from "next/router";
+export default function EditProject({ handleClose, project, projectId, deleteProject}) {
 
+  const router = useRouter();
   const [user, setUser] = useState();
   const [developers, setDevelopers] = useState([]);
   const [selectedDevelopers, setSelectedDevelopers] = useState([]);
@@ -125,7 +127,18 @@ useEffect(() => {
   };
 
   const handleDelete = async () => {
-    confirm("Are you sure? All data related to the project will be deleted. \n\nTHIS ACTION IS IRREVERSIBLE.");
+    if (confirm("Are you sure? All data related to the project will be deleted. \n\nTHIS ACTION IS IRREVERSIBLE.")) {
+      if (confirm("Are you absolutely sure? This will remove all developers from the project and your shared files will be inaccessible")) {
+        try {
+          const taskRef = doc(db, "projects", projectId);
+          await deleteDoc(taskRef);
+          alert("Project deleted... \nRedirecting...");
+          router.push("../Developer/Home");
+        } catch (error) {
+          console.error("Failed to delete document:", error)
+        }
+      };
+    };
   };
 
   return (

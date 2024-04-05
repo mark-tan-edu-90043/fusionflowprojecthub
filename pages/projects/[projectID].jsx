@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, query, where, getDocs, doc, collectionGroup, getDoc, addDoc, deleteDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, updateDoc, getDoc, addDoc, deleteDoc } from "firebase/firestore";
 import { auth, db } from "../../_utils/firebase";
 import { useRouter } from "next/router";
 import Image from 'next/image';
@@ -161,10 +161,24 @@ export default function ProjectDash() {
                 done: prevTasks.done.filter(task => task.id !== taskId)
             }));
             console.log("Task deleted successfully!");
+            router.reload();
         } catch (error) {
             console.error("Error deleting task:", error);
         }
     };
+
+    const handleChangeStatus = async (taskId, status) => {
+        try {
+            const taskRef = doc(db, "projects", projectId, "tasks", taskId);
+            await updateDoc(taskRef, {
+                status: status
+            })
+            console.log('Sucessfully edited task');
+            router.reload();
+        } catch (error) {
+            console.error("Failed to update:", error)
+        }
+    }
 
         return (
             <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0'  }}>
@@ -232,7 +246,9 @@ export default function ProjectDash() {
                                 marginRight: '15px'
                             }}>
                                 
-                                <div>
+                                <div style={{
+                                        overflowY: 'auto',   /* Enable vertical scrolling */
+                                }}>
                                     <div style={{
                                         display: 'flex',
                                         justifyContent: 'space-between',
@@ -253,7 +269,7 @@ export default function ProjectDash() {
                                     </div>
                                     
                                     {tasks.toDo.map(task => (
-                                        <Task key={task.id} task={task} onDelete={handleDelete} />
+                                        <Task key={task.id} task={task} onDelete={handleDelete} onEditStatus={handleChangeStatus}/>
                                     ))}
                                 </div>
                                 
@@ -266,7 +282,7 @@ export default function ProjectDash() {
                                     textAlign: 'center',
                                     backgroundColor: 'rgba(255, 255, 255, 0.2)'
                                 }}>
-                                    <button onClick={handleOpenPopup}>Add new task</button>
+                                    + <button onClick={handleOpenPopup}>Add new task</button>
                                 </div>
                                 </div>
                             </div>
@@ -294,7 +310,9 @@ export default function ProjectDash() {
                                     borderRadius: '10px',
                                     marginRight:'15px'
                                 }}>
-                                    <div>
+                                    <div style={{
+                                        overflowY: 'auto',   /* Enable vertical scrolling */
+                                    }}>
                                         <div style={{
                                             display: 'flex',
                                             justifyContent: 'space-between',
@@ -315,7 +333,7 @@ export default function ProjectDash() {
                                             }}>{tasks.inProgress.length}</div>
                                         </div>
                                         {tasks.inProgress.map(task => (
-                                            <Task key={task.id} task={task} onDelete={handleDelete} />
+                                            <Task key={task.id} task={task} onDelete={handleDelete} onEditStatus={handleChangeStatus}/>
                                         ))}
                                     </div>
                                     <div style={{
@@ -327,7 +345,7 @@ export default function ProjectDash() {
                                         textAlign: 'center',
                                         backgroundColor: 'rgba(255, 255, 255, 0.2)'
                                     }}>
-                                        + <span>Add new task</span>
+                                        + <button onClick={handleOpenPopup}>Add new task</button>
                                     </div>
                                 </div>
                                 <div style={{
@@ -361,7 +379,7 @@ export default function ProjectDash() {
                                             }}>{tasks.done.length}</div>
                                         </div>
                                         {tasks.done.map(task => (
-                                            <Task key={task.id} task={task} onDelete={handleDelete} />
+                                            <Task key={task.id} task={task} onDelete={handleDelete} onEditStatus={handleChangeStatus}/>
                                         ))}
                                     </div>
                                     <div style={{
@@ -373,7 +391,7 @@ export default function ProjectDash() {
                                         textAlign: 'center',
                                         backgroundColor: 'rgba(255, 255, 255, 0.2)'
                                     }}>
-                                        + <span>Add new task</span>
+                                        + <button onClick={handleOpenPopup}>Add new task</button>
                                     </div>
                                 </div>
                                 <div style={{
@@ -388,7 +406,9 @@ export default function ProjectDash() {
                                     marginRight:'15px',
                                     // marginLeft:'10px'
                                 }}>
-                                    <div>
+                                    <div style={{
+                                        overflowY: 'auto',   /* Enable vertical scrolling */
+                                    }}>
                                         <div style={{
                                             display: 'flex',
                                             justifyContent: 'space-between',

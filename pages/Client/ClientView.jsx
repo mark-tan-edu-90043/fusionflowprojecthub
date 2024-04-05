@@ -1,13 +1,19 @@
 import Image from "next/image";
 import React, { useState } from 'react';
 import { v4 } from "uuid";
+import { useRouter } from 'next/router';
 
 export default function ClientManagment() {
+    const router = useRouter();
     const [showPopup, setShowPopup] = useState(false);
     const [selectedProject, setSelectedProject] = useState("project1");
     const selectProject = (projectId) => {
         setSelectedProject(projectId);
         setShowPopup(!showPopup);
+    };
+
+    const handleClose = () => {
+        router.push('/Login'); 
     };
 
     const togglePopup = () => {
@@ -24,7 +30,7 @@ export default function ClientManagment() {
       };
 
     return (
-        <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+        <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }}>
             <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>Client View</div>
             <div style={{
                 display: 'flex',
@@ -44,11 +50,11 @@ export default function ClientManagment() {
                             height: '32px',
                             background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
                             color: '#fff',
-                            borderRadius: '16px',
+                            borderRadius: '5px',
                             boxShadow: '0px 3px 2px #dc4c25',
                             marginTop: '10px',
-                            marginRight: '10px'
-                        }}>Close</button>
+                            marginRight: '10px'    
+                        }} onClick={handleClose} >Close</button>
                     </div>
                     <div style={{
                         display: 'flex',

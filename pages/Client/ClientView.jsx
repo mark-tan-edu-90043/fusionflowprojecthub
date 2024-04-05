@@ -1,13 +1,19 @@
 import Image from "next/image";
 import React, { useState } from 'react';
 import { v4 } from "uuid";
+import { useRouter } from 'next/router';
 
 export default function ClientManagment() {
+    const router = useRouter();
     const [showPopup, setShowPopup] = useState(false);
     const [selectedProject, setSelectedProject] = useState("project1");
     const selectProject = (projectId) => {
         setSelectedProject(projectId);
         setShowPopup(!showPopup);
+    };
+
+    const handleClose = () => {
+        router.push('/Login'); 
     };
 
     const togglePopup = () => {
@@ -44,11 +50,11 @@ export default function ClientManagment() {
                             height: '32px',
                             background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
                             color: '#fff',
-                            borderRadius: '16px',
+                            borderRadius: '5px',
                             boxShadow: '0px 3px 2px #dc4c25',
                             marginTop: '10px',
-                            marginRight: '10px'
-                        }}>Close</button>
+                            marginRight: '10px'    
+                        }} onClick={handleClose} >Close</button>
                     </div>
                     <div style={{
                         display: 'flex',

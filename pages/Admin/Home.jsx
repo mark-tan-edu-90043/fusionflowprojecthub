@@ -68,9 +68,10 @@ export default function Admin() {
     return (
         <main className="h-screen" style={{  display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }} >
 
-
-            <div style={{ width: '100%', background: 'white', paddingTop: '10px', paddingBottom: '10px', display: 'flex', justifyContent: 'center' }}>
-                <div style={{ width: '90%', }}>
+            
+            <div style={{ width: '100%', background: 'white', paddingTop: '5px', paddingBottom: '5px', display: 'flex', justifyContent: 'center' }}>
+            <img src="/Slice 1.svg" alt="Logo" width={170} height={80}></img>
+                <div style={{ width: '78%', }}>
                     <nav style={{ background: 'white', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center' }}>
                         <ul style={{ listStyleType: 'none', display: 'flex', justifyContent: 'flex-end', alignContent: 'center', }}>
                             <li onClick={() => { router.push('../Profile') }} 

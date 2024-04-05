@@ -191,18 +191,18 @@ export default function ProjectDash() {
                                 height: '30px',
                                 background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
                                 color: '#fff',
-                                borderRadius: '10px',
+                                borderRadius: '5px',
                                 boxShadow: '0px 3px 2px #dc4c25',
                                 marginTop: '10px',
                                 marginRight: '10px'
-                            }} onClick={() => router.push('/Developer/Home')}> Edit </button>
+                            }} onClick={handleEdit}> Edit </button>
 
                             <button style={{
                                 width: '70px',
                                 height: '30px',
                                 background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
                                 color: '#fff',
-                                borderRadius: '10px',
+                                borderRadius: '5px',
                                 boxShadow: '0px 3px 2px #dc4c25',
                                 marginTop: '10px',
                                 marginRight: '10px'
@@ -299,7 +299,8 @@ export default function ProjectDash() {
                                             display: 'flex',
                                             justifyContent: 'space-between',
                                             padding: '10px',
-                                            fontSize: '13px'
+                                            fontSize: '13px',
+                                            
                                         }}>
                                             <span style={{ fontWeight: 700 }}>In progress Task</span>
                                             <div style={{
@@ -309,7 +310,8 @@ export default function ProjectDash() {
                                                 borderRadius: '50%',
                                                 lineHeight: '20px',
                                                 textAlign: 'center',
-                                                color: '#fff'
+                                                color: '#fff',
+                                                
                                             }}>{tasks.inProgress.length}</div>
                                         </div>
                                         {tasks.inProgress.map(task => (

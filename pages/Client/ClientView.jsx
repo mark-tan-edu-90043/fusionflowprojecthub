@@ -4,7 +4,6 @@ import { collection, query, where, getDocs, doc, getDoc } from "firebase/firesto
 import { auth, db } from "../../_utils/firebase";
 import { useRouter } from "next/router";
 import { v4 } from "uuid";
-import { useRouter } from 'next/router';
 
 export default function ClientManagement() {
     const router = useRouter();

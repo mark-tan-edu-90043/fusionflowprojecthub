@@ -10,7 +10,7 @@ const Setting = () => {
           {/* Replace "/logo.svg" with the path to your actual logo */}
         </div>
         <div className="user-info flex items-center">
-          <span className="mr-2">"placeholder"</span>
+          <span className="mr-2">&quot;placeholder&quot;</span>
           <Image src="/Group 21.svg" alt="User Icon" width={24} height={24} />
           <button className="ml-4 bg-blue-500 text-white px-4 py-2 rounded">Sign out</button>
         </div>
@@ -23,7 +23,7 @@ const Setting = () => {
           {/*<MenuItem icon="/Group 15.png" text="Setting" link="#" />*/}
           <MenuItem icon="/Group 44.png" text="Notifications" link="#" />
           <MenuItem icon="/Group 23.png" text="Search" link="#" />
-          <MenuItem icon="/Group 25.png" text="Help & Support" link="#" />
+          <MenuItem icon="/Group 25.png" text="Help &amp; Support" link="#" />
         </div>
       
       </main>

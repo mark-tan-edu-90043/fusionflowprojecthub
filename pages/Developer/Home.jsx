@@ -182,7 +182,7 @@ export default function DeveloperPage() {
                             width: 'calc(50% - 20px)',
                             maxWidth: '250px',
                             minWidth: '200px',
-                            height: '100px',
+                            height: '120px',
                             backgroundColor: '#f2f2f2',
                             borderRadius: '10px',
                             margin: '10px',
@@ -213,7 +213,7 @@ export default function DeveloperPage() {
                             width: 'calc(50% - 20px)',
                             maxWidth: '250px',
                             minWidth: '200px',
-                            height: '100px',
+                            height: '120px',
                             padding: '10px',
                             border: '1px solid #ccc',
                             borderRadius: '10px',
@@ -223,10 +223,11 @@ export default function DeveloperPage() {
                             flexDirection: 'column',
                             alignItems: 'center',
                             alignSelf: 'flex-start',
-                            justifyContent:'center'
+                            justifyContent:'center',
+                            
                         }} onClick={() => handleProjectClick(project.id)}>
-                            <div style={{ fontSize: '20px', fontWeight: 'bold',  color: 'black',  }}>{project.name}</div>
-                            <div style={{ color: 'black'}}>{project.description}</div>
+                            <div style={{ fontSize: '20px', fontWeight: 'bold',  color: 'black',  maxWidth: '200px', overflowY:'auto', marginBottom: '5px',}}>{project.name}</div>
+                            <div style={{ color: 'black', height: '1em', marginBottom: '5px',}}>{project.description || " "}</div>
                             {/* Percentage Bar */}
                             <div style={{ backgroundColor: '#E0E0E0',
                                             borderRadius: '5px',
@@ -235,7 +236,7 @@ export default function DeveloperPage() {
                                             height: '15px', 
                                             marginTop: '20px',
                                         }}>
-                                <div style={{backgroundColor: getProgressBarColor(project.progress),
+                                <div style={{backgroundColor: project.progress > 0 ? getProgressBarColor(project.progress) : 'transparent',
                                             
                                             width: project.progress > 0 ? `${project.progress}%` : '10%',
                                             height: '100%',

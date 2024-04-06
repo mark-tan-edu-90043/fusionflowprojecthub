@@ -244,7 +244,9 @@ export default function ProjectDash() {
                                 padding: '0 10px',
                                 backgroundColor: '#6B9EFF',
                                 borderRadius: '10px',
-                                marginRight: '15px'
+                                marginRight: '15px',
+                                overflowY:'auto',
+                                
                             }}>
                                 
                                 <div style={{
@@ -309,8 +311,9 @@ export default function ProjectDash() {
                                     padding: '0 10px',
                                     backgroundColor: '#49d290',
                                     borderRadius: '10px',
-                                    marginRight:'15px'
-                                }}>
+                                    marginRight:'15px',
+                                    
+                                    }}>
                                     <div style={{
                                         overflowY: 'auto',   /* Enable vertical scrolling */
                                     }}>

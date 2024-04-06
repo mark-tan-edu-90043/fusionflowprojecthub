@@ -41,7 +41,10 @@ const AdminLogin = () => {
       }
     } catch (error) {
       console.error('Error logging in:', error.message);
-      setErrorMessage('Incorrect email or password. Please try again.');
+      if (error.message == "Firebase: Error (auth/invalid-email).")
+        setErrorMessage('Email bad');
+      else 
+        setErrorMessage('Password bad')
     }
   };
 
@@ -66,7 +69,7 @@ const AdminLogin = () => {
       }
     } catch (error) {
       console.error('Error logging in:', error.message);
-      setErrorMessage('Incorrect email or password. Please try again.');
+      setErrorMessage('Login failed. Please try again later.');
     }
   };
 
@@ -77,7 +80,7 @@ const AdminLogin = () => {
       const user = userCredential.user;
 
       // Check user role
-      const docRef = await doc(db, "users", user.uid);
+      const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
       const role = docSnap.data().role;
 
@@ -91,7 +94,7 @@ const AdminLogin = () => {
       }
     } catch (error) {
       console.error('Error logging in:', error.message);
-      setErrorMessage('Incorrect email or password.Please try again.');
+      setErrorMessage('Login failed. Please try again later.');
     }
   };
 

@@ -54,7 +54,7 @@ const FileList = ({ projectId}) => {
   };
 
   return (
-    <div >
+    <div style={{marginTop:'2px'}}>
       <div style={{ backgroundColor: '#E3E3E3', marginBottom: '5px', display:'flex', justifyContent:'space-between', }}>
         <h1 style={{alignContent:'center',display:'flex', margin:'0px 20px' }}>Files</h1>
         <button style={{
@@ -82,7 +82,7 @@ const FileList = ({ projectId}) => {
           <tbody>
             {console.log(files)}
             {files.map((file, index) => (
-              <tr key={file.fileId} style={{ borderBottom: '1px solid #ccc' }}>
+              <tr key={file.fileId} style={{ borderBottom: '1px solid #ccc', color:'black' }}>
                 {console.log(file.fileId)}
                 <td style={{ padding: '5px 0' }}>
                   <span>{file.name}</span>

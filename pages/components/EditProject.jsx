@@ -1,24 +1,28 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { getDocs, setDoc, doc, addDoc, collection, query, or, where, updateDoc } from "firebase/firestore";
+import { getDocs, setDoc, doc, deleteDoc, collection, query, or, where, updateDoc } from "firebase/firestore";
 import { db, auth } from "../../_utils/firebase"
 import React from 'react';
 import png1 from '@/public/1.png'
 import png2 from '@/public/2.png'
 import png3 from '@/public/3.png'
-export default function EditProject({ handleClose, project, projectId }) {
+import { useRouter } from "next/router";
+export default function EditProject({ handleClose, project, projectId, deleteProject}) {
 
+  const router = useRouter();
   const [user, setUser] = useState();
   const [developers, setDevelopers] = useState([]);
   const [selectedDevelopers, setSelectedDevelopers] = useState([]);
   const [clients, setClients] = useState([]);
   const [selectedClients, setSelectedClients] = useState([]);
+  const [percentage, setPercentage] = useState(0);
   const [formData, setFormData] = useState({
     name: project ? project.name || '' : '',
     clientCompany: project ? project.clientCompany || '' : '',
     description: project ? project.description || '' : '',
     developers: project ? project.developers || [] : [],
-    clients: project ? project.clients || [] : []
+    clients: project ? project.clients || [] : [],
+
 });
 
   useEffect(() => {   //Grabs user data
@@ -59,6 +63,13 @@ useEffect(() => {
 
   const handleClientCompanyChange = (e) => {
     setFormData({ ...formData, clientCompany: e.target.value });
+    console.log(formData);
+  };
+
+  const handleProgressChange = (event) => {
+    
+    const newPercentage = Math.max(0, Math.min(100, Number(event.target.value)));
+    setPercentage(newPercentage);
     console.log(formData);
   };
 
@@ -115,18 +126,33 @@ useEffect(() => {
         description: formData.description,
         clientCompany: formData.clientCompany,
         developers: selectedDevelopers,
-        clients: selectedClients
+        clients: selectedClients,
+        progress: percentage,
       });
       console.log('Updated project', projectId);
       handleClose();
     } catch (error) {
-      console.error('Error adding document: ', error);
+      console.error('Error updating document: ', error);
     }
   };
 
   const handleDelete = async () => {
-    confirm("Are you sure? All data related to the project will be deleted. \n\nTHIS ACTION IS IRREVERSIBLE.");
+    if (confirm("Are you sure? All data related to the project will be deleted. \n\nTHIS ACTION IS IRREVERSIBLE.")) {
+      if (confirm("Are you absolutely sure? This will remove all developers from the project and your shared files will be inaccessible")) {
+        try {
+          const taskRef = doc(db, "projects", projectId);
+          await deleteDoc(taskRef);
+          alert("Project deleted... \nRedirecting...");
+          router.push("../Developer/Home");
+        } catch (error) {
+          console.error("Failed to delete document:", error)
+        }
+      };
+    };
   };
+  
+
+
 
   return (
     <main style={{
@@ -141,8 +167,8 @@ useEffect(() => {
     }}>
       <div style={{
         position: 'relative',
-        width: '400px',
-        height: '550px',
+        width: '517px',
+        height: '600px',
         backgroundColor: '#fff',
         borderRadius: '10px',
         padding: '30px 20px 0 30px',
@@ -285,7 +311,7 @@ useEffect(() => {
           </div>
           
           <div>
-            <h2 style={{color:'#929292'}}>Selected Clients:</h2>
+            <h2 style={{color:'#929292',}}>Selected Clients:</h2>
             <ul style={{ maxHeight: '90px', overflowY: 'auto' }}>
               {selectedClients.map((clientId) => (
                 <li style={{color:'#929292'}}key={clientId}>
@@ -296,19 +322,37 @@ useEffect(() => {
           </div>
 
         </div>
-
-      
-        <div style={{ display: 'flex', justifyContent: 'end', marginTop: '8px',  }}>
+        {/* progress bar */}
+        <div>
+          <div style={{color:'#929292'}}>Project Progress</div>
+          <input
+            type="range"
+            value={percentage}
+            onChange={handleProgressChange}
+            min="0"
+            max="100"
+          />
+          <input
+            type="number"
+            value={percentage}
+            onChange={handleProgressChange}
+            min="0"
+            max="100"
+          />
+          </div>        
+        {/* button         */}
+        <div style={{ display: 'flex', justifyContent:'flex-end', marginTop: '20px'  }}>
         <button style={{
             height: '30px',
             padding: '5px 20px',
             borderRadius: '5px',
             color: '#fff',
             fontSize: '12px',
-            background: '#FF0000',
+            marginRight:'20px',
+            background: '#EB465A',
             boxSizing: 'border-box',
             boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
-          }} onClick={handleDelete}>Delete Project</button>
+          }} onClick={handleDelete}>Delete</button>
         <button style={{
             height: '30px',
             padding: '5px 20px',
@@ -319,8 +363,9 @@ useEffect(() => {
             background: '#E3E3E3',
             boxSizing: 'border-box',
             boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
+            
           }} onClick={handleClose}>Cancel</button>
-          <button style={{
+        <button style={{
             height: '30px',
             padding: '5px 20px',
             borderRadius: '5px',

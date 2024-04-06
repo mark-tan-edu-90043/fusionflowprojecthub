@@ -236,6 +236,7 @@ export default function DeveloperPage() {
                                             marginTop: '20px',
                                         }}>
                                 <div style={{backgroundColor: getProgressBarColor(project.progress),
+                                            
                                             width: project.progress > 0 ? `${project.progress}%` : '10%',
                                             height: '100%',
                                             borderRadius: '5px',
@@ -245,7 +246,7 @@ export default function DeveloperPage() {
                                             color: 'white',
                                             fontWeight: 'bold',
                                             fontSize: '12px',}}> 
-                                    {project.progress}%
+                                    {project.progress > 0 ? `${project.progress}%` : '0%'}
                                 </div>
                             </div>
                         </div>

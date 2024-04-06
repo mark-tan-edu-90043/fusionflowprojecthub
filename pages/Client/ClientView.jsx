@@ -26,6 +26,10 @@ export default function ClientManagement() {
         setShowPopup(!showPopup);
     };
 
+    const handleClose = () => {
+        return; 
+    }
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
             if (currentUser) {
@@ -118,7 +122,7 @@ export default function ClientManagement() {
                             boxShadow: '0px 3px 2px #dc4c25',
                             marginTop: '10px',
                             marginRight: '10px'    
-                        }} onClick={handleClose} >Close</button>
+                        }} onClick={handleClose}>Close</button>
                     </div>
                     <div style={{
                         display: 'flex',

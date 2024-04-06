@@ -13,6 +13,7 @@ export default function DeveloperPage() {
     const [isAdmin, setIsAdmin] = useState(false); // State to store admin status
     const [showModal, setShowModal] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    
 
     const handleOpenModal = () => {
         setShowModal(true);
@@ -92,7 +93,14 @@ export default function DeveloperPage() {
             e.currentTarget.style.backgroundColor = '#007bff';
             e.currentTarget.style.color = '#fff'; 
         };
-
+        
+        const getProgressBarColor = (progress) => {
+            if (progress <= 0) {
+                return '#E0E0E0'; 
+              }
+            return progress < 50 ? '#FFA500' : '#30b546'; 
+          };   
+       
         
     return (
         <main className='h-screen' style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }}>
@@ -200,24 +208,6 @@ export default function DeveloperPage() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     {filteredProjects.map(project => (
                         <div key={project.id} style={{
                             width: 'calc(50% - 20px)',
@@ -233,9 +223,31 @@ export default function DeveloperPage() {
                             flexDirection: 'column',
                             alignItems: 'center',
                             alignSelf: 'flex-start',
+                            justifyContent:'center'
                         }} onClick={() => handleProjectClick(project.id)}>
-                            <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px', color: 'black' }}>{project.name}</div>
-                            <div style={{ color: 'black' }}>{project.description}</div>
+                            <div style={{ fontSize: '20px', fontWeight: 'bold',  color: 'black',  }}>{project.name}</div>
+                            <div style={{ color: 'black'}}>{project.description}</div>
+                            {/* Percentage Bar */}
+                            <div style={{ backgroundColor: '#E0E0E0',
+                                            borderRadius: '5px',
+                                            padding: '1px',
+                                            width: '100%',
+                                            height: '15px', 
+                                            marginTop: '20px',
+                                        }}>
+                                <div style={{backgroundColor: getProgressBarColor(project.progress),
+                                            width: project.progress > 0 ? `${project.progress}%` : '10%',
+                                            height: '100%',
+                                            borderRadius: '5px',
+                                            display: 'flex',
+                                            alignItems: 'center', 
+                                            justifyContent: 'center', 
+                                            color: 'white',
+                                            fontWeight: 'bold',
+                                            fontSize: '12px',}}> 
+                                    {project.progress}%
+                                </div>
+                            </div>
                         </div>
                     ))}
 

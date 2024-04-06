@@ -15,12 +15,14 @@ export default function EditProject({ handleClose, project, projectId, deletePro
   const [selectedDevelopers, setSelectedDevelopers] = useState([]);
   const [clients, setClients] = useState([]);
   const [selectedClients, setSelectedClients] = useState([]);
+  const [percentage, setPercentage] = useState(0);
   const [formData, setFormData] = useState({
     name: project ? project.name || '' : '',
     clientCompany: project ? project.clientCompany || '' : '',
     description: project ? project.description || '' : '',
     developers: project ? project.developers || [] : [],
-    clients: project ? project.clients || [] : []
+    clients: project ? project.clients || [] : [],
+
 });
 
   useEffect(() => {   //Grabs user data
@@ -61,6 +63,13 @@ useEffect(() => {
 
   const handleClientCompanyChange = (e) => {
     setFormData({ ...formData, clientCompany: e.target.value });
+    console.log(formData);
+  };
+
+  const handleProgressChange = (event) => {
+    
+    const newPercentage = Math.max(0, Math.min(100, Number(event.target.value)));
+    setPercentage(newPercentage);
     console.log(formData);
   };
 
@@ -117,12 +126,13 @@ useEffect(() => {
         description: formData.description,
         clientCompany: formData.clientCompany,
         developers: selectedDevelopers,
-        clients: selectedClients
+        clients: selectedClients,
+        progress: percentage,
       });
       console.log('Updated project', projectId);
       handleClose();
     } catch (error) {
-      console.error('Error adding document: ', error);
+      console.error('Error updating document: ', error);
     }
   };
 
@@ -140,6 +150,9 @@ useEffect(() => {
       };
     };
   };
+  
+
+
 
   return (
     <main style={{
@@ -154,8 +167,8 @@ useEffect(() => {
     }}>
       <div style={{
         position: 'relative',
-        width: '400px',
-        height: '550px',
+        width: '517px',
+        height: '600px',
         backgroundColor: '#fff',
         borderRadius: '10px',
         padding: '30px 20px 0 30px',
@@ -298,7 +311,7 @@ useEffect(() => {
           </div>
           
           <div>
-            <h2 style={{color:'#929292'}}>Selected Clients:</h2>
+            <h2 style={{color:'#929292',}}>Selected Clients:</h2>
             <ul style={{ maxHeight: '90px', overflowY: 'auto' }}>
               {selectedClients.map((clientId) => (
                 <li style={{color:'#929292'}}key={clientId}>
@@ -309,15 +322,33 @@ useEffect(() => {
           </div>
 
         </div>
-
-      
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px',  }}>
+        {/* progress bar */}
+        <div>
+          <div style={{color:'#929292'}}>Project Progress</div>
+          <input
+            type="range"
+            value={percentage}
+            onChange={handleProgressChange}
+            min="0"
+            max="100"
+          />
+          <input
+            type="number"
+            value={percentage}
+            onChange={handleProgressChange}
+            min="0"
+            max="100"
+          />
+          </div>        
+        {/* button         */}
+        <div style={{ display: 'flex', justifyContent:'flex-end', marginTop: '20px'  }}>
         <button style={{
             height: '30px',
             padding: '5px 20px',
             borderRadius: '5px',
             color: '#fff',
             fontSize: '12px',
+            marginRight:'20px',
             background: '#EB465A',
             boxSizing: 'border-box',
             boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
@@ -332,8 +363,9 @@ useEffect(() => {
             background: '#E3E3E3',
             boxSizing: 'border-box',
             boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
+            
           }} onClick={handleClose}>Cancel</button>
-          <button style={{
+        <button style={{
             height: '30px',
             padding: '5px 20px',
             borderRadius: '5px',

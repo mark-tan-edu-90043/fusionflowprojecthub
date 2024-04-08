@@ -204,10 +204,10 @@ export default function ProjectDash() {
                             <button style={{
                                 width: '70px',
                                 height: '30px',
-                                background: 'linear-gradient(to bottom, #fc6c45, #ffc6b7)',
+                                background: 'linear-gradient(to bottom, #6b9eff,#ACC8FD )',
                                 color: '#fff',
                                 borderRadius: '5px',
-                                boxShadow: '0px 3px 2px #dc4c25',
+                                boxShadow: '0px 3px 2px #0057FF',
                                 marginTop: '10px',
                                 marginRight: '10px'
                             }} onClick={handleEdit}> Edit </button>

@@ -29,6 +29,7 @@ const IndexPage = () => {
           border-radius: 5px;
           font-size: 1.2rem;
           transition: background-color 0.3s ease;
+          cursor: pointer;
         }
         .login-button:hover {
           background-color: #0056b3;

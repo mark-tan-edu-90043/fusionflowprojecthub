@@ -173,7 +173,7 @@ useEffect(() => {
         borderRadius: '10px',
         padding: '30px 20px 0 30px',
       }}>
-        <div style={{ color: '#929292', marginBottom: '5px' }}>Project Title</div>
+        <div style={{ color: '#929292', marginBottom: '2px' }}>Project Title</div>
         <input type="text" placeholder="Your Project Title here" style={{
             width: '260px',
             height: '30px',
@@ -181,6 +181,7 @@ useEffect(() => {
             borderRadius: '5px',
             fontSize: '12px',
             paddingLeft: '5px',
+            marginBottom:'5px'
           }}        
           value={formData.name} 
           onChange={handleTitleChange}  />
@@ -200,7 +201,7 @@ useEffect(() => {
           fontSize: '12px',
           cursor: 'pointer'
         }} onClick={handleClose}>X</div> */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom:'8px' }}>
           <input type="text" placeholder="Client Company" style={{
             width: '260px',
             height: '30px',
@@ -208,6 +209,7 @@ useEffect(() => {
             borderRadius: '5px',
             fontSize: '12px',
             paddingLeft: '5px',
+            
           }}           value={formData.clientCompany} 
           onChange={handleClientCompanyChange} />
           <button style={{
@@ -243,7 +245,7 @@ useEffect(() => {
           </div>
         </div>
         */}
-        <div style={{ color: '#929292', marginBottom: '5px' }}>Description</div>
+        <div style={{ color: '#929292', marginBottom: '2px' }}>Description</div>
         <div style={{ border: '1px solid #ccc', borderRadius: '5px' }}>
           <div style={{
             display: 'flex',
@@ -301,7 +303,7 @@ useEffect(() => {
         <div style={{ display: 'flex' }}>
           <div style={{ marginTop: '8px' }}>
           <h2 style={{color:'#929292'}}>Select Clients:</h2>
-          <select multiple onChange={handleClientChange} style={{ marginRight: '20px',color:'#929292' }}>
+          <select multiple onChange={handleClientChange} style={{ marginRight: '20px',color:'#929292', marginBottom:'8px' }}>
             {clients.map((client) => (
               <option key={client.uid} value={client.uid}>
                 {client.name}

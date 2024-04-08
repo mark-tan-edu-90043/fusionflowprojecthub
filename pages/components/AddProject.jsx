@@ -137,7 +137,7 @@ useEffect(() => {
         borderRadius: '10px',
         padding: '30px 20px 0 30px',
       }}>
-        <div style={{ color: '#929292', marginBottom: '5px' }}>Project Title</div>
+        <div style={{ color: '#929292', marginBottom: '2px' }}>Project Title</div>
         <input type="text" placeholder="Your Project Title here" style={{
             width: '260px',
             height: '30px',
@@ -145,6 +145,7 @@ useEffect(() => {
             borderRadius: '5px',
             fontSize: '12px',
             paddingLeft: '5px',
+            marginBottom:'5px'
           }}        
           value={formData.title} 
           onChange={handleTitleChange}  />
@@ -164,7 +165,7 @@ useEffect(() => {
           fontSize: '12px',
           cursor: 'pointer'
         }} onClick={handleClose}>X</div> */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom:'8px' }}>
           <input type="text" placeholder="Client Company" style={{
             width: '260px',
             height: '30px',
@@ -207,7 +208,7 @@ useEffect(() => {
           </div>
         </div>
         */}
-        <div style={{ color: '#929292', marginBottom: '5px' }}>Description</div>
+        <div style={{ color: '#929292', marginBottom: '2px' }}>Description</div>
         <div style={{ border: '1px solid #ccc', borderRadius: '5px' }}>
           <div style={{
             display: 'flex',

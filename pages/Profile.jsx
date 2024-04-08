@@ -80,10 +80,33 @@ export default function UserTestPage() {
                             <p>Role: {role}</p>
                             <p>UID: {user.uid}</p>
                             <p>Username: {username}</p> 
-                            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '500px' }}>
-                                <button onClick={handleSignOut} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Sign Out</button>
-                                
-                                <button onClick={handleGoBack} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Back</button>
+                            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+                                <button 
+                                    onClick={handleGoBack} 
+                                    style={{ 
+                                        backgroundColor: '#007bff', 
+                                        color: '#fff', 
+                                        padding: '10px 10px', 
+                                        border: 'none', 
+                                        borderRadius: '5px', 
+                                        cursor: 'pointer',
+                                        width: '90px' 
+                                    }}>
+                                    Back
+                                </button>
+                                <button 
+                                    onClick={handleSignOut} 
+                                    style={{ 
+                                        backgroundColor: '#007bff', 
+                                        color: '#fff', 
+                                        padding: '10px 10px', 
+                                        border: 'none', 
+                                        borderRadius: '5px', 
+                                        cursor: 'pointer',
+                                        width: '90px' 
+                                    }}>
+                                    Sign Out
+                                </button>
                             </div>
                         </div>
                     </div>

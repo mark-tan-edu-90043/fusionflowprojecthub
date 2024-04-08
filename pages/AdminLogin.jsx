@@ -110,19 +110,19 @@ const AdminLogin = () => {
           </button> */}
         </div>
       </div>
-      <div style={{ width: 305, height: 542, background: '#D2DCF0', borderRadius: 42, display: 'flex', flexDirection: 'column', marginBottom: '160px', alignItems: 'center', position: 'relative', zIndex: '1' }}>
+      <div style={{ width: 305, height: 542, background: '#D2DCF0', borderRadius: '20px', display: 'flex', flexDirection: 'column', marginBottom: '160px', alignItems: 'center', position: 'relative', zIndex: '1' }}>
         <div style={{ marginTop: '60px' }}>
           <Image src="/Group 66.svg" alt="fig" width={124} height={124} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
-          <div style={{ width: 198, height: 55, background: 'white', borderRadius: 15, paddingLeft: '15px', paddingTop: '7px', marginTop: '30px' }}>
+          <div style={{ width: 198, height: 55, background: 'white', borderRadius: '10px', paddingLeft: '15px', paddingTop: '7px', marginTop: '30px' }}>
             <p style={{ color: '#6B6B6B', fontSize: '14px', fontFamily: 'Inter, sans-serif' }}>Email Address</p>
             <div style={{ display: 'flex', }}>
               <Image src="/Group 2.svg" alt="fig" width={23} height={16} />
               <input type="text" style={{ width: 140, height: '50%', outline: 'none', border: 'none', marginLeft: '5px', color: '#979797', fontFamily: 'Inter, sans-serif' }} placeholder="" onChange={handleEmailChange} />
             </div>
           </div>
-          <div style={{ width: 198, height: 55, background: 'white', borderRadius: 15, marginBottom: '10px', paddingLeft: '15px', paddingTop: '7px', marginTop: '40px' }}>
+          <div style={{ width: 198, height: 55, background: 'white', borderRadius: '10px', marginBottom: '10px', paddingLeft: '15px', paddingTop: '7px', marginTop: '40px' }}>
             <p style={{ color: '#6B6B6B', fontSize: '14px', fontFamily: 'Inter, sans-serif' }}>Password</p>
             <div style={{ display: 'flex', }}>
               <Image src="/Group 1.svg" alt="fig" width={23} height={16} />
@@ -142,7 +142,7 @@ const AdminLogin = () => {
               lineHeight: 1
             }}>{errorMessage}</div>
 
-          <button style={{ width: 198, height: 40, display: 'flex', alignItems: 'center', background: '#0057FF', borderRadius: 50, justifyContent: 'center', marginTop: '40px' }} onClick={handleSubmit}>
+          <button style={{ width: 198, height: 40, display: 'flex', alignItems: 'center', background: '#0057FF', borderRadius: '10px', justifyContent: 'center', marginTop: '40px' }} onClick={handleSubmit}>
             <p style={{ color: 'white', fontSize: '18px', fontFamily: 'Inter, sans-serif', fontWeight: '900', fontStyle: 'italic' }}>Sign in</p>
           </button>
           {/* <button style={{ position: 'absolute', bottom: '0px', left: '50px'}} onClick={handleGoogleAuth}>
@@ -192,7 +192,7 @@ const AdminLogin = () => {
               width: '170px',
               height: '35px',
               backgroundColor: '#0057FF',
-              borderRadius: '50px',
+              borderRadius: '10px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center', 

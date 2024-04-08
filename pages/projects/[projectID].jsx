@@ -277,7 +277,7 @@ export default function ProjectDash() {
                                 </div>
                                 
                                 <div style={{
-                                    marginBottom: '20px',
+                                    marginBottom: '10px',
                                     padding: '8px',
                                     border: '1px dotted #000',
                                     fontSize: '13px',
@@ -341,7 +341,7 @@ export default function ProjectDash() {
                                         ))}
                                     </div>
                                     <div style={{
-                                        marginBottom: '20px',
+                                        marginBottom: '10px',
                                         padding: '8px',
                                         border: '1px dotted #000',
                                         fontSize: '13px',
@@ -387,7 +387,7 @@ export default function ProjectDash() {
                                         ))}
                                     </div>
                                     <div style={{
-                                        marginBottom: '20px',
+                                        marginBottom: '10px',
                                         padding: '8px',
                                         border: '1px dotted #000',
                                         fontSize: '13px',
@@ -426,7 +426,7 @@ export default function ProjectDash() {
                                                 display: 'flex',
                                                 justifyContent: "space-between",
                                                 backgroundColor: '#fff',
-                                                borderRadius: '18px',
+                                                borderRadius: '10px',
                                                 padding: '10px',
                                                 fontSize: '13px',
                                                 lineHeight: '20px',

@@ -192,6 +192,7 @@ export default function DeveloperPage() {
                             alignItems: 'center',
                             justifyContent: 'center',
                             transition: 'background-color 0.3s ease',
+                            color:'black'
                         }}
                         onClick={() => handleOpenModal()}
                         onMouseEnter={(e) => {

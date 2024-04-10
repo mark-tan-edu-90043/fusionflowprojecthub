@@ -12,6 +12,11 @@ const AdminLogin = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  /**
+   * Handles email
+   * 
+   * @param {} e 
+   */
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };

@@ -1,7 +1,7 @@
 // Calendar.jsx
 
 import React, { useState, useEffect } from 'react';
-import './Calendar.css';
+import './calendar.css';
 
 const Calendar = () => {
   const [assignments, setAssignments] = useState([]);

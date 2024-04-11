@@ -81,7 +81,7 @@ export default function Login() {
     <main className="flex min-h-screen flex-col items-center justify-between" style={{ backgroundColor: '#E7E7E7' }}>
       
       <div style={{ width: '100%', height: 50, background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <img src="Slice 1.svg" alt="Logo" width={170} height={70}></img>
+      <img src="LOG 1.svg" alt="Logo" width={170} height={70}></img>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '50px' }}></div>
         
       </div>

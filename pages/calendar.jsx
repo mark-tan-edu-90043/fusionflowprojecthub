@@ -1,12 +1,13 @@
-// Calendar.jsx
-
 import React, { useState, useEffect } from 'react';
-import './calendar.css';
+import './Calendar.css';
 
 const Calendar = () => {
   const [assignments, setAssignments] = useState([]);
   const [deadline, setDeadline] = useState('');
   const [description, setDescription] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState(null); // Add this line
+  const [selectedYear, setSelectedYear] = useState(null); // Add this line
 
   useEffect(() => {
     const storedAssignments = localStorage.getItem('assignments');
@@ -19,24 +20,93 @@ const Calendar = () => {
     localStorage.setItem('assignments', JSON.stringify(assignments));
   }, [assignments]);
 
+  // Rest of your component code...
+
+
   const handleAddAssignment = () => {
-    if (!deadline || !description) return;
-    setAssignments([...assignments, { deadline, description }]);
+    if (!deadline || !description || !selectedDate) return;
+    const newAssignment = { deadline: selectedDate, description };
+    setAssignments([...assignments, newAssignment]);
     setDeadline('');
     setDescription('');
+    setSelectedDate('');
   };
 
-  const handleDeleteAssignment = (index) => {
-    const updatedAssignments = [...assignments];
-    updatedAssignments.splice(index, 1);
+  const handleDeleteAssignment = (date, index) => {
+    const updatedAssignments = assignments.filter(
+      (assignment) =>
+        !(assignment.deadline === date && assignment.description === assignments[index].description)
+    );
     setAssignments(updatedAssignments);
   };
 
+  const renderCalendar = () => {
+    if (selectedMonth === null || selectedYear === null) return []; // Check for null values
+  
+    const startDate = new Date(selectedYear, selectedMonth, 1);
+    const numDaysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
+  
+    const calendarCells = [];
+    for (let day = 1; day <= numDaysInMonth; day++) {
+      const currentDate = new Date(selectedYear, selectedMonth, day);
+      const cellDate = currentDate.toISOString().slice(0, 10);
+  
+      calendarCells.push(
+        <div
+          key={cellDate}
+          className={`calendar-cell ${selectedDate === cellDate ? 'selected' : ''}`}
+          onClick={() => setSelectedDate(cellDate)}
+        >
+          <span>{day}</span>
+          <ul>
+            {assignments.map(
+              (assignment, index) =>
+                assignment.deadline === cellDate && (
+                  <li key={index}>
+                    {assignment.description}
+                    <button onClick={() => handleDeleteAssignment(cellDate, index)}>Delete</button>
+                  </li>
+                )
+            )}
+          </ul>
+        </div>
+      );
+    }
+  
+    return calendarCells;
+  };
+  
+  
+  
   return (
     <div className="calendar-container">
       <h2>Calendar</h2>
+      <div className="month-year-selector">
+        <select
+          value={selectedMonth}
+          onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+        >
+          <option value="">Select Month</option>
+          {[...Array(12).keys()].map((month) => (
+            <option key={month} value={month}>
+              {new Date(2000, month, 1).toLocaleString('default', { month: 'long' })}
+            </option>
+          ))}
+        </select>
+        <select
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+        >
+          <option value="">Select Year</option>
+          {[...Array(10).keys()].map((year) => (
+            <option key={year} value={new Date().getFullYear() + year}>
+              {new Date().getFullYear() + year}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="calendar">
-        {/* Calendar UI goes here */}
+        {renderCalendar()}
       </div>
       <div className="assignment-form">
         <h3>Add Assignment</h3>
@@ -52,17 +122,6 @@ const Calendar = () => {
           onChange={(e) => setDescription(e.target.value)}
         />
         <button onClick={handleAddAssignment}>Add</button>
-      </div>
-      <div className="assignments">
-        <h3>Assignments</h3>
-        <ul>
-          {assignments.map((assignment, index) => (
-            <li key={index}>
-              <strong>{assignment.deadline}</strong> - {assignment.description}
-              <button onClick={() => handleDeleteAssignment(index)}>Delete</button>
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );

@@ -57,36 +57,40 @@ export default function Admin() {
 
     const handleMouseEnter = (e) => {
         e.currentTarget.style.backgroundColor = '#f2f2f2';
-        e.currentTarget.style.color = '#000000'; 
+        e.currentTarget.style.color = '#000000';
     };
 
     const handleMouseLeave = (e) => {
         e.currentTarget.style.backgroundColor = '#007bff';
-        e.currentTarget.style.color = '#fff'; 
+        e.currentTarget.style.color = '#fff';
     };
 
     return (
-        <main className="h-screen" style={{  display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }} >
+        <main className="h-screen" style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }} >
 
-            
+
             <div style={{ width: '100%', background: 'white', paddingTop: '5px', paddingBottom: '5px', display: 'flex', justifyContent: 'center' }}>
-            <img src="/Slice 1.svg" alt="Logo" width={170} height={80}></img>
+                <img src="/Slice 1.svg" alt="Logo" width={170} height={80}></img>
                 <div style={{ width: '78%', }}>
                     <nav style={{ background: 'white', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center' }}>
                         <ul style={{ listStyleType: 'none', display: 'flex', justifyContent: 'flex-end', alignContent: 'center', }}>
-                            <li onClick={() => { router.push('../Profile') }} 
+                            <li onClick={() => { router.push('../Profile') }}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
                                 style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>My Profile</li>
+                            <li onClick={() => router.push('/calendar')}
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Calendar</li>
                             <li onClick={() => router.push('/Developer/Home')}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
                                 style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Developer Dashboard</li>
-                            <li onClick={() => router.push('/Admin/Home')} 
+                            <li onClick={() => router.push('/Admin/Home')}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
                                 style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Admin Panel</li>
-                            <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} 
+                            <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
                                 style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', }}>Log Out</li>
@@ -164,11 +168,11 @@ export default function Admin() {
                         paddingRight: '20px'
                     }}>
                         <div style={{ color: '#858585', margin: '0', flex: 1, maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'center', fontWeight: 'bold' }}>{user.uid}</div>
-                        <div style={{ color: '#858585', margin: '0', flex: 1, textAlign: 'center', fontWeight: 'bold' }}>{user.name}</div>
-                        <div style={{ color: '#858585', margin: '0', flex: 1, textAlign: 'center', fontWeight: 'bold' }}>{user.username}</div>
-                        <div style={{ color: '#858585', margin: '0', flex: 1, textAlign: 'center', fontWeight: 'bold' }}>{user.dob}</div>
-                        <div style={{ color: '#858585', margin: '0', flex: 1, textAlign: 'center', fontWeight: 'bold' }}>{user.status}</div>
-                        <div style={{ color: '#858585', margin: '0', flex: 1, textAlign: 'center', fontWeight: 'bold' }}>{user.role}</div>
+                        <div style={{ color: '#858585', margin: '0', flex: 1, maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'center', fontWeight: 'bold' }}>{user.name}</div>
+                        <div style={{ color: '#858585', margin: '0', flex: 1, maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'center', fontWeight: 'bold' }}>{user.username}</div>
+                        <div style={{ color: '#858585', margin: '0', flex: 1, maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'center', fontWeight: 'bold' }}>{user.dob}</div>
+                        <div style={{ color: '#858585', margin: '0', flex: 1, maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'center', fontWeight: 'bold' }}>{user.status}</div>
+                        <div style={{ color: '#858585', margin: '0', flex: 1, maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'center', fontWeight: 'bold' }}>{user.role}</div>
                         <div style={{ margin: '10px 0', flex: 1, maxWidth: '150px', display: 'flex', justifyContent: 'center' }}>
                             <div style={{
                                 color: 'white',
@@ -183,8 +187,8 @@ export default function Admin() {
                             }} onClick={() => handleUserInfo(user)}>Edit</div>
                         </div>
                     </div>
-
                 ))}
+
 
             </div>
 

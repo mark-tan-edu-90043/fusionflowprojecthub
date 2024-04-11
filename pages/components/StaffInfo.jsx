@@ -4,10 +4,11 @@
     import { useState, useEffect } from "react";
     import { collection, query, where, getDocs, doc, updateDoc, arrayUnion } from "firebase/firestore";
     import { db } from "../../_utils/firebase";
+    import { useRouter } from "next/router";
 
     export default function StaffInfo({handleClose, user}) {
 
-        
+        const router = useRouter();
         const [projects, setProjects] = useState([]);
         const [otherProjects, setOtherProjects] = useState([]);
         const [formData, setFormData] = useState({
@@ -69,14 +70,17 @@
                     role: formData.role,
                     status: formData.status,
                 });
+                if (selectedProjectToAdd !== "") {
+                    const projectRef = doc(db, 'projects', selectedProjectToAdd);
+                    await updateDoc(projectRef, {
+                        developers: arrayUnion(user.uid)
+                    });
+                    console.log("Added user to " + selectedProjectToAdd)
+                }
 
-                const projectRef = doc(db, 'projects', selectedProjectToAdd);
-                await updateDoc(projectRef, {
-                    developers: arrayUnion(user.uid)
-                });
-                console.log("Added user to " + selectedProjectToAdd)
                 
                 handleClose();
+                router.reload();
             } catch (error) {
                 console.error('Error updating user:', error);
                 // Handle error, show error message to user
@@ -141,7 +145,7 @@
                                     type="text" 
                                     style={{ width: '100%', height: '30px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }} 
                                     value={formData.username} // Pre-fill with user's name
-                                    onChange={(e) => setFormData(prevState => ({ ...prevState, name: e.target.value }))} // Update user state
+                                    onChange={(e) => setFormData(prevState => ({ ...prevState, username: e.target.value }))} // Update user state
                                 />
                             </div>
                             <div style={{ width: '38%' }}>

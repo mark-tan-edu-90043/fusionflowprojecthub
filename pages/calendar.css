@@ -1,36 +1,59 @@
-/* Calendar.css */
-
-.calendar-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center content horizontally */
-  text-align: center; /* Center text within the container */
+.calendar-container .calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
 }
 
-
-
-.assignment-form {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.calendar-container .calendar-cell {
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  position: relative;
 }
 
-.assignment-form input[type="date"],
-.assignment-form input[type="text"] {
+.calendar-container .calendar-cell:hover {
+  background-color: #f0f0f0;
+}
+
+.calendar-container .calendar-cell.selected {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.calendar-container .calendar-cell > span {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.calendar-container .assignment-form input[type="date"],
+.calendar-container .assignment-form input[type="text"],
+.calendar-container .assignment-form button {
   margin-bottom: 10px;
 }
 
-.assignments {
+.calendar-container .assignments {
   margin-top: 20px;
 }
 
-.assignments ul {
+.calendar-container ul {
   list-style: none;
   padding: 0;
 }
 
-.assignments li {
+.calendar-container ul li {
   margin-bottom: 5px;
+}
+
+.calendar-container button {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.calendar-container button:hover {
+  background-color: #c82333;
 }
 

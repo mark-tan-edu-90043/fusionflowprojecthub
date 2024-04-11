@@ -72,6 +72,7 @@ export default function DeveloperPage() {
                         <nav style={{ background: 'white', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center' }}>
                             <ul style={{ listStyleType: 'none', display: 'flex', justifyContent: 'flex-end', alignContent: 'center', }}>
                                 <li onClick={() => { router.push('../Profile') }} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>My Profile</li>
+                                <li onClick={() => auth.signOut().then(() => { router.push('') })} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Calendar</li>
                                 <li onClick={() => router.push('/Developer/Home')} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Developer Dashboard</li>
                                 <li style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Admin Panel</li>
                                 <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', }}>Log Out</li>
@@ -115,6 +116,10 @@ export default function DeveloperPage() {
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
                                 style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>My Profile</li>
+                            <li onClick={() =>router.push('/calendar')} 
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Calendar</li>
                             <li 
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
@@ -138,20 +143,26 @@ export default function DeveloperPage() {
 
             {/* search box */}
 
-            <div style={{ width: '100%', paddingTop: '10px', paddingBottom: '10px', display: 'flex', justifyContent: 'center' }}>
+            <div style={{ width: '100%', paddingTop: '10px', display: 'flex', justifyContent: 'center' }}>
                 <div style={{ width: '90%', marginTop: "30px" }}>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", }}>
-                        <div style={{ width: 520, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#3C89FC', borderRadius: '10px', paddingLeft: '12px', marginBottom: '10px' }}>
+                    <div style={{ alignItems: "flex-end", display: "flex", flexDirection: "row", justifyContent: "space-between", }}>
+
+
+
+                        <div style={{ width: 520, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#3C89FC', borderRadius: '10px', paddingLeft: '13px', marginBottom: '10px' }}>
                             <p style={{ color: 'white' }}>Search Project</p>
-                            <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '15px' }}>
+                            <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '15px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <input type="text" style={{ color: 'black', width: 280, height: '50%', outline: 'none', border: 'none' }} value={searchQuery} onChange={handleSearchInputChange} />
                                 </div>
                                 <Image style={{ marginLeft: '60px' }} src="/Group 23.png" alt="search" width={24} height={24} />
                             </div>
-
                         </div>
+
+
                         <div style={{ fontSize: '40px', fontWeight: 'bold', color: '#fff', }}>My Projects</div>
+
+
                     </div>
 
 
@@ -170,7 +181,7 @@ export default function DeveloperPage() {
                 backgroundColor: '#fff',
                 padding: '10px',
                 justifyContent: 'center',
-
+                marginBottom:'20px'
 
             }}>
                 <div style={{ width: '100%', height: '100px', flexWrap: 'wrap', display: 'flex', }}>

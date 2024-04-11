@@ -70,7 +70,7 @@ export default function Admin() {
 
 
             <div style={{ width: '100%', background: 'white', paddingTop: '5px', paddingBottom: '5px', display: 'flex', justifyContent: 'center' }}>
-                <img src="/Slice 1.svg" alt="Logo" width={170} height={80}></img>
+                <img src="/LOG 1.svg" alt="Logo" width={170} height={80}></img>
                 <div style={{ width: '78%', }}>
                     <nav style={{ background: 'white', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center' }}>
                         <ul style={{ listStyleType: 'none', display: 'flex', justifyContent: 'flex-end', alignContent: 'center', }}>

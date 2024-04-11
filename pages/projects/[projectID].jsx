@@ -182,7 +182,7 @@ export default function ProjectDash() {
 
     
         return (
-            <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0'  }}>
+            <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0', overflow:'auto'  }}>
                 
                 <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>{projectName}</div>
                 <div style={{
@@ -362,14 +362,17 @@ export default function ProjectDash() {
                                     padding: '0 10px',
                                     backgroundColor: '#adc9fd',
                                     borderRadius: '10px',
-                                    marginRight:'15px'
+                                    marginRight:'15px',
+                                    overflowY:'auto',
                                 }}>
                                     <div>
                                         <div style={{
                                             display: 'flex',
                                             justifyContent: 'space-between',
                                             padding: '10px',
-                                            fontSize: '13px'
+                                            fontSize: '13px',
+                                            
+
                                         }}>
                                             <span style={{ fontWeight: 700 }}>Completed Task</span>
                                             <div style={{

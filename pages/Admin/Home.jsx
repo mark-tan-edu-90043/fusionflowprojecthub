@@ -104,20 +104,26 @@ export default function Admin() {
 
             {/* search box */}
 
-            <div style={{ width: '100%', paddingTop: '10px', paddingBottom: '10px', display: 'flex', justifyContent: 'center' }}>
+            <div style={{ width: '100%', paddingTop: '10px', display: 'flex', justifyContent: 'center' }}>
                 <div style={{ width: '90%', marginTop: "30px" }}>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", }}>
-                        <div style={{ width: 520, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#3C89FC', borderRadius: '10px', paddingLeft: '12px', marginBottom: '10px' }}>
+                    <div style={{ alignItems: "flex-end", display: "flex", flexDirection: "row", justifyContent: "space-between", }}>
+
+
+
+                        <div style={{ width: 520, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#3C89FC', borderRadius: '10px', paddingLeft: '13px', marginBottom: '10px' }}>
                             <p style={{ color: 'white' }}>Search Project</p>
-                            <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '15px' }}>
+                            <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '15px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <input type="text" style={{ color: 'black', width: 280, height: '50%', outline: 'none', border: 'none' }} value={searchQuery} onChange={handleSearch} />
                                 </div>
                                 <Image style={{ marginLeft: '60px' }} src="/Group 23.png" alt="search" width={24} height={24} />
                             </div>
-
                         </div>
+
+
                         <div style={{ fontSize: '40px', fontWeight: 'bold', color: '#fff', }}>Staff Management</div>
+
+
                     </div>
 
 
@@ -125,12 +131,13 @@ export default function Admin() {
             </div>
 
             <div style={{
-                marginTop: '20px',
+                
                 width: '90%',
                 marginBottom: '10px',
                 backgroundColor: 'white',
                 borderRadius: '10px',
-                boxShadow: '0px 20px 20px rgba(0, 0, 0, 0.1)', padding: '20px'
+                boxShadow: '0px 20px 20px rgba(0, 0, 0, 0.1)', padding: '20px',
+                overflowY:'auto'
             }}>
 
 

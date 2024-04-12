@@ -7,7 +7,7 @@ import png1 from '@/public/1.png'
 import png2 from '@/public/2.png'
 import png3 from '@/public/3.png'
 import { useRouter } from "next/router";
-export default function EditProject({ handleClose, project, projectId, deleteProject}) {
+export default function EditProject({ handleClose, project, projectId, deleteProject }) {
 
   const router = useRouter();
   const [user, setUser] = useState();
@@ -23,20 +23,20 @@ export default function EditProject({ handleClose, project, projectId, deletePro
     developers: project ? project.developers || [] : [],
     clients: project ? project.clients || [] : [],
 
-});
+  });
 
   useEffect(() => {   //Grabs user data
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-        if (currentUser) {
-            setUser(currentUser);
-        } else {
-            setUser(null); // No user signed in
-        }
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        setUser(null); // No user signed in
+      }
     });
     return () => unsubscribe();
-}, [user]);
+  }, [user]);
 
-useEffect(() => {
+  useEffect(() => {
     getDevelopers();
     getClients();
     console.log(project);
@@ -49,7 +49,7 @@ useEffect(() => {
     console.log(project.clients)
     console.log(project.developers)
 
-}, []);
+  }, []);
 
   const handleTitleChange = (e) => {
     setFormData({ ...formData, name: e.target.value });
@@ -67,7 +67,7 @@ useEffect(() => {
   };
 
   const handleProgressChange = (event) => {
-    
+
     const newPercentage = Math.max(0, Math.min(100, Number(event.target.value)));
     setPercentage(newPercentage);
     console.log(formData);
@@ -77,7 +77,7 @@ useEffect(() => {
     try {
       const usersCollection = collection(db, 'users');
       const q = query(usersCollection, or(where('role', '==', 'Developer'), where('role', '==', 'Admin')));
-  
+
       const usersSnapshot = await getDocs(q);
       const usersData = usersSnapshot.docs.map((doc) => {
         const userData = doc.data();
@@ -89,7 +89,7 @@ useEffect(() => {
       console.error('Error fetching users:', error);
     }
   };
-  
+
 
   const handleDeveloperChange = (e) => {
     const selectedDeveloperIds = Array.from(e.target.selectedOptions, (option) => option.value);
@@ -111,13 +111,13 @@ useEffect(() => {
       console.error('Error fetching users:', error);
     }
   };
-  
+
 
   const handleClientChange = (e) => {
     const selectedClientIds = Array.from(e.target.selectedOptions, (option) => option.value);
     setSelectedClients(selectedClientIds);
     console.log(selectedClients)
-  };  
+  };
 
   const handleSubmit = async () => {
     try {
@@ -150,7 +150,7 @@ useEffect(() => {
       };
     };
   };
-  
+
 
 
 
@@ -175,17 +175,17 @@ useEffect(() => {
       }}>
         <div style={{ color: '#929292', marginBottom: '2px' }}>Project Title</div>
         <input type="text" placeholder="Your Project Title here" style={{
-            width: '260px',
-            height: '30px',
-            border: '1px solid #ccc',
-            borderRadius: '5px',
-            fontSize: '12px',
-            paddingLeft: '5px',
-            marginBottom:'5px'
-          }}        
-          value={formData.name} 
-          onChange={handleTitleChange}  />
-        
+          width: '260px',
+          height: '30px',
+          border: '1px solid #ccc',
+          borderRadius: '5px',
+          fontSize: '12px',
+          paddingLeft: '5px',
+          marginBottom: '5px'
+        }}
+          value={formData.name}
+          onChange={handleTitleChange} />
+
         {/* <div style={{
           position: 'absolute',
           top: '-10px',
@@ -201,7 +201,7 @@ useEffect(() => {
           fontSize: '12px',
           cursor: 'pointer'
         }} onClick={handleClose}>X</div> */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom:'8px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
           <input type="text" placeholder="Client Company" style={{
             width: '260px',
             height: '30px',
@@ -209,9 +209,9 @@ useEffect(() => {
             borderRadius: '5px',
             fontSize: '12px',
             paddingLeft: '5px',
-            
-          }}           value={formData.clientCompany} 
-          onChange={handleClientCompanyChange} />
+
+          }} value={formData.clientCompany}
+            onChange={handleClientCompanyChange} />
           <button style={{
             height: '30px',
             padding: '0 20px',
@@ -251,72 +251,72 @@ useEffect(() => {
             display: 'flex',
             alignItems: 'center',
             fontSize: '12px',
-            borderBottom: '1px solid #ccc',
-            padding: '5px 0',
+            // borderBottom: '1px solid #ccc',
+            // padding: '5px 0',
           }}>
-            <span style={{ padding: '0 8px' }}>Aa</span>
+            {/* <span style={{ padding: '0 8px' }}>Aa</span>
             <b style={{ padding: '0 8px' }}>B</b>
             <i style={{ padding: '0 8px' }}>I</i>
             <span style={{ textDecoration: "underline", padding: '0 8px' }}>U</span>
             <del style={{ padding: '0 8px' }}>S</del>
             <span style={{ padding: '0 8px' }}>H1</span>
             <span style={{ padding: '0 8px' }} >H2</span>
-            <span style={{ padding: '0 8px' }}>H3</span>
+            <span style={{ padding: '0 8px' }}>H3</span> */}
           </div>
-          <textarea style={{ resize: 'none', width: '100%', height: '100%' }} value={formData.description} 
-          onChange={handleDescriptionChange} ></textarea>
+          <textarea style={{ resize: 'none', width: '100%', height: '100%' }} value={formData.description}
+            onChange={handleDescriptionChange} ></textarea>
         </div>
         <div style={{ marginTop: '8px', display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
         </div>
-        <div> 
-    <div style={{ display: 'flex' }}>
-      <div>
-        <h2 style={{color:'#929292'}}>Select Developers:</h2>
-        <select multiple onChange={handleDeveloperChange} style={{ marginRight: '20px',color:'#929292' }}>
-          {developers.map((developer) => (
-            <option key={developer.uid} value={developer.uid}>
-              {developer.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <h2 style={{color:'#929292'}}>Selected Developers:</h2>
-        <ul style={{ maxHeight: '90px', overflowY: 'auto' }}>
-          {selectedDevelopers.map((developerId) => (
-            <li style={{color:'#929292'}}key={developerId}>
-              {developers.find((developer) => developer.uid === developerId)?.name}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+        <div>
+          <div style={{ display: 'flex' }}>
+            <div>
+              <h2 style={{ color: '#929292' }}>Select Developers:</h2>
+              <select multiple onChange={handleDeveloperChange} style={{ marginRight: '20px', color: '#929292', border: '1px solid #ccc', borderRadius: '3px' }}>
+                {developers.map((developer) => (
+                  <option key={developer.uid} value={developer.uid}>
+                    {developer.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <h2 style={{ color: '#929292' }}>Selected Developers:</h2>
+              <ul style={{ maxHeight: '75px', overflow: 'auto' }}>
+                {selectedDevelopers.map((developerId) => (
+                  <li style={{ color: '#929292' }} key={developerId}>
+                    {developers.find((developer) => developer.uid === developerId)?.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginTop: '4px',
-          
+          marginTop: '8px',
+
         }}>
         </div>
         <div style={{ display: 'flex' }}>
-          <div style={{ marginTop: '8px' }}>
-          <h2 style={{color:'#929292'}}>Select Clients:</h2>
-          <select multiple onChange={handleClientChange} style={{ marginRight: '20px',color:'#929292', marginBottom:'8px' }}>
-            {clients.map((client) => (
-              <option key={client.uid} value={client.uid}>
-                {client.name}
-              </option>
-            ))}
-          </select>
+          <div style={{ marginTop: '5px' }}>
+            <h2 style={{ color: '#929292' }}>Select Clients:</h2>
+            <select multiple onChange={handleClientChange} style={{ marginRight: '20px', color: '#929292', marginBottom: '8px', border: '1px solid #ccc', borderRadius: '3px' }}>
+              {clients.map((client) => (
+                <option key={client.uid} value={client.uid}>
+                  {client.name}
+                </option>
+              ))}
+            </select>
           </div>
-          
+
           <div>
-            <h2 style={{color:'#929292',}}>Selected Clients:</h2>
+            <h2 style={{ color: '#929292', marginTop: '5px' }}>Selected Clients:</h2>
             <ul style={{ maxHeight: '90px', overflowY: 'auto' }}>
               {selectedClients.map((clientId) => (
-                <li style={{color:'#929292'}}key={clientId}>
+                <li style={{ color: '#929292' }} key={clientId}>
                   {clients.find((client) => client.uid === clientId)?.name}
                 </li>
               ))}
@@ -326,7 +326,7 @@ useEffect(() => {
         </div>
         {/* progress bar */}
         <div>
-          <div style={{color:'#929292'}}>Project Progress</div>
+          <div style={{ color: '#929292' }}>Project Progress</div>
           <input
             type="range"
             value={percentage}
@@ -341,33 +341,33 @@ useEffect(() => {
             min="0"
             max="100"
           />
-          </div>        
+        </div>
         {/* button         */}
-        <div style={{ display: 'flex', justifyContent:'flex-end', marginTop: '20px'  }}>
-        <button style={{
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+          <button style={{
             height: '30px',
             padding: '5px 20px',
             borderRadius: '5px',
             color: '#fff',
             fontSize: '12px',
-            marginRight:'20px',
+            marginRight: '20px',
             background: '#EB465A',
             boxSizing: 'border-box',
             boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
           }} onClick={handleDelete}>Delete</button>
-        <button style={{
+          <button style={{
             height: '30px',
             padding: '5px 20px',
             borderRadius: '5px',
-            marginRight:'20px',
+            marginRight: '20px',
             color: '#929292',
             fontSize: '12px',
             background: '#E3E3E3',
             boxSizing: 'border-box',
             boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.5)',
-            
+
           }} onClick={handleClose}>Cancel</button>
-        <button style={{
+          <button style={{
             height: '30px',
             padding: '5px 20px',
             borderRadius: '5px',

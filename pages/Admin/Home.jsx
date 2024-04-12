@@ -133,7 +133,7 @@ export default function Admin() {
             <div style={{
                 
                 width: '90%',
-                marginBottom: '10px',
+                marginBottom: '30px',
                 backgroundColor: 'white',
                 borderRadius: '10px',
                 boxShadow: '0px 20px 20px rgba(0, 0, 0, 0.1)', padding: '20px',

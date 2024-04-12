@@ -181,7 +181,7 @@ export default function DeveloperPage() {
                 backgroundColor: '#fff',
                 padding: '10px',
                 justifyContent: 'center',
-                marginBottom:'20px'
+                marginBottom:'30px'
 
             }}>
                 <div style={{ width: '100%', height: '100px', flexWrap: 'wrap', display: 'flex', }}>

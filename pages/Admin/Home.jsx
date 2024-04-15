@@ -126,7 +126,7 @@ export default function Admin() {
                 marginBottom: '10px',
                 backgroundColor: 'white',
                 borderRadius: '10px',
-                boxShadow: '0px 20px 20px rgba(0, 0, 0, 0.1)', padding: '20px'
+                boxShadow: '0px 20px 20px rgba(0, 0, 0, 0.1)', padding: '20px',
             }}>
 
 

@@ -30,7 +30,7 @@ export const NotDue = {
     task: {
       name: 'name',
       description: 'desc',
-      deadline: '2024-04-10'
+      deadline: '2024-04-20'
     },
   },
 };
@@ -41,7 +41,7 @@ export const AlmostDue = {
     task: {
       name: 'name',
       description: 'desc',
-      deadline: '2024-03-28'
+      deadline: '2024-04-15'
     },
   },
 };

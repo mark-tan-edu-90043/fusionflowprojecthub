@@ -49,7 +49,7 @@ export default function UserTestPage() {
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0'  }}>
                 
-            <div style={{ width: '90%', fontSize: '30px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>My Profile</div>
+            <div style={{ width: '90%', fontSize: '40px', fontWeight: '700', color: '#fff', textAlign: 'end' }}>My Profile</div>
             {user ? (
                 <div style={{
                     display: 'flex',
@@ -57,7 +57,8 @@ export default function UserTestPage() {
                     height: '90%',
                     borderRadius: '10px',
                     backgroundColor: '#fff',
-                    alignContent:'center'
+                    alignContent:'center',
+                    marginBottom:'20px'
                }}>  
 
                     <div style={{
@@ -68,7 +69,9 @@ export default function UserTestPage() {
                         backgroundColor: '#F1F1F1',
                         width: '100%',
                         boxSizing: 'border-box', 
-                        overflowX: 'hidden' 
+                        overflowX: 'hidden',
+                        borderRadius:'5px',
+                        
                     }}>
                         
                         <h2 style={{ color: '#858585', fontSize: '40px', fontWeight: 'bold', marginBottom: '10px',  }}>User Information</h2>

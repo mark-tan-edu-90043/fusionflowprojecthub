@@ -20,6 +20,12 @@ const Calendar = () => {
     localStorage.setItem('assignments', JSON.stringify(assignments));
   }, [assignments]);
 
+  useEffect(() => {
+    const currentDate = new Date();
+    setSelectedMonth(currentDate.getMonth());
+    setSelectedYear(currentDate.getFullYear());
+  }, []);
+
   // Rest of your component code...
 
 
@@ -128,3 +134,4 @@ const Calendar = () => {
 };
 
 export default Calendar;
+

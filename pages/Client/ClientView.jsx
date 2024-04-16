@@ -244,7 +244,7 @@ export default function ClientManagement() {
                                                 marginTop: '20px',
                                                 color: '#ccc'
                                             }}>
-                                                {task.taskName} {/* Assuming you have a taskName field in your task document */}
+                                                {task.name}
                                             </div>
                                         ))}
                                     </div>

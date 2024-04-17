@@ -202,13 +202,13 @@ export default function ClientManagement() {
                                     <div>
                                         {projects.map(project => (
                                             <div key={project.id} onClick={() => selectProject(project.id)} style={{
-                                                backgroundColor: selectedProject === project.id ? '#ccc' : '#fff',
+                                                backgroundColor: selectedProject === project.id ? '#f0f0f0' : '#fff',
                                                 borderRadius: '10px',
                                                 padding: '10px',
                                                 fontSize: '13px',
                                                 lineHeight: '20px',
                                                 marginTop: '20px',
-                                                color: selectedProject === project.id ? '#000' : '#ccc',
+                                                color: selectedProject === project.id ? '#000' : '#f0f0f0',
                                                 cursor: 'pointer',
                                             }}>
                                                 <b>{project.name}</b>

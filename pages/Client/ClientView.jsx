@@ -197,7 +197,7 @@ export default function ClientManagement() {
                                         fontSize: '13px',
                                         overflowY: 'auto'
                                     }}>
-                                        <span style={{ fontWeight: 700 }}>Project</span>
+                                        <span style={{ fontWeight: 700 }}>Your Projects</span>
                                     </div>
                                     <div>
                                         {projects.map(project => (
@@ -217,7 +217,7 @@ export default function ClientManagement() {
                                                         <div className="popup-content">
                                                             <h2><em>{project.description}</em></h2>
                                                             <h2>Company Name: {project.clientCompany}</h2>
-                                                            <h2>Progress:</h2>
+                                                            <h2>Progress: {project.progress}%</h2>
                                                         </div>
                                                     </div>
                                                 )}
@@ -244,7 +244,7 @@ export default function ClientManagement() {
                                             padding: '10px',
                                             fontSize: '13px'
                                         }}>
-                                            <span style={{ fontWeight: 700 }}>In progress Task</span>
+                                            <span style={{ fontWeight: 700 }}>In Progress Tasks</span>
                                         </div>
                                         {tasks.inProgress.map((task) => (
                                                 <Task key={task.id} task={task}/>

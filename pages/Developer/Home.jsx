@@ -193,6 +193,7 @@ export default function DeveloperPage() {
 
 
                     {/* create new project bottom */}
+                    {isAdmin &&
                     <div
                         style={{
                             width: 'calc(50% - 20px)',
@@ -222,7 +223,7 @@ export default function DeveloperPage() {
                     >
                         <div>Create new project</div>
                     </div>
-
+                    }
 
 
                     {filteredProjects.map(project => (

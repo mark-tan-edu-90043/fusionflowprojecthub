@@ -1,9 +1,10 @@
 import Image from "next/image";
 import React, { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
-import { auth, db } from "../../_utils/firebase";
+import { auth, db, signOut } from "../../_utils/firebase";
 import { useRouter } from "next/router";
 import { v4 } from "uuid";
+import Task from "../components/ViewOnlyTask"
 
 export default function ClientManagement() {
     const router = useRouter();
@@ -11,30 +12,37 @@ export default function ClientManagement() {
     const [selectedProject, setSelectedProject] = useState(null); // Initialize selectedProject as null
     const [user, setUser] = useState(null);
     const [projects, setProjects] = useState([]);
+    const [developers, setDevelopers] = useState([]);
     const [tasks, setTasks] = useState({
         toDo: [],
         inProgress: [],
         done: []
     });
-
-    const togglePopup = () => {
-        setShowPopup(!showPopup);
+    const [expandedDeveloper, setExpandedDeveloper] = useState(null);
+    const toggleExpansion = (developerId) => {
+        setExpandedDeveloper((prevExpanded) =>
+          prevExpanded === developerId ? null : developerId
+        );
     };
 
     const selectProject = (projectId) => {
         setSelectedProject(projectId);
-        setShowPopup(!showPopup);
+        setShowPopup((prevExpanded) =>
+        prevExpanded === projectId ? null : projectId
+      );
     };
 
     const handleClose = () => {
-        return; 
+        auth.signOut()
+            .then(() => {
+                router.push('/Login');
+        })
     }
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
             if (currentUser) {
                 setUser(currentUser);
-                const userDoc = await getDoc(doc(db, "users", currentUser.uid)); // Assuming user data is stored in "users" collection
                 const projectsQuery = query(collection(db, "projects"), where("clients", "array-contains", currentUser.uid)); //Grab all projects where the Developer is involved
                 const projectsSnapshot = await getDocs(projectsQuery);
                 const projectsData = projectsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -49,7 +57,8 @@ export default function ClientManagement() {
     useEffect(() => {
         if (selectedProject) {
             fetchTasks(selectedProject); // Fetch tasks only when selectedProject changes
-            console.log(tasks.inProgress)
+            fetchDevs(selectedProject)
+            console.log(developers)
         }
     }, [selectedProject]);
 
@@ -92,10 +101,43 @@ export default function ClientManagement() {
                 inProgress: inProgressTasks,
                 done: doneTasks
             });
+
+            console.log(tasks.done);
+            console.log(tasks.inProgress);
         } catch (error) {
             console.error("Error fetching tasks:", error);
         }
-    };                   
+    };
+
+    const fetchDevs = async(projectId) => {
+        try{
+            // Query the project document to get the array of developer UserIDs
+            const projectDoc = await getDoc(doc(db, "projects", projectId));
+            if (projectDoc.exists()) {
+                const developerUserIDs = projectDoc.data().developers;
+
+                // Fetch the details of each developer using their UserIDs
+                const developers = [];
+                for (const userID of developerUserIDs) {
+                    const userDoc = await getDoc(doc(db, "users", userID));
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        const developerWithID = { id: userID, ...userData };
+                        developers.push(developerWithID);
+                    } else {
+                        console.log(`User with ID ${userID} does not exist.`);
+                    }
+                }
+                setDevelopers(developers);
+
+                console.log("Developers assigned to the project:", developers);
+            } else {
+                console.log("Project document does not exist.");
+            }
+        } catch (error) {
+            console.error("You suck. This is why: ", error)
+        }
+    }
 
     return (
         <main style={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }}>
@@ -153,8 +195,9 @@ export default function ClientManagement() {
                                         justifyContent: 'space-between',
                                         padding: '10px',
                                         fontSize: '13px',
+                                        overflowY: 'auto'
                                     }}>
-                                        <span style={{ fontWeight: 700 }}>Project</span>
+                                        <span style={{ fontWeight: 700 }}>Your Projects</span>
                                     </div>
                                     <div>
                                         {projects.map(project => (
@@ -166,16 +209,15 @@ export default function ClientManagement() {
                                                 lineHeight: '20px',
                                                 marginTop: '20px',
                                                 color: selectedProject === project.id ? '#000' : '#ccc',
-                                                cursor: 'pointer'
+                                                cursor: 'pointer',
                                             }}>
-                                                {project.name}
-                                                {showPopup && (
+                                                <b>{project.name}</b>
+                                                {showPopup == project.id && (
                                                     <div className="popup">
                                                         <div className="popup-content">
-                                                            <h2>Company Name: {project.companyName}</h2>
-                                                            <h2>Address: {project.address}</h2>
-                                                            <h2>Contact Person: {project.contactPerson}</h2>
-                                                            <h2>Number: {project.number}</h2>
+                                                            <h2><em>{project.description}</em></h2>
+                                                            <h2>Company Name: {project.clientCompany}</h2>
+                                                            <h2>Progress: {project.progress}%</h2>
                                                         </div>
                                                     </div>
                                                 )}
@@ -194,6 +236,7 @@ export default function ClientManagement() {
                                         padding: '0 10px',
                                         backgroundColor: '#49d290',
                                         borderRadius: '10px',
+                                        overflowY: 'auto'
                                     }}>
                                         <div style={{
                                             display: 'flex',
@@ -201,20 +244,10 @@ export default function ClientManagement() {
                                             padding: '10px',
                                             fontSize: '13px'
                                         }}>
-                                            <span style={{ fontWeight: 700 }}>In progress Task</span>
+                                            <span style={{ fontWeight: 700 }}>In Progress Tasks</span>
                                         </div>
                                         {tasks.inProgress.map((task) => (
-                                            <div key={task.id} style={{
-                                                backgroundColor: '#fff',
-                                                borderRadius: '10px',
-                                                padding: '10px',
-                                                fontSize: '13px',
-                                                lineHeight: '20px',
-                                                marginTop: '20px',
-                                                color: '#ccc'
-                                            }}>
-                                                {task.name} {/* Assuming you have a taskName field in your task document */}
-                                            </div>
+                                                <Task key={task.id} task={task}/>
                                         ))}
                                     </div>
                                     {/* Render done tasks */}
@@ -225,6 +258,7 @@ export default function ClientManagement() {
                                         padding: '0 10px',
                                         backgroundColor: '#adc9fd',
                                         borderRadius: '10px',
+                                        overflowY: 'auto'
                                     }}>
                                         <div style={{
                                             display: 'flex',
@@ -232,24 +266,73 @@ export default function ClientManagement() {
                                             padding: '10px',
                                             fontSize: '13px'
                                         }}>
-                                            <span style={{ fontWeight: 700 }}>Completed Task</span>
+                                            <span style={{ fontWeight: 700 }}>Completed Tasks</span>
                                         </div>
                                         {tasks.done.map((task) => (
-                                            <div key={task.id} style={{
+                                            <Task key={task.id} task={task}/>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+
+                            {selectedProject && 
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: "space-between",
+                                    width: '250px',
+                                    height: '480px',
+                                    padding: '0 10px',
+                                    backgroundColor: '#ffc2af',
+                                    borderRadius: '10px',
+                                    marginRight:'15px',
+                                    // marginLeft:'10px'
+                                }}>
+                                    <div style={{
+                                        overflowY: 'auto',   /* Enable vertical scrolling */
+                                    }}>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            padding: '10px',
+                                            fontSize: '13px'
+                                        }}>
+                                            <span style={{ fontWeight: 700 }}>Participating Staff</span>
+                                        </div>
+                                        {developers.map(developer  => (
+                                            <div key={developer.id} style={{
+                                                display: 'flex',
+                                                justifyContent: "space-between",
                                                 backgroundColor: '#fff',
                                                 borderRadius: '10px',
                                                 padding: '10px',
                                                 fontSize: '13px',
                                                 lineHeight: '20px',
                                                 marginTop: '20px',
-                                                color: '#ccc'
-                                            }}>
-                                                {task.name}
+                                                color: '#ccc', 
+                                                cursor: 'pointer'
+                                            }}  onClick={() => toggleExpansion(developer.id)}>
+                                                {expandedDeveloper === developer.id ? (
+                                                    <span style={{ marginTop: '10px' }}>{developer.email}</span>
+                                                ) : (
+                                                    <>
+                                                    <div style={{ display: 'flex'}}>
+                                                        {developer.photoURL ? (
+                                                            <Image width={20} height={20} src={developer.photoURL}/>
+                                                        ) : (
+                                                            <Image width={20} height={20} src='/Group 6.svg' />
+                                                        )}
+                                                        <span style={{ marginLeft: '6px' }}>{developer.name}</span>
+                                                    </div>
+                                                    <span>{developer.role}</span>
+                                                    </>
+                                                )}
+                                                {/* Always render role, but conditionally */}
                                             </div>
                                         ))}
-                                    </div>
-                                </>
-                            )}
+                                </div>
+                            </div>
+                            }
                         </div>
                     </div>
                 </div>

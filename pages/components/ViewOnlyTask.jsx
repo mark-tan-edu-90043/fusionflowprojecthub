@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-const Task = ({ task, onDelete, onEditStatus }) => {
+const Task = ({ task }) => {
 
     const [taskStatus, setTaskStatus] = useState(null); // Initialize with null or any appropriate initial value
 
@@ -17,13 +17,6 @@ const Task = ({ task, onDelete, onEditStatus }) => {
     
     const { id, name, description, deadline } = task;
 
-    const handleDelete = () => {
-        onDelete(id);
-    };
-
-    const handleEditStatus = () => {
-        onEditStatus(id, taskStatus )
-    }
     // Calculate the difference in days between the current date and the deadline
     const currentDate = new Date();
     const dueDate = new Date(deadline);
@@ -53,16 +46,6 @@ const Task = ({ task, onDelete, onEditStatus }) => {
             <span style={{ color: 'grey' }}>{description}</span>
             <br />
             <span style={{ color: dateColor }}>Due: {deadline}</span>
-            <br />
-            <select value={taskStatus} onChange={(e) => setTaskStatus(e.target.value)}>
-                <option value="todo">To Do</option>
-                <option value="inProgress">In Progress</option>
-                <option value="done">Done</option>
-            </select>
-            <br />
-            <button onClick={handleEditStatus}>Update Status</button>
-            <br />
-            <button style={{ color: 'red' }} onClick={handleDelete}>Delete</button>
         </div>
     );
 };

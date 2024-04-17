@@ -11,7 +11,7 @@ const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(null); // Add this line
   const [selectedYear, setSelectedYear] = useState(null); // Add this line
-  const {isAdmin, setIsAdmin} = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const router = useRouter();
   const [user, setUser] = useState(null);

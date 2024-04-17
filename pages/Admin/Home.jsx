@@ -14,6 +14,7 @@ export default function Admin() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedUser, setSelectedUser] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -65,10 +66,10 @@ export default function Admin() {
                 <div style={{ width: '78%', }}>
                     <nav style={{ background: 'white', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center' }}>
                         <ul style={{ listStyleType: 'none', display: 'flex', justifyContent: 'flex-end', alignContent: 'center', }}>
-                            <li onClick={() => { router.push('../Profile') }}
+                            <li onClick={() => (router.push('../CreateUser'))}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
-                                style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>My Profile</li>
+                                style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Create User</li>
                             <li onClick={() => router.push('/calendar')}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
@@ -101,7 +102,7 @@ export default function Admin() {
 
 
 
-                        <div style={{ width: 520, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#3C89FC', borderRadius: '10px', paddingLeft: '13px', marginBottom: '10px' }}>
+                        <div style={{ width: 520, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#3C89FC', borderRadius: '10px', paddingLeft: '23px', marginBottom: '10px' }}>
                             <p style={{ color: 'white' }}>Search Users</p>
                             <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '15px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -111,9 +112,9 @@ export default function Admin() {
                             </div>
                         </div>
 
-                        <button style={{paddingBottom: 10}}>
-                            <div style={{ display: 'flex', width: '170px', height: '35px', backgroundColor: '#0057FF', borderRadius: '10px', alignItems: 'center', justifyContent: 'center', color: 'white'}} onClick={ () => (router.push('../CreateUser'))}>Create User</div>
-                        </button>
+                        {/* <button style={{paddingBottom: 10}}>
+                            <div style={{ display: 'flex', width: '120px', height: '35px', backgroundColor: '#3C89FC', borderRadius: '10px', alignItems: 'center', justifyContent: 'center', color: 'white'}} onClick={ () => (router.push('../CreateUser'))}>Create User</div>
+                        </button> */}
 
 
                         <div style={{ fontSize: '40px', fontWeight: 'bold', color: '#fff', }}>Staff Management</div>

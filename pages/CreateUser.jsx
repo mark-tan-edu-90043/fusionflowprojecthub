@@ -78,7 +78,7 @@ function CreateUser() {
       boxSizing: 'border-box', 
       overflowX: 'hidden' 
     }}>
-      <h2 style={{ color: '#858585', fontSize: '40px', fontWeight: 'bold', marginBottom: '10px' }}>Create New User</h2>
+      <h2 style={{ color: '#858585', fontSize: '40px', fontWeight: 'bold', marginBottom: '10px' }}>New User</h2>
       <form onSubmit={handleSubmit} style={{
         display: 'flex',
         flexDirection: 'column',
@@ -149,17 +149,32 @@ function CreateUser() {
             <option value="Admin">Admin</option>
           </select>
         </div>
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-          <button type="submit" className="btn" style={{
+        <div style={{ width: '80%', display: 'flex', justifyContent: 'space-around' }}>
+        <button type="submit" className="btn" 
+          onClick={() => router.push('/Admin/Home')}
+          style={{
             color: '#fff',
             backgroundColor: '#007bff',
             padding: '10px 20px',
             border: 'none',
             borderRadius: '5px',
             cursor: 'pointer',
-            marginTop: '10px'
+            marginTop: '10px',
+            marginLeft:'30px'
           }}>
-            Create User
+            Back
+          </button>
+          <button type="submit" className="btn" style={{
+            color: '#fff',
+            backgroundColor: '#007bff',
+            padding: '10px 12px',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginTop: '10px',
+            
+          }}>
+            Create
           </button>
         </div>
       </form>

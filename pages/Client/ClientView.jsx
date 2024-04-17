@@ -34,7 +34,6 @@ export default function ClientManagement() {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
             if (currentUser) {
                 setUser(currentUser);
-                const userDoc = await getDoc(doc(db, "users", currentUser.uid)); // Assuming user data is stored in "users" collection
                 const projectsQuery = query(collection(db, "projects"), where("clients", "array-contains", currentUser.uid)); //Grab all projects where the Developer is involved
                 const projectsSnapshot = await getDocs(projectsQuery);
                 const projectsData = projectsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));

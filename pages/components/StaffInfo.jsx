@@ -2,7 +2,7 @@
     import React from 'react';
     import Link from 'next/link';
     import { useState, useEffect } from "react";
-    import { collection, query, where, getDocs, doc, updateDoc, arrayUnion } from "firebase/firestore";
+    import { collection, query, where, getDocs, doc, updateDoc, arrayUnion, deleteDoc } from "firebase/firestore";
     import { db } from "../../_utils/firebase";
     import { useRouter } from "next/router";
 
@@ -18,6 +18,7 @@
             role: user ? user.role || '' : '',
             status: user ? user.status || '' : '',
             currentProjectId: user ? user.currentProjectId || '' : '',
+            email: user ? user.email || '' : '',
         });
         const [selectedProjectToAdd, setSelectedProjectToAdd] = useState('');
         const [selectedProjectToRemove, setSelectedProjectToRemove] = useState('');
@@ -96,6 +97,18 @@
             setSelectedProjectToRemove(projectId);
             console.log("Planning to remove user from " + projectId)
         };
+        const handleDelete = async () => {
+            if (confirm("Are you sure? \n\nTHIS ACTION IS IRREVERSIBLE.")) {
+                try {
+                  const taskRef = doc(db, "users", user.uid);
+                  await deleteDoc(taskRef);
+                  handleClose();
+                  router.reload();
+                } catch (error) {
+                  console.error("Failed to delete user:", error)
+                }
+            };
+          };
 
         return (
             <main className="flex min-h-screen flex-col items-center justify-between" style={{ 
@@ -123,7 +136,7 @@
                     color: 'black'
                 }}>
                     <div style={{ marginTop: '10px' }}>
-                        <Image src="/Group 66.svg" alt="fig" width={124} height={124} />
+                        <Image src="/Group 66.svg" alt="fig" width={70} height={70} />
                     </div>
 
                     <div style={{ marginTop: '20px', width: '100%' }}>
@@ -149,7 +162,7 @@
                                 />
                             </div>
                             <div style={{ width: '38%' }}>
-                                <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>DoB:</label>
+                                <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>Hire Date:</label>
                                 {/* Calendar Input */}
                                 <input 
                                     type="date" 
@@ -159,6 +172,17 @@
                                 />
                             </div>
                         </div>
+
+                        <div style={{ width: '100%' }}>
+                                <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left' }}>Email:</label>
+                                {/* Calendar Input */}
+                                <input 
+                                    type="text" 
+                                    style={{ width: '100%', height: '30px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }} 
+                                    value={formData.email} // Pre-fill with user's name
+                                    onChange={(e) => setFormData(prevState => ({ ...prevState, username: e.target.value }))} // Update user state
+                                />
+                            </div>
                     
                         <div style={{marginTop: '10px'}}>
                         <label style={{ fontSize: '16px', color: '#AFAFAF', textAlign: 'left', marginTop: '10px' ,}}>Role:</label>
@@ -218,7 +242,7 @@
 
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', width: '100%' }}>
                         <button style={{color:'#929292', marginRight: '10px', backgroundColor: '#E3E3E3', borderRadius: '5px', padding: '5px 15px', border: 'none' }} onClick={handleClose}>Cancel</button>
-                        <button style={{color:'white' , marginRight: '10px', backgroundColor: '#EB465A', borderRadius: '5px', padding: '5px 15px', border: 'none' }} onClick={handleClose}>Delete</button>
+                        <button style={{color:'white' , marginRight: '10px', backgroundColor: '#EB465A', borderRadius: '5px', padding: '5px 15px', border: 'none' }} onClick={handleDelete}>Delete</button>
                         <button style={{color:'white' ,backgroundColor: '#3C89FC', borderRadius: '5px', padding: '5px 15px', border: 'none' }} onClick={handleFormSubmit}>Submit</button>
                     </div>
                 </div>

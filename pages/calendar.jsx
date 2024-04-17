@@ -11,6 +11,7 @@ const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(null); // Add this line
   const [selectedYear, setSelectedYear] = useState(null); // Add this line
+  const {isAdmin, setIsAdmin} = useState(false);
 
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -23,9 +24,9 @@ const Calendar = () => {
 
   useEffect(() => { //Debug
     console.log(projects);
-  }, [projects]);
+}, [projects]);
 
-  const handleMouseEnter = (e) => {
+const handleMouseEnter = (e) => {
     e.currentTarget.style.backgroundColor = '#f2f2f2';
     e.currentTarget.style.color = '#000000';
   };
@@ -37,14 +38,20 @@ const Calendar = () => {
 
   const handleAuthStateChanged = async (currentUser) => {
     if (currentUser) {
-      setUser(currentUser);
-
-      const projectsQuery = query(collection(db, "projects"), where("developers", "array-contains", currentUser.uid));
-      const projectsSnapshot = await getDocs(projectsQuery);
-      const projectsData = projectsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setProjects(projectsData);
+        setUser(currentUser);
+        const userDoc = await getDoc(doc(db, "users", currentUser.uid)); // Assuming user data is stored in "users" collection
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            if (userData.role === 'Admin') { // Check if user is an admin
+                setIsAdmin(true);
+            }
+          }
+        const projectsQuery = query(collection(db, "projects"), where("developers", "array-contains", currentUser.uid));
+        const projectsSnapshot = await getDocs(projectsQuery);
+        const projectsData = projectsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setProjects(projectsData);
     } else {
-      setUser(null);
+        setUser(null);
     }
   };
 
@@ -68,7 +75,7 @@ const Calendar = () => {
     fetchTasks();
     console.log(assignments);
   }, [projects]);
-
+  
 
 
   useEffect(() => {
@@ -116,19 +123,19 @@ const Calendar = () => {
       default:
         return '2px solid white'; //Just in case no task
     }
-  };
+  };  
 
   const renderCalendar = () => {
     if (selectedMonth === null || selectedYear === null) return []; // Check for null values
-
+  
     const startDate = new Date(selectedYear, selectedMonth, 1);
     const numDaysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
-
+  
     const calendarCells = [];
     for (let day = 1; day <= numDaysInMonth; day++) {
       const currentDate = new Date(selectedYear, selectedMonth, day);
       const cellDate = currentDate.toISOString().slice(0, 10);
-
+  
       calendarCells.push(
         <div
           key={cellDate}
@@ -153,14 +160,14 @@ const Calendar = () => {
         </div>
       );
     }
-
+  
     return calendarCells;
   };
-
-
-
+  
+  
+  
   return (
-    <main className="h-screen" style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }} >
+<main className="h-screen" style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: '#D2DCF0' }} >
       <div style={{ width: '100%', background: 'white', paddingTop: '5px', paddingBottom: '5px', display: 'flex', justifyContent: 'center' }}>
         <img src="/LOG 1.svg" alt="Logo" width={170} height={80}></img>
         <div style={{ width: '78%', }}>
@@ -178,10 +185,12 @@ const Calendar = () => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Developer Dashboard</li>
+              {isAdmin &&
               <li onClick={() => router.push('/Admin/Home')}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>Admin Panel</li>
+              }
               <li onClick={() => auth.signOut().then(() => { router.push('../AdminLogin') })}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -201,53 +210,53 @@ const Calendar = () => {
         padding: '20px',
         overflowY: 'auto'
       }}>
-        <div className="calendar-container">
-          
-          <div className="month-year-selector" style={{marginBottom:'8px', color:'black'}}>
-            <select
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-            >
-              <option value="">Select Month</option>
-              {[...Array(12).keys()].map((month) => (
-                <option key={month} value={month}>
-                  {new Date(2000, month, 1).toLocaleString('default', { month: 'long' })}
-                </option>
-              ))}
-            </select>
-            <select
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-              style={{marginLeft:'10px'}}
-            >
-              <option value="">Select Year</option>
-              {[...Array(10).keys()].map((year) => (
-                <option key={year} value={new Date().getFullYear() + year}>
-                  {new Date().getFullYear() + year}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="calendar" >
-            {renderCalendar()}
-          </div>
-          {/*<div className="assignment-form">
-            <h3>Add Assignment</h3>
-            <input
-              type="date"
-              value={deadline}
-              onChange={(e) => setDeadline(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <button onClick={handleAddAssignment}>Add</button>
-              </div> */}
-        </div>
+    <div className="calendar-container">
+      
+      <div className="month-year-selector" style={{marginBottom:'8px', color:'black'}}>
+        <select
+          value={selectedMonth}
+          onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+        >
+          <option value="">Select Month</option>
+          {[...Array(12).keys()].map((month) => (
+            <option key={month} value={month}>
+              {new Date(2000, month, 1).toLocaleString('default', { month: 'long' })}
+            </option>
+          ))}
+        </select>
+        <select
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+style={{marginLeft:'10px'}}
+        >
+          <option value="">Select Year</option>
+          {[...Array(10).keys()].map((year) => (
+            <option key={year} value={new Date().getFullYear() + year}>
+              {new Date().getFullYear() + year}
+            </option>
+          ))}
+        </select>
       </div>
+      <div className="calendar" >
+        {renderCalendar()}
+      </div>
+      {/*<div className="assignment-form">
+        <h3>Add Assignment</h3>
+        <input
+          type="date"
+          value={deadline}
+          onChange={(e) => setDeadline(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <button onClick={handleAddAssignment}>Add</button>
+          </div> */}
+    </div>
+</div>
     </main>
   );
 };

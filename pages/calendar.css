@@ -16,6 +16,7 @@
   cursor: pointer; 
   border-radius: 2px;
   overflow: auto;
+  color: black;
 }
 
 .calendar-container .calendar-cell:hover {

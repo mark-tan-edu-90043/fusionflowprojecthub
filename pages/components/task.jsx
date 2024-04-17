@@ -59,6 +59,7 @@ const Task = ({ task, onDelete, onEditStatus }) => {
                 <option value="inProgress">In Progress</option>
                 <option value="done">Done</option>
             </select>
+            <br />
             <button onClick={handleEditStatus}>Update Status</button>
             <br />
             <button style={{ color: 'red' }} onClick={handleDelete}>Delete</button>

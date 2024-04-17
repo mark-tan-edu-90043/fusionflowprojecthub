@@ -134,6 +134,7 @@ const Calendar = () => {
           key={cellDate}
           className={`calendar-cell ${selectedDate === cellDate ? 'selected' : ''}`}
           onClick={() => setSelectedDate(cellDate)}
+          style={{color:'black'}}
         >
           <span>{day}</span>
           <ul>
@@ -202,7 +203,7 @@ const Calendar = () => {
       }}>
         <div className="calendar-container">
           
-          <div className="month-year-selector" style={{marginBottom:'8px'}}>
+          <div className="month-year-selector" style={{marginBottom:'8px', color:'black'}}>
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(parseInt(e.target.value))}

@@ -102,7 +102,7 @@ export default function Admin() {
 
 
 
-                        <div style={{ width: 520, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#3C89FC', borderRadius: '10px', paddingLeft: '23px', marginBottom: '10px' }}>
+                        <div style={{ width: 520, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#3C89FC', borderRadius: '10px', paddingLeft: '21px', marginBottom: '10px' }}>
                             <p style={{ color: 'white' }}>Search Users</p>
                             <div style={{ width: 380, height: 34, backgroundColor: '#fff', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '15px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

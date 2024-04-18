@@ -37,7 +37,7 @@ function CreateUser() {
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
     const day = String(today.getDate()).padStart(2, '0');
-    
+
     return `${year}-${month}-${day}`;
   }
 
@@ -75,8 +75,8 @@ function CreateUser() {
       minHeight: '100vh',
       backgroundColor: '#F1F1F1',
       width: '100%',
-      boxSizing: 'border-box', 
-      overflowX: 'hidden' 
+      boxSizing: 'border-box',
+      overflowX: 'hidden'
     }}>
       <h2 style={{ color: '#858585', fontSize: '40px', fontWeight: 'bold', marginBottom: '10px' }}>New User</h2>
       <form onSubmit={handleSubmit} style={{
@@ -150,30 +150,29 @@ function CreateUser() {
           </select>
         </div>
         <div style={{ width: '80%', display: 'flex', justifyContent: 'space-around' }}>
-        <button type="submit" className="btn" 
-          onClick={() => router.push('/Admin/Home')}
-          style={{
-            color: '#fff',
-            backgroundColor: '#007bff',
-            padding: '10px 20px',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            marginTop: '10px',
-            marginLeft:'30px'
-          }}>
+          <button onClick={() => router.push('/Admin/Home')}
+            style={{
+              color: '#fff',
+              backgroundColor: '#007bff',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              marginTop: '10px',
+              marginLeft: '30px'
+            }}>
             Back
           </button>
-          <button type="submit" className="btn" style={{
-            color: '#fff',
-            backgroundColor: '#007bff',
-            padding: '10px 12px',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            marginTop: '10px',
-            
-          }}>
+          <button type="submit" className="btn"
+            style={{
+              color: '#fff',
+              backgroundColor: '#007bff',
+              padding: '10px 12px',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}>
             Create
           </button>
         </div>
